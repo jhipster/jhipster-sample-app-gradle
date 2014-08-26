@@ -1,0 +1,25 @@
+apply plugin: 'node'
+apply plugin: 'grunt'
+
+task bower(dependsOn: 'npmInstall', type: NodeTask){
+    script = file('node_modules/bower/bin/bower')
+    args = ['install']
+}
+
+task copyAgent(type: Copy) {
+    from configurations.runtime
+    into 'spring_loaded/'
+    def springloadedjhipsterjar = 'agent-' + jhipster_loaded_version + '.jar'
+
+    include springloadedjhipsterjar
+    rename { String fileName ->
+        fileName.replace(springloadedjhipsterjar, 'springloaded-jhipster.jar')
+    }
+}
+
+
+grunt_build.dependsOn 'npmInstall'
+grunt_build.dependsOn 'bower'
+processResources.dependsOn grunt_build
+test.dependsOn grunt_test
+build.dependsOn copyAgent
