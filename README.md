@@ -7,10 +7,18 @@ This is a sample application created with [JHipster](https://github.com/jdubois/
 
 If you want the sample application created with the default settings (Maven instead of Gradle), you can find it [here](https://github.com/jhipster/jhipster-sample-app).
 
-If you want to run the app, run Gradle with the Spring Boot plugin:
+If you want to run the app, run Gradle with the Spring Boot plugin.
+
+On Unix or Mac OS X:
 
 ```bash
-gradle bootRun
+./gradlew bootRun
+```
+
+On Windows:
+
+```bash
+gradlew.bat bootRun
 ```
 
 And open [http://localhost:8080/](http://localhost:8080/)
