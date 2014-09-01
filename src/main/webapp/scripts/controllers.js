@@ -8,17 +8,7 @@ jhipsterApp.controller('MainController', function ($scope) {
 jhipsterApp.controller('AdminController', function ($scope) {
     });
 
-jhipsterApp.controller('LanguageController', function ($scope, $translate, LanguageService, FLAGS) {
-        $scope.getFlagClass = function(language) {
-            var selectedFlag = "";
-            angular.forEach(FLAGS, function(flag, flagLanguage){
-                if (language == flagLanguage) {
-                    selectedFlag = flag;
-                }
-            });
-            return "famfamfam-flag-" + selectedFlag;
-        };
-
+jhipsterApp.controller('LanguageController', function ($scope, $translate, LanguageService) {
         $scope.changeLanguage = function (languageKey) {
             $translate.use(languageKey);
 
@@ -156,8 +146,10 @@ jhipsterApp.controller('SessionsController', function ($scope, resolvedSessions,
  jhipsterApp.controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
 
         $scope.refresh = function() {
-            HealthCheckService.check().then(function(data) {
-                $scope.healthCheck = data;
+            HealthCheckService.check().then(function(promise) {
+                $scope.healthCheck = promise.data;
+            },function(promise) {
+                $scope.healthCheck = promise.data;
             });
 
             $scope.metrics = MetricsService.get();

@@ -1,4 +1,4 @@
-// Generated on 2014-08-26 using generator-jhipster 0.18.1
+// Generated on 2014-09-01 using generator-jhipster 1.0.0
 'use strict';
 
 // # Globbing
@@ -20,16 +20,16 @@ module.exports = function (grunt) {
       dist: 'src/main/webapp/dist'
     },
     watch: {
-    styles: {
+      styles: {
         files: ['src/main/webapp/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
-    livereload: {
+      livereload: {
         options: {
           livereload: 35729
         },
         files: [
-          'src/main/webapp/{,*/}*.html',
+          'src/main/webapp/**/*.html',
           '.tmp/styles/{,*/}*.css',
           '{.tmp/,}src/main/webapp/scripts/{,*/}*.js',
           'src/main/webapp/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -262,9 +262,8 @@ module.exports = function (grunt) {
           cwd: 'src/main/webapp',
           dest: '<%= yeoman.dist %>',
           src: [
-            '*.{ico,png,txt,html}',
+            '*.html',
             'views/*.html',
-            '.htaccess',
             'images/{,*/}*.{png,gif,webp}',
             'fonts/*'
           ]

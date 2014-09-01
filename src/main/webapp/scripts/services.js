@@ -2,7 +2,7 @@
 
 /* Services */
 
-jhipsterApp.factory('LanguageService', function ($http, $translate) {
+jhipsterApp.factory('LanguageService', function ($http, $translate, LANGUAGES) {
         return {
             getBy: function(language) {
                 if (language == undefined) {
@@ -10,14 +10,7 @@ jhipsterApp.factory('LanguageService', function ($http, $translate) {
                 }
 
                 var promise =  $http.get('/i18n/' + language + '.json').then(function(response) {
-
-                    var languages = [];
-
-                    angular.forEach(response.data.global.language, function(value, key) {
-                        languages.push(key);
-                    });
-
-                    return languages;
+                    return LANGUAGES;
                 });
                 return promise;
             }
@@ -143,7 +136,7 @@ jhipsterApp.factory('AuthenticationSharedService', function ($rootScope, $http, 
             },
             valid: function (authorizedRoles) {
 
-                $http.get('protected/transparent.gif', {
+                $http.get('protected/authentication_check.gif', {
                     ignoreAuthModule: 'ignoreAuthModule'
                 }).success(function (data, status, headers, config) {
                     if (!Session.login) {
