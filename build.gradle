@@ -109,8 +109,6 @@ dependencies {
     compile(group: 'org.springframework', name: 'spring-context-support', version: spring_context_support_version) {
         exclude(module: 'quartz')
     }
-    compile group: 'io.github.jhipster.loaded', name: 'core', version: jhipster_loaded_version
-    compile group: 'io.github.jhipster.loaded', name: 'agent', version: jhipster_loaded_version
     compile(group: 'com.mangofactory', name: 'swagger-springmvc', version: swagger_springmvc_version) {
         exclude(module: 'jackson-module-scala_2.10')
         exclude(module: 'scalap')
