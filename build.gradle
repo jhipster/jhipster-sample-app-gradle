@@ -72,7 +72,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: jackson_version
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate4', version: jackson_version
     compile group: 'com.ryantenney.metrics', name: 'metrics-spring', version: metrics_spring_version
-    compile(group: 'com.zaxxer', name: 'HikariCP', version: HikariCP_version) {
+    compile(group: 'com.zaxxer', name: 'HikariCP-java6', version: HikariCP_version) {
         exclude(module: 'tools')
     }
     compile group: 'commons-lang', name: 'commons-lang', version: commons_lang_version
