@@ -13,6 +13,6 @@
     "useCompass": false,
     "buildTool": "gradle",
     "frontendBuilder": "grunt",
-    "javaVersion": "7"
+    "javaVersion": "8"
   }
 }

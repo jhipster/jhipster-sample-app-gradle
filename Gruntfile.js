@@ -1,11 +1,5 @@
-// Generated on 2014-11-10 using generator-jhipster 1.8.1
+// Generated on 2014-11-14 using generator-jhipster 1.9.0
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
@@ -73,6 +67,20 @@ module.exports = function (grunt) {
                 },
                 {
                     context: '/health',
+                    host: 'localhost',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false
+                },
+                {
+                    context: '/configprops',
+                    host: 'localhost',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false
+                },
+                {
+                    context: '/beans',
                     host: 'localhost',
                     port: 8080,
                     https: false,
@@ -382,7 +390,7 @@ module.exports = function (grunt) {
                     branch: 'master'
                 }
             }
-        },
+        }
     });
 
     grunt.registerTask('server', function (target) {

@@ -80,6 +80,22 @@ jhipsterApp.factory('HealthCheckService', function ($rootScope, $http) {
         };
     });
 
+jhipsterApp.factory('ConfigurationService', function ($rootScope, $filter, $http) {
+    return {
+        get: function() {
+            var promise = $http.get('configprops').then(function(response){
+                var properties = [];
+                angular.forEach(response.data, function(data) {
+                    properties.push(data);
+                });
+                var orderBy = $filter('orderBy');
+                return orderBy(properties, 'prefix');;
+            });
+            return promise;
+        }
+    };
+});
+
 jhipsterApp.factory('LogsService', function ($resource) {
         return $resource('app/rest/logs', {}, {
             'findAll': { method: 'GET', isArray: true},
