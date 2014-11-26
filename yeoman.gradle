@@ -1,4 +1,4 @@
-apply plugin: 'node'
+apply plugin: 'com.moowork.node'
 apply plugin: 'grunt'
 
 task bower(dependsOn: 'npmInstall', type: NodeTask){
@@ -7,7 +7,5 @@ task bower(dependsOn: 'npmInstall', type: NodeTask){
 }
 
 
-grunt_build.dependsOn 'npmInstall'
-grunt_build.dependsOn 'bower'
-processResources.dependsOn grunt_build
-test.dependsOn grunt_test
+processResources.dependsOn 'bower'
+
