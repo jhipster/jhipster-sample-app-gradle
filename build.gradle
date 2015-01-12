@@ -26,6 +26,10 @@ springBoot {
 
 apply from: 'yeoman.gradle'
 
+
+apply from: 'liquibase.gradle'
+
+
 if (project.hasProperty('prod')) {
     profile = 'prod'
 } else if (project.hasProperty('fast')) {
@@ -84,6 +88,7 @@ dependencies {
     compile group: 'commons-lang', name: 'commons-lang', version: commons_lang_version
     compile group: 'commons-io', name: 'commons-io', version: commons_io_version
     compile group: 'javax.inject', name: 'javax.inject', version: javax_inject_version
+    compile group: 'javax.transaction', name: 'javax.transaction-api', version: javax_transaction_version 
     compile group: 'joda-time', name: 'joda-time', version: joda_time_version
     compile group: 'joda-time', name: 'joda-time-hibernate', version: joda_time_hibernate_version
     compile group: 'org.apache.geronimo.javamail', name: 'geronimo-javamail_1.4_mail', version: geronimo_javamail_1_4_mail_version
@@ -120,6 +125,7 @@ dependencies {
     }
     compile group: 'mysql', name: 'mysql-connector-java', version: mysql_connector_java_version
     compile group: 'com.h2database', name: 'h2', version: h2_version
+    compile group: 'fr.ippon.spark.metrics', name: 'metrics-spark-reporter', version: metrics_spark_reporter_version
     testCompile group: 'com.jayway.awaitility', name: 'awaitility', version: awaility_version
     testCompile group: 'com.jayway.jsonpath', name: 'json-path', version: json_path_version
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: spring_boot_version
