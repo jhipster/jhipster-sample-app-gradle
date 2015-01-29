@@ -3,7 +3,7 @@
     "baseName": "jhipster",
     "packageName": "com.mycompany.myapp",
     "packageFolder": "com/mycompany/myapp",
-    "authenticationType": "cookie",
+    "authenticationType": "session",
     "hibernateCache": "ehcache",
     "clusteredHttpSession": "no",
     "websocket": "no",

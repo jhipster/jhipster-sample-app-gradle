@@ -19,8 +19,8 @@ task liquibaseDiffChangelog(dependsOn: compileJava, type: JavaExec) {
   args "--password="
   args "--url="
   args "--driver="
-  
   args "diffChangeLog"
+  
 
 }
 
