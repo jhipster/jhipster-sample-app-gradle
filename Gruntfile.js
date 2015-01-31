@@ -1,13 +1,13 @@
-// Generated on 2015-01-29 using generator-jhipster 2.1.0
+// Generated on 2015-01-31 using generator-jhipster 2.1.1
 'use strict';
-
 var fs = require('fs');
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
 // Returns the first occurence of the version number
 var parseVersionFromBuildGradle = function() {
     var versionRegex = /^version\s*=\s*[',"]([^',"]*)[',"]/gm; // Match and group the version number
-    return versionRegex.exec(fs.readFileSync('build.gradle', "utf8"))[1];
+    var buildGradle = fs.readFileSync('build.gradle', "utf8");
+    return versionRegex.exec(buildGradle)[1];
 };
 
 // usemin custom step
