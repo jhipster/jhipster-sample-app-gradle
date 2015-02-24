@@ -133,7 +133,7 @@ dependencies {
     testCompile group: 'com.jayway.jsonpath', name: 'json-path', version: json_path_version
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: spring_boot_version
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: spring_boot_version
-    testCompile group: 'org.assertj', name: 'assertj-core', version: assertj_core_version
+    testCompile group: 'org.assertj', name: 'assertj-core-java8', version: assertj_core_version
     testCompile group: 'junit', name: 'junit', version:'4.11'
     testCompile group: 'org.mockito', name: 'mockito-core', version:'1.9.5'
     testCompile group: 'com.mattbertolini', name: 'liquibase-slf4j', version: liquibase_slf4j_version
@@ -141,5 +141,5 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '2.3'
 }
