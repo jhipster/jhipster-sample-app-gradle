@@ -35,8 +35,9 @@ apply from: 'yeoman.gradle'
 
 
 apply from: 'liquibase.gradle'
-
 apply from: 'gatling.gradle'
+
+apply from: 'mapstruct.gradle'
 
 if (project.hasProperty('prod')) {
     apply from: 'profile_prod.gradle'
@@ -132,6 +133,7 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java'
     compile group: 'com.h2database', name: 'h2'
     compile group: 'fr.ippon.spark.metrics', name: 'metrics-spark-reporter', version: metrics_spark_reporter_version
+    compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: mapstruct_version
     testCompile group: 'com.jayway.awaitility', name: 'awaitility', version: awaility_version
     testCompile group: 'com.jayway.jsonpath', name: 'json-path'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
