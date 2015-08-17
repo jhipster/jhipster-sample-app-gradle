@@ -30,7 +30,7 @@ bootRun {
 }
 
 apply from: 'yeoman.gradle'
-
+apply from: 'sonar.gradle'
 
 apply from: 'liquibase.gradle'
 apply from: 'gatling.gradle'
@@ -46,7 +46,7 @@ if (project.hasProperty('prod')) {
 }
 
 group = 'com.mycompany.myapp'
-version = '0.1-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
 
 description = ''
 
@@ -146,7 +146,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.5'
+    gradleVersion = '2.6'
 }
 
 task stage(dependsOn: 'bootRepackage') {
