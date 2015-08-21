@@ -42,6 +42,16 @@
                     <a class="form-control-static" ui-sref="bankAccount.detail({id:operation.bankAccount.id})">{{operation.bankAccount.name}}</a>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <span translate="jhipsterApp.operation.label">label</span>
+                </td>
+                <td>
+                    <span ng-repeat="manyToMany in operation.labels">
+                        <a class="form-control-static" ui-sref="label.detail({id: {{manyToMany.id}}})">{{manyToMany.label}}</a>{{$last ? '' : ', '}}
+                    <span>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
