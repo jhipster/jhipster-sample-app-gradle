@@ -47,7 +47,9 @@
         <div class="form-group">
             <label translate="jhipsterApp.bankAccount.user" for="field_user">user</label>
             
-            <select class="form-control" id="field_user" name="user" ng-model="bankAccount.user" ng-options="user as user.login for user in users track by user.id"></select>
+            <select class="form-control" id="field_user" name="user" ng-model="bankAccount.user" ng-options="user as user.login for user in users track by user.id">
+                <option value=""></option>
+            </select>
             
         </div>
     </div>

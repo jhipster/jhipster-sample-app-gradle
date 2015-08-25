@@ -47,8 +47,8 @@
                     <span translate="jhipsterApp.operation.label">label</span>
                 </td>
                 <td>
-                    <span ng-repeat="manyToMany in operation.labels">
-                        <a class="form-control-static" ui-sref="label.detail({id: {{manyToMany.id}}})">{{manyToMany.label}}</a>{{$last ? '' : ', '}}
+                    <span ng-repeat="label in operation.labels">
+                        <a class="form-control-static" ui-sref="label.detail({id: {{label.id}}})">{{label.label}}</a>{{$last ? '' : ', '}}
                     <span>
                 </td>
             </tr>
