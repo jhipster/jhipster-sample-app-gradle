@@ -16,6 +16,7 @@ targetCompatibility=1.8
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
+defaultTasks 'bootRun'
 
 bootRepackage {
    mainClass = 'com.mycompany.myapp.Application'
@@ -74,8 +75,6 @@ configurations.all {
   }
 }
 
-
-
 dependencies {
     compile group: 'io.dropwizard.metrics', name: 'metrics-core'
     compile group: 'io.dropwizard.metrics', name: 'metrics-annotation', version: dropwizard_metrics_version
@@ -86,7 +85,7 @@ dependencies {
     compile group: 'io.dropwizard.metrics', name: 'metrics-servlet', version: dropwizard_metrics_version
     compile group: 'io.dropwizard.metrics', name: 'metrics-json', version: dropwizard_metrics_version
     compile (group: 'io.dropwizard.metrics', name: 'metrics-servlets', version: dropwizard_metrics_version) {
-      exclude(module: 'metrics-healthchecks')
+        exclude(module: 'metrics-healthchecks')
     }
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-json-org', version: jackson_version
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hppc', version: jackson_version
