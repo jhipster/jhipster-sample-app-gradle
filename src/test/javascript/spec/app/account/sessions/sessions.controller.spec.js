@@ -2,7 +2,7 @@
 
 describe('Controllers Tests ', function () {
 
-    beforeEach(module('jhipsterApp'));
+    beforeEach(module('samplegradleApp'));
 
     describe('SessionsController', function () {
         var $scope, SessionsService;

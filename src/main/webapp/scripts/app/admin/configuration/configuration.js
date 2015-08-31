@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jhipsterApp')
+angular.module('samplegradleApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('configuration', {

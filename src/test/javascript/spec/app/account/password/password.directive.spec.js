@@ -2,7 +2,7 @@
 
 describe('Directive Tests ', function () {
 
-    beforeEach(module('jhipsterApp'));
+    beforeEach(module('samplegradleApp'));
 
     var elm, scope, $httpBackend;
 
