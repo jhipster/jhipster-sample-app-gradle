@@ -7,7 +7,7 @@ angular.module('samplegradleApp')
                 parent: 'account',
                 url: '/logout',
                 data: {
-                    roles: []
+                    authorities: []
                 },
                 views: {
                     'content@': {

@@ -7,7 +7,7 @@ angular.module('samplegradleApp')
                 parent: 'account',
                 url: '/register',
                 data: {
-                    roles: [],
+                    authorities: [],
                     pageTitle: 'register.title'
                 },
                 views: {

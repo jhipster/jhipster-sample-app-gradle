@@ -7,7 +7,7 @@ angular.module('samplegradleApp')
                 parent: 'account',
                 url: '/reset/finish?key',
                 data: {
-                    roles: []
+                    authorities: []
                 },
                 views: {
                     'content@': {

@@ -24,6 +24,11 @@ mail:
     from: sampleGradle@localhost
 
 
+spring:
+    mvc:
+        favicon:
+            enabled: false
+
 swagger:
     title: sampleGradle API
     description: sampleGradle applications and beyond!

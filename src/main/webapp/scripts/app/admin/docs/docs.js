@@ -7,7 +7,7 @@ angular.module('samplegradleApp')
                 parent: 'admin',
                 url: '/docs',
                 data: {
-                    roles: ['ROLE_ADMIN'],
+                    authorities: ['ROLE_ADMIN'],
                     pageTitle: 'global.menu.admin.apidocs'
                 },
                 views: {
