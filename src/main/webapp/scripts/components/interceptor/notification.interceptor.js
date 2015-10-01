@@ -9,6 +9,6 @@ angular.module('samplegradleApp')
                     AlertService.success(alertKey, { param : response.headers('X-samplegradleApp-params')});
                 }
                 return response;
-            },
+            }
         };
     });
