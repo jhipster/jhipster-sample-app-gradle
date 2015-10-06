@@ -2,11 +2,13 @@ buildscript {
     repositories {
         mavenLocal()
         jcenter()
+        maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE')
-        classpath('com.moowork.gradle:gradle-node-plugin:0.10')
-        classpath('com.moowork.gradle:gradle-grunt-plugin:0.10')
+        classpath group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: spring_boot_version
+        classpath group: 'org.springframework.build.gradle', name: 'propdeps-plugin', version: '0.0.7'
+        classpath group: 'com.moowork.gradle', name: 'gradle-node-plugin', version: '0.11'
+        classpath group: 'com.moowork.gradle', name: 'gradle-grunt-plugin', version: '0.11'
     }
 }
 
@@ -16,6 +18,7 @@ targetCompatibility=1.8
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
+apply plugin: 'propdeps'
 defaultTasks 'bootRun'
 
 bootRepackage {
@@ -156,8 +159,11 @@ dependencies {
     testCompile group: 'org.hamcrest', name: 'hamcrest-library'
     testCompile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: gatling_version
     
+    optional group: 'org.springframework.boot', name:'spring-boot-configuration-processor', version: spring_boot_version
 
 }
+
+compileJava.dependsOn(processResources)
 
 clean {
     delete "target"

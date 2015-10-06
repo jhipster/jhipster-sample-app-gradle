@@ -1,6 +1,6 @@
 jhipster-prod-mysql:
   container_name: sampleGradle-prod-mysql
-  image : mysql
+  image: mysql
   # volumes:
   # - ~/volumes/jhipster/sampleGradle/prod-mysql/:/var/lib/mysql/
   environment:
