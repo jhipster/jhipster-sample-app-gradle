@@ -8,7 +8,9 @@ angular.module('samplegradleApp')
                 $scope.bankAccount = result;
             });
         };
-        $rootScope.$on('samplegradleApp:bankAccountUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('samplegradleApp:bankAccountUpdate', function(event, result) {
             $scope.bankAccount = result;
         });
+        $scope.$on('$destroy', unsubscribe);
+
     });
