@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp').controller('OperationDialogController',
+angular.module('sampleGradleApp').controller('OperationDialogController',
     ['$scope', '$stateParams', '$modalInstance', 'entity', 'Operation', 'BankAccount', 'Label',
         function($scope, $stateParams, $modalInstance, entity, Operation, BankAccount, Label) {
 
@@ -14,7 +14,7 @@ angular.module('samplegradleApp').controller('OperationDialogController',
         };
 
         var onSaveFinished = function (result) {
-            $scope.$emit('samplegradleApp:operationUpdate', result);
+            $scope.$emit('sampleGradleApp:operationUpdate', result);
             $modalInstance.close(result);
         };
 

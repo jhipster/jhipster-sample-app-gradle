@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .service('DateUtils', function ($filter) {
       this.convertLocaleDateToServer = function(date) {
         if (date) {

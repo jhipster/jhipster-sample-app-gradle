@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .controller('SettingsController', function ($scope, Principal, Auth, Language, $translate) {
         $scope.success = null;
         $scope.error = null;

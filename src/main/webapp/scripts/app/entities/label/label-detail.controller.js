@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .controller('LabelDetailController', function ($scope, $rootScope, $stateParams, entity, Label, Operation) {
         $scope.label = entity;
         $scope.load = function (id) {
@@ -8,7 +8,7 @@ angular.module('samplegradleApp')
                 $scope.label = result;
             });
         };
-        var unsubscribe = $rootScope.$on('samplegradleApp:labelUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('sampleGradleApp:labelUpdate', function(event, result) {
             $scope.label = result;
         });
         $scope.$on('$destroy', unsubscribe);

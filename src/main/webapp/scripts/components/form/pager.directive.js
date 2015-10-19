@@ -1,8 +1,8 @@
 /* globals $ */
 'use strict';
 
-angular.module('samplegradleApp')
-    .directive('samplegradleAppPager', function() {
+angular.module('sampleGradleApp')
+    .directive('sampleGradleAppPager', function() {
         return {
             templateUrl: 'scripts/components/form/pager.html'
         };

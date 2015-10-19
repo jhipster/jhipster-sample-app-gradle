@@ -38,6 +38,7 @@ apply from: 'yeoman.gradle'
 apply from: 'sonar.gradle'
 
 apply from: 'liquibase.gradle'
+
 apply from: 'gatling.gradle'
 apply from: 'mapstruct.gradle'
 
@@ -145,6 +146,7 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core'
     testCompile group: 'com.mattbertolini', name: 'liquibase-slf4j', version: liquibase_slf4j_version
     testCompile group: 'org.hamcrest', name: 'hamcrest-library'
+    
     testCompile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: gatling_version
     
     optional group: 'org.springframework.boot', name:'spring-boot-configuration-processor', version: spring_boot_version

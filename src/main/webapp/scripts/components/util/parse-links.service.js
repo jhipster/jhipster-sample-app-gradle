@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .service('ParseLinks', function () {
         this.parse = function (header) {
             if (header.length == 0) {

@@ -1,7 +1,7 @@
 /* globals $ */
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .directive('showValidation', function() {
         return {
             restrict: 'A',

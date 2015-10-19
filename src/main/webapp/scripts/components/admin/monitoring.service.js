@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .factory('MonitoringService', function ($rootScope, $http) {
         return {
             getMetrics: function () {

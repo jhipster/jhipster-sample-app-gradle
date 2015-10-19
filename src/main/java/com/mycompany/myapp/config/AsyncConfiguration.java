@@ -33,7 +33,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
         executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
         executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
         executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
-        executor.setThreadNamePrefix("samplegradle-Executor-");
+        executor.setThreadNamePrefix("sample-gradle-Executor-");
         return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
 

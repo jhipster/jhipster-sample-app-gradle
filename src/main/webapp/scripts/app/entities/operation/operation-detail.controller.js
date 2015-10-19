@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('samplegradleApp')
+angular.module('sampleGradleApp')
     .controller('OperationDetailController', function ($scope, $rootScope, $stateParams, entity, Operation, BankAccount, Label) {
         $scope.operation = entity;
         $scope.load = function (id) {
@@ -8,7 +8,7 @@ angular.module('samplegradleApp')
                 $scope.operation = result;
             });
         };
-        var unsubscribe = $rootScope.$on('samplegradleApp:operationUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('sampleGradleApp:operationUpdate', function(event, result) {
             $scope.operation = result;
         });
         $scope.$on('$destroy', unsubscribe);
