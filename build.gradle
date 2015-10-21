@@ -150,7 +150,6 @@ dependencies {
     testCompile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: gatling_version
     
     optional group: 'org.springframework.boot', name:'spring-boot-configuration-processor', version: spring_boot_version
-
 }
 
 compileJava.dependsOn(processResources)
