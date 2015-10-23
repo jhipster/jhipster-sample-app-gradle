@@ -28,6 +28,7 @@ bootRepackage {
 
 springBoot {
     mainClass = 'com.mycompany.myapp.Application'
+    executable = true
 }
 
 bootRun {

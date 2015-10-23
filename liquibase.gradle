@@ -21,7 +21,6 @@ task liquibaseDiffChangelog(dependsOn: compileJava, type: JavaExec) {
   args "--driver="
   args "diffChangeLog"
   
-
 }
 
 def buildTimestamp() {
