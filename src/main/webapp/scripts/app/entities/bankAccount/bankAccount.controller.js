@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sampleGradleApp')
-    .controller('BankAccountController', function ($scope, BankAccount) {
+    .controller('BankAccountController', function ($scope, $state, $modal, BankAccount) {
         $scope.bankAccounts = [];
         $scope.loadAll = function() {
             BankAccount.query(function(result) {
@@ -10,21 +10,6 @@ angular.module('sampleGradleApp')
         };
         $scope.loadAll();
 
-        $scope.delete = function (id) {
-            BankAccount.get({id: id}, function(result) {
-                $scope.bankAccount = result;
-                $('#deleteBankAccountConfirmation').modal('show');
-            });
-        };
-
-        $scope.confirmDelete = function (id) {
-            BankAccount.delete({id: id},
-                function () {
-                    $scope.loadAll();
-                    $('#deleteBankAccountConfirmation').modal('hide');
-                    $scope.clear();
-                });
-        };
 
         $scope.refresh = function () {
             $scope.loadAll();
