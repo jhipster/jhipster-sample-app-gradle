@@ -102,10 +102,11 @@ dependencies {
     compile group: 'javax.transaction', name: 'javax.transaction-api'
     compile group: 'org.apache.geronimo.javamail', name: 'geronimo-javamail_1.4_mail', version: geronimo_javamail_1_4_mail_version
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernate_entitymanager_version
-    compile group: 'org.hibernate', name: 'hibernate-envers'
+    
     compile (group: 'org.hibernate', name: 'hibernate-ehcache') {
         exclude(module: 'ehcache-core')
     }
+    compile group: 'org.hibernate', name: 'hibernate-envers'
     compile group: 'org.hibernate', name: 'hibernate-validator'
     compile (group: 'org.liquibase', name: 'liquibase-core', version: liquibase_core_version) {
         exclude(module: 'jetty-servlet')
