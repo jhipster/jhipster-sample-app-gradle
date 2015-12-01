@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sampleGradleApp').controller('LabelDialogController',
-    ['$scope', '$stateParams', '$modalInstance', 'entity', 'Label', 'Operation',
-        function($scope, $stateParams, $modalInstance, entity, Label, Operation) {
+    ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Label', 'Operation',
+        function($scope, $stateParams, $uibModalInstance, entity, Label, Operation) {
 
         $scope.label = entity;
         $scope.operations = Operation.query();
@@ -14,7 +14,7 @@ angular.module('sampleGradleApp').controller('LabelDialogController',
 
         var onSaveSuccess = function (result) {
             $scope.$emit('sampleGradleApp:labelUpdate', result);
-            $modalInstance.close(result);
+            $uibModalInstance.close(result);
             $scope.isSaving = false;
         };
 
@@ -32,6 +32,6 @@ angular.module('sampleGradleApp').controller('LabelDialogController',
         };
 
         $scope.clear = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
 }]);
