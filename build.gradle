@@ -13,6 +13,7 @@ buildscript {
         classpath group: 'org.springframework.build.gradle', name: 'propdeps-plugin', version: '0.0.7'
         classpath group: 'com.moowork.gradle', name: 'gradle-node-plugin', version: '0.11'
         classpath group: 'com.moowork.gradle', name: 'gradle-grunt-plugin', version: '0.11'
+        //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
 
@@ -58,6 +59,7 @@ apply from: 'liquibase.gradle'
 
 apply from: 'gatling.gradle'
 apply from: 'mapstruct.gradle'
+//jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty('prod')) {
     apply from: 'profile_prod.gradle'
@@ -166,6 +168,7 @@ dependencies {
     testCompile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: gatling_version
     
     optional group: 'org.springframework.boot', name:'spring-boot-configuration-processor', version: spring_boot_version
+    //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
 compileJava.dependsOn(processResources)
