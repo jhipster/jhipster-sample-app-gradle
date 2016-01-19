@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
 	.controller('LabelDeleteController', function($scope, $uibModalInstance, entity, Label) {
 
         $scope.label = entity;

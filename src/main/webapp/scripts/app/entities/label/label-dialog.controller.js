@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp').controller('LabelDialogController',
+angular.module('samplegradleApp').controller('LabelDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Label', 'Operation',
         function($scope, $stateParams, $uibModalInstance, entity, Label, Operation) {
 
@@ -13,7 +13,7 @@ angular.module('sampleGradleApp').controller('LabelDialogController',
         };
 
         var onSaveSuccess = function (result) {
-            $scope.$emit('sampleGradleApp:labelUpdate', result);
+            $scope.$emit('samplegradleApp:labelUpdate', result);
             $uibModalInstance.close(result);
             $scope.isSaving = false;
         };

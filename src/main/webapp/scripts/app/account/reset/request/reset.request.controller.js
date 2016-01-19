@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('RequestResetController', function ($rootScope, $scope, $state, $timeout, Auth) {
 
         $scope.success = null;

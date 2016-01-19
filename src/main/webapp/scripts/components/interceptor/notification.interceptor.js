@@ -1,12 +1,12 @@
  'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .factory('notificationInterceptor', function ($q, AlertService) {
         return {
             response: function(response) {
-                var alertKey = response.headers('X-sampleGradleApp-alert');
+                var alertKey = response.headers('X-samplegradleApp-alert');
                 if (angular.isString(alertKey)) {
-                    AlertService.success(alertKey, { param : response.headers('X-sampleGradleApp-params')});
+                    AlertService.success(alertKey, { param : response.headers('X-samplegradleApp-params')});
                 }
                 return response;
             }

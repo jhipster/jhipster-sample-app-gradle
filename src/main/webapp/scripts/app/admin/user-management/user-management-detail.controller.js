@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('UserManagementDetailController', function ($scope, $stateParams, User) {
         $scope.user = {};
         $scope.load = function (login) {

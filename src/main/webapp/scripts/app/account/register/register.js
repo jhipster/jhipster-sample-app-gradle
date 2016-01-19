@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('register', {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .directive('hasAnyAuthority', ['Principal', function (Principal) {
         return {
             restrict: 'A',
@@ -28,6 +28,12 @@ angular.module('sampleGradleApp')
 
                 if (authorities.length > 0) {
                     defineVisibility(true);
+                    
+                    scope.$watch(function(scope) {
+                        return Principal.isAuthenticated();
+                    }, function(newValue) {
+                        defineVisibility(true);
+                    });
                 }
             }
         };
@@ -61,6 +67,12 @@ angular.module('sampleGradleApp')
 
                 if (authority.length > 0) {
                     defineVisibility(true);
+
+                    scope.$watch(function(scope) {
+                        return Principal.isAuthenticated();
+                    }, function(newValue) {
+                        defineVisibility(true);
+                    });
                 }
             }
         };

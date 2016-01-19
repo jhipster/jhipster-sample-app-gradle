@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('LabelController', function ($scope, $state, Label) {
 
         $scope.labels = [];

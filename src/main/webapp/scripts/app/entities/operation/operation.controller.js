@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('OperationController', function ($scope, $state, Operation, ParseLinks) {
 
         $scope.operations = [];

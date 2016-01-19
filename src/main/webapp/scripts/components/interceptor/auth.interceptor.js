@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .factory('authExpiredInterceptor', function ($rootScope, $q, $injector, localStorageService) {
         return {
             responseError: function(response) {

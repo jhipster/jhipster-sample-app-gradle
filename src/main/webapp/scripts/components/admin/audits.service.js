@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .factory('AuditsService', function ($http) {
         return {
             findAll: function () {

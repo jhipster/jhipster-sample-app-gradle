@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('bankAccount', {
@@ -8,7 +8,7 @@ angular.module('sampleGradleApp')
                 url: '/bankAccounts',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'sampleGradleApp.bankAccount.home.title'
+                    pageTitle: 'samplegradleApp.bankAccount.home.title'
                 },
                 views: {
                     'content@': {
@@ -29,7 +29,7 @@ angular.module('sampleGradleApp')
                 url: '/bankAccount/{id}',
                 data: {
                     authorities: ['ROLE_USER'],
-                    pageTitle: 'sampleGradleApp.bankAccount.detail.title'
+                    pageTitle: 'samplegradleApp.bankAccount.detail.title'
                 },
                 views: {
                     'content@': {

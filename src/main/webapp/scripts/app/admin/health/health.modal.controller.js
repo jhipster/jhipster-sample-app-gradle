@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('HealthModalController', function($scope, $uibModalInstance, currentHealth, baseName, subSystemName) {
 
         $scope.currentHealth = currentHealth;

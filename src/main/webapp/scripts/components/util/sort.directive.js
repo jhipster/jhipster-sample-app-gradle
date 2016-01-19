@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .directive('jhSort', function () {
         return {
             restrict: 'A',

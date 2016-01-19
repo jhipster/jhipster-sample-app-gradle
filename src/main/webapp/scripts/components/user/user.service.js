@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .factory('User', function ($resource) {
         return $resource('api/users/:login', {}, {
                 'query': {method: 'GET', isArray: true},

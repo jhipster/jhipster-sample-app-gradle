@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
 	.controller('user-managementDeleteController', function($scope, $uibModalInstance, entity, User) {
 
         $scope.user = entity;

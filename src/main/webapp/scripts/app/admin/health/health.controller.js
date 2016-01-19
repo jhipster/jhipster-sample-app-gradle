@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('HealthController', function ($scope, MonitoringService, $uibModal) {
         $scope.updatingHealth = true;
         $scope.separator = '.';

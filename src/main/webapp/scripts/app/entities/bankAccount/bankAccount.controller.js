@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('BankAccountController', function ($scope, $state, BankAccount) {
 
         $scope.bankAccounts = [];

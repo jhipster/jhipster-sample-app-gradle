@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .filter('capitalize', function () {
         return function (input, scope) {
             if (input != null)

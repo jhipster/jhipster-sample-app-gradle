@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp').controller('BankAccountDialogController',
+angular.module('samplegradleApp').controller('BankAccountDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'BankAccount', 'User', 'Operation',
         function($scope, $stateParams, $uibModalInstance, entity, BankAccount, User, Operation) {
 
@@ -14,7 +14,7 @@ angular.module('sampleGradleApp').controller('BankAccountDialogController',
         };
 
         var onSaveSuccess = function (result) {
-            $scope.$emit('sampleGradleApp:bankAccountUpdate', result);
+            $scope.$emit('samplegradleApp:bankAccountUpdate', result);
             $uibModalInstance.close(result);
             $scope.isSaving = false;
         };

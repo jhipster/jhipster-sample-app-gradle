@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
 	.controller('BankAccountDeleteController', function($scope, $uibModalInstance, entity, BankAccount) {
 
         $scope.bankAccount = entity;

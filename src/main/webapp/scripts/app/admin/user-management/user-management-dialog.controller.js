@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp').controller('UserManagementDialogController',
+angular.module('samplegradleApp').controller('UserManagementDialogController',
     ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'User', 'Language',
         function($scope, $stateParams, $uibModalInstance, entity, User, Language) {
 

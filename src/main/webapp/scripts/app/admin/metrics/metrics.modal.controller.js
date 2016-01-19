@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .controller('MetricsModalController', function($scope, $uibModalInstance, threadDump) {
 
         $scope.threadDump = threadDump;

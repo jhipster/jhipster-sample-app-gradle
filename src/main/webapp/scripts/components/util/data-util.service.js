@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sampleGradleApp')
+angular.module('samplegradleApp')
     .service('DataUtils', function ($filter) {
     this.byteSize = function (base64String) {
         if (!angular.isString(base64String)) {
