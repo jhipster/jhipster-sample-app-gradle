@@ -7,12 +7,13 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath group: 'org.sonarqube.gradle', name: 'gradle-sonarqube-plugin', version: '1.0'
-        classpath group: 'net.ltgt.gradle', name: 'gradle-apt-plugin', version: '0.4'
+        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '1.2'
+        classpath group: 'net.ltgt.gradle', name: 'gradle-apt-plugin', version: '0.6'
         classpath group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: spring_boot_version
         classpath group: 'org.springframework.build.gradle', name: 'propdeps-plugin', version: '0.0.7'
-        classpath group: 'com.moowork.gradle', name: 'gradle-node-plugin', version: '0.11'
-        classpath group: 'com.moowork.gradle', name: 'gradle-grunt-plugin', version: '0.11'
+        classpath group: 'com.moowork.gradle', name: 'gradle-node-plugin', version: '0.12'
+        classpath group: 'com.moowork.gradle', name: 'gradle-gulp-plugin', version: '0.12'
+        classpath group: 'se.transmode.gradle', name: 'gradle-docker', version: '1.2'
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
@@ -27,7 +28,7 @@ apply plugin: 'propdeps'
 defaultTasks 'bootRun'
 
 bootRepackage {
-   mainClass = 'com.mycompany.myapp.Application'
+   mainClass = 'com.mycompany.myapp.SampleGradleApp'
 }
 
 war {
@@ -35,7 +36,7 @@ war {
 }
 
 springBoot {
-    mainClass = 'com.mycompany.myapp.Application'
+    mainClass = 'com.mycompany.myapp.SampleGradleApp'
     executable = true
 }
 
@@ -43,34 +44,45 @@ bootRun {
     addResources = false
 }
 
-
 test {
-    println 'Starting the Unit and Integration test'
     include '**/*UnitTest*'
     include '**/*IntTest*'
+
+    ignoreFailures true
+    reports.html.enabled = false
 }
 
 task cucumberTest(type: Test) {
     include '**/CucumberTest*'
+
+    ignoreFailures true
+    reports.html.enabled = false
 }
 
 test.finalizedBy(cucumberTest)
 
-apply from: 'yeoman.gradle'
-apply from: 'sonar.gradle'
+task testReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/tests")
+    reportOn test
+    reportOn cucumberTest
+}
 
-apply from: 'liquibase.gradle'
+cucumberTest.finalizedBy(testReport)
 
-apply from: 'gatling.gradle'
-apply from: 'mapstruct.gradle'
+apply from: 'gradle/yeoman.gradle'
+apply from: 'gradle/sonar.gradle'
+
+apply from: 'gradle/liquibase.gradle'
+
+apply from: 'gradle/gatling.gradle'
+apply from: 'gradle/mapstruct.gradle'
+apply from: 'gradle/docker.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty('prod')) {
-    apply from: 'profile_prod.gradle'
-} else if (project.hasProperty('fast')) {
-    apply from: 'profile_fast.gradle'
+    apply from: 'gradle/profile_prod.gradle'
 } else {
-  apply from: 'profile_dev.gradle'
+    apply from: 'gradle/profile_dev.gradle'
 }
 
 group = 'com.mycompany.myapp'
@@ -102,6 +114,9 @@ dependencies {
     compile group: 'io.dropwizard.metrics', name: 'metrics-json', version: dropwizard_metrics_version
     compile (group: 'io.dropwizard.metrics', name: 'metrics-servlets', version: dropwizard_metrics_version) {
         exclude(module: 'metrics-healthchecks')
+    }
+    compile(group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: logstash_logback_encoder_version) {
+        exclude(module: 'ch.qos.logback')
     }
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-json-org', version: jackson_version
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hppc', version: jackson_version
@@ -139,9 +154,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web') {
-        exclude module: 'spring-boot-starter-tomcat'
-    }
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web')
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector'
@@ -152,6 +165,7 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-config', version: spring_security_version
     compile group: 'org.springframework.security', name: 'spring-security-data', version: spring_security_version
     compile group: 'org.springframework.security', name: 'spring-security-web', version: spring_security_version
+
     compile(group: 'io.springfox', name: 'springfox-swagger2', version: springfox_version){
         exclude module: 'mapstruct'
     }
@@ -182,7 +196,7 @@ clean {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
+    gradleVersion = '2.12'
 }
 
 task stage(dependsOn: 'bootRepackage') {

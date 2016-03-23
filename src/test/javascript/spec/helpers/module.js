@@ -1,4 +1,4 @@
-beforeEach(module('samplegradleApp'));
+beforeEach(module('sampleGradleApp'));
 /**
  * returns a function whose angular will be replaced
  * with whatever mock was supplied.

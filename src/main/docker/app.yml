@@ -1,0 +1,15 @@
+version: '2'
+services:
+    samplegradle-app:
+        image: samplegradle
+        external_links:
+            - samplegradle-mysql:mysql
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/samplegradle?useUnicode=true&characterEncoding=utf8&useSSL=false
+        ports:
+            - 8080:8080
+    samplegradle-mysql:
+        extends:
+            file: mysql.yml
+            service: samplegradle-mysql

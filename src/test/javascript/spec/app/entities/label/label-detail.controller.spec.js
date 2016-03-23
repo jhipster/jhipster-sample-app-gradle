@@ -2,7 +2,7 @@
 
 describe('Controller Tests', function() {
 
-    describe('Label Detail Controller', function() {
+    describe('Label Management Detail Controller', function() {
         var $scope, $rootScope;
         var MockEntity, MockLabel, MockOperation;
         var createController;
@@ -30,7 +30,7 @@ describe('Controller Tests', function() {
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'samplegradleApp:labelUpdate';
+                var eventType = 'sampleGradleApp:labelUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);
