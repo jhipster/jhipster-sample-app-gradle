@@ -15,7 +15,7 @@ task liquibaseDiffChangelog(dependsOn: compileJava, type: JavaExec) {
 
     args "--changeLogFile=src/main/resources/config/liquibase/changelog/" + buildTimestamp() +"_changelog.xml"
     args "--referenceUrl=hibernate:spring:com.mycompany.myapp.domain?dialect=&hibernate.ejb.naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy"
-    args "--username="
+    args "--username=sampleGradle"
     args "--password="
     args "--url="
     args "--driver="
