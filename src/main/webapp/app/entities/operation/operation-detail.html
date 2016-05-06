@@ -2,34 +2,29 @@
 <div>
     <h2><span translate="sampleGradleApp.operation.detail.title">Operation</span> {{vm.operation.id}}</h2>
     <hr>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal jh-entity-details">
         <dt><span translate="sampleGradleApp.operation.date">Date</span></dt>
         <dd>
             <span>{{vm.operation.date | date:'medium'}}</span>
         </dd>
-        <hr>
         <dt><span translate="sampleGradleApp.operation.description">Description</span></dt>
         <dd>
             <span>{{vm.operation.description}}</span>
         </dd>
-        <hr>
         <dt><span translate="sampleGradleApp.operation.amount">Amount</span></dt>
         <dd>
             <span>{{vm.operation.amount}}</span>
         </dd>
-        <hr>
         <dt><span translate="sampleGradleApp.operation.bankAccount">Bank Account</span></dt>
         <dd>
             <a ui-sref="bank-account-detail({id:vm.operation.bankAccount.id})">{{vm.operation.bankAccount.name}}</a>
         </dd>
-        <hr>
         <dt><span translate="sampleGradleApp.operation.label">Label</span></dt>
         <dd>
             <span ng-repeat="label in vm.operation.labels">
                 <a ui-sref="label-detail({id: {{label.id}}})">{{label.label}}</a>{{$last ? '' : ', '}}
             </span>
         </dd>
-        <hr>
     </dl>
 
     <button type="submit"
