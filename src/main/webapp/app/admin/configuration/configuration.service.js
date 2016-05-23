@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .factory('JhiConfigurationService', JhiConfigurationService);
 
     JhiConfigurationService.$inject = ['$filter', '$http'];

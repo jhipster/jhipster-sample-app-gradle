@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .factory('Password', Password);
 
     Password.$inject = ['$resource'];

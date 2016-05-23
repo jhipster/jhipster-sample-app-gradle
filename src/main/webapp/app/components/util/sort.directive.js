@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .directive('jhSort', jhSort);
 
     function jhSort () {

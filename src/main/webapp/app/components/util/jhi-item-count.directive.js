@@ -14,6 +14,6 @@
     };
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .component('jhiItemCount', jhiItemCount);
 })();

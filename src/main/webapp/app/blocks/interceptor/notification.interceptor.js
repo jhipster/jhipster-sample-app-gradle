@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .factory('notificationInterceptor', notificationInterceptor);
 
     notificationInterceptor.$inject = ['$q', 'AlertService'];
@@ -15,9 +15,9 @@
         return service;
 
         function response (response) {
-            var alertKey = response.headers('X-sampleGradleApp-alert');
+            var alertKey = response.headers('X-jhipsterGradleSampleApplicationApp-alert');
             if (angular.isString(alertKey)) {
-                AlertService.success(alertKey, { param : response.headers('X-sampleGradleApp-params')});
+                AlertService.success(alertKey, { param : response.headers('X-jhipsterGradleSampleApplicationApp-params')});
             }
             return response;
         }

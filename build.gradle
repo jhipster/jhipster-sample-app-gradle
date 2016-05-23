@@ -30,7 +30,7 @@ apply plugin: 'propdeps'
 defaultTasks 'bootRun'
 
 bootRepackage {
-   mainClass = 'com.mycompany.myapp.SampleGradleApp'
+   mainClass = 'io.github.jhipster.sample.JhipsterGradleSampleApplicationApp'
 }
 
 war {
@@ -38,7 +38,7 @@ war {
 }
 
 springBoot {
-    mainClass = 'com.mycompany.myapp.SampleGradleApp'
+    mainClass = 'io.github.jhipster.sample.JhipsterGradleSampleApplicationApp'
     executable = true
 }
 
@@ -79,7 +79,7 @@ if (project.hasProperty('prod')) {
     apply from: 'gradle/profile_dev.gradle'
 }
 
-group = 'com.mycompany.myapp'
+group = 'io.github.jhipster.sample'
 version = '0.0.1-SNAPSHOT'
 
 description = ''
@@ -186,10 +186,12 @@ dependencies {
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
-compileJava.dependsOn(processResources)
-
 clean {
     delete "target"
+}
+
+task cleanResources(type: Delete) {
+    delete 'build/resources'
 }
 
 task wrapper(type: Wrapper) {
@@ -198,3 +200,6 @@ task wrapper(type: Wrapper) {
 
 task stage(dependsOn: 'bootRepackage') {
 }
+
+compileJava.dependsOn processResources
+processResources.dependsOn cleanResources

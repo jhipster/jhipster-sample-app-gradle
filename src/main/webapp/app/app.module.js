@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp', [
+        .module('jhipsterGradleSampleApplicationApp', [
             'ngStorage', 
             'tmh.dynamicLocale',
             'pascalprecht.translate', 

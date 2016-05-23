@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('sampleGradleApp')
+    angular.module('jhipsterGradleSampleApplicationApp')
         .controller('HealthModalController', HealthModalController);
 
     HealthModalController.$inject = ['$uibModalInstance', 'currentHealth', 'baseName', 'subSystemName'];

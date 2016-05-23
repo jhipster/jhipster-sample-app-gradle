@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .controller('OperationDeleteController',OperationDeleteController);
 
     OperationDeleteController.$inject = ['$uibModalInstance', 'entity', 'Operation'];

@@ -1,5 +1,5 @@
 {
-    "sampleGradleApp": {
+    "jhipsterGradleSampleApplicationApp": {
         "bankAccount" : {
             "home": {
                 "title": "Bank Accounts",

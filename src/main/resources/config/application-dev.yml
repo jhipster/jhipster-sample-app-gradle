@@ -18,15 +18,15 @@ spring:
         livereload:
             enabled: false # we use gulp + BrowserSync for livereload
     datasource:
-        url: jdbc:h2:mem:samplegradle;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:jhipstergradlesampleapplication;DB_CLOSE_DELAY=-1
         name:
-        username: sampleGradle
+        username: jhipsterGradleSampleApplication
         password:
     h2:
         console:
             enabled: false
     jpa:
-        database-platform: com.mycompany.myapp.domain.util.FixedH2Dialect
+        database-platform: io.github.jhipster.sample.domain.util.FixedH2Dialect
         database: H2
         show_sql: true
         properties:
@@ -36,6 +36,9 @@ spring:
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
     mail:
         host: localhost
+        port: 25
+        username:
+        password:
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -61,7 +64,7 @@ jhipster:
             # security key (this key should be unique for your application, and kept secret)
             key: e48612ba1fd46fa7089fe9f5085d8d164b53ffb2
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: sampleGradle@localhost
+        from: jhipsterGradleSampleApplication@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:
@@ -72,7 +75,7 @@ jhipster:
             enabled: false
             host: localhost
             port: 2003
-            prefix: sampleGradle
+            prefix: jhipsterGradleSampleApplication
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             reportFrequency: 60 # in seconds

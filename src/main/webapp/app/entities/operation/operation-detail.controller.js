@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .controller('OperationDetailController', OperationDetailController);
 
     OperationDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'entity', 'Operation', 'BankAccount', 'Label'];
@@ -11,7 +11,7 @@
         var vm = this;
         vm.operation = entity;
         
-        var unsubscribe = $rootScope.$on('sampleGradleApp:operationUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('jhipsterGradleSampleApplicationApp:operationUpdate', function(event, result) {
             vm.operation = result;
         });
         $scope.$on('$destroy', unsubscribe);

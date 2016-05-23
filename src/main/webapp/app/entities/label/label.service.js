@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular
-        .module('sampleGradleApp')
+        .module('jhipsterGradleSampleApplicationApp')
         .factory('Label', Label);
 
     Label.$inject = ['$resource'];
