@@ -125,6 +125,7 @@ dependencies {
         exclude(module: 'metrics-core')
         exclude(module: 'metrics-healthchecks')
     } 
+    compile "org.hibernate:hibernate-core:${hibernate_entitymanager_version}"
     compile("com.zaxxer:HikariCP:${HikariCP_version}") {
         exclude(module: 'tools')
     }
@@ -133,7 +134,6 @@ dependencies {
     compile "javax.inject:javax.inject:${javax_inject_version}"
     compile "javax.transaction:javax.transaction-api"
     compile "org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:${geronimo_javamail_1_4_mail_version}"
-    compile "org.hibernate:hibernate-core:${hibernate_entitymanager_version}"
     
     compile ("org.hibernate:hibernate-ehcache") {
         exclude(module: 'ehcache-core')
@@ -195,7 +195,7 @@ task cleanResources(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+    gradleVersion = '2.14.1'
 }
 
 task stage(dependsOn: 'bootRepackage') {
