@@ -2,7 +2,7 @@ version: '2'
 services:
     jhipstergradlesampleapplication-mysql:
         container_name: jhipstergradlesampleapplication-mysql
-        image: mysql:5.7.14
+        image: mysql:5.7.15
         # volumes:
         #     - ~/volumes/jhipster/jhipsterGradleSampleApplication/mysql/:/var/lib/mysql/
         environment:

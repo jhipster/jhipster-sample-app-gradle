@@ -72,5 +72,4 @@ public class JhipsterGradleSampleApplicationApp {
             env.getProperty("server.port"));
 
     }
-
 }
