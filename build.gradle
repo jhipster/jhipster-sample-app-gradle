@@ -23,7 +23,7 @@ apply plugin: 'java'
 sourceCompatibility=1.8
 targetCompatibility=1.8
 apply plugin: 'maven'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 apply plugin: 'propdeps'
 apply plugin: 'io.spring.dependency-management'
@@ -205,7 +205,7 @@ task cleanResources(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
+    gradleVersion = '3.2'
 }
 
 task stage(dependsOn: 'bootRepackage') {
