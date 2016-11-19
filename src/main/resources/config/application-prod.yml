@@ -73,7 +73,7 @@ jhipster:
             key: e48612ba1fd46fa7089fe9f5085d8d164b53ffb2
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: jhipsterGradleSampleApplication@localhost
-        baseUrl: # keep empty to use the server's default URL
+        baseUrl: http://my-server-url-to-change # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         graphite:
