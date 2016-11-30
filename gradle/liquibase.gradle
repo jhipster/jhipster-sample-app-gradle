@@ -3,7 +3,7 @@ configurations {
 }
 
 dependencies {
-    liquibase "org.liquibase.ext:liquibase-hibernate4:${liquibase_hibernate4_version}"
+    liquibase "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
 }
 
 task liquibaseDiffChangelog(dependsOn: compileJava, type: JavaExec) {
@@ -14,7 +14,7 @@ task liquibaseDiffChangelog(dependsOn: compileJava, type: JavaExec) {
     main = "liquibase.integration.commandline.Main"
 
     args "--changeLogFile=src/main/resources/config/liquibase/changelog/" + buildTimestamp() +"_changelog.xml"
-    args "--referenceUrl=hibernate:spring:io.github.jhipster.sample.domain?dialect=&hibernate.ejb.naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy"
+    args "--referenceUrl=hibernate:spring:io.github.jhipster.sample.domain?dialect=&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
     args "--username=jhipsterGradleSampleApplication"
     args "--password="
     args "--url="
