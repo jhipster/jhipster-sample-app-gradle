@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 import org.gradle.internal.os.OperatingSystem
 
 buildscript {
@@ -14,8 +15,7 @@ buildscript {
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.9"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
         classpath "org.springframework.build.gradle:propdeps-plugin:0.0.7"
-        classpath "com.moowork.gradle:gradle-node-plugin:0.14"
-        classpath "com.moowork.gradle:gradle-gulp-plugin:0.13"
+        classpath "com.moowork.gradle:gradle-node-plugin:1.0.1"
         classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
@@ -28,6 +28,8 @@ apply plugin: 'maven'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 apply plugin: 'propdeps'
+apply plugin: 'com.moowork.node'
+apply plugin: 'com.moowork.gulp'
 apply plugin: 'io.spring.dependency-management'
 defaultTasks 'bootRun'
 
@@ -82,20 +84,14 @@ test {
     reports.html.enabled = false
 }
 
-
-
 task testReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/tests")
     reportOn test
 }
 
-
-
 apply from: 'gradle/yeoman.gradle'
 apply from: 'gradle/sonar.gradle'
-
 apply from: 'gradle/liquibase.gradle'
-
 apply from: 'gradle/gatling.gradle'
 apply from: 'gradle/mapstruct.gradle'
 apply from: 'gradle/docker.gradle'
@@ -111,6 +107,14 @@ if (project.hasProperty('shell')) {
     dependencies {
         compile "org.springframework.boot:spring-boot-starter-remote-shell"
     }
+}
+
+if (project.hasProperty('graphite')) {
+    apply from: 'gradle/graphite.gradle'
+}
+
+if (project.hasProperty('prometheus')) {
+    apply from: 'gradle/prometheus.gradle'
 }
 
 group = 'io.github.jhipster.sample'
@@ -136,8 +140,8 @@ repositories {
 }
 
 dependencies {
+    compile "io.github.jhipster:jhipster:${jhipster_server_version}"
     compile "io.dropwizard.metrics:metrics-core"
-    compile "io.dropwizard.metrics:metrics-graphite:${dropwizard_metrics_version}"
     compile "io.dropwizard.metrics:metrics-healthchecks:${dropwizard_metrics_version}"
     compile "io.dropwizard.metrics:metrics-jvm:${dropwizard_metrics_version}"
     compile "io.dropwizard.metrics:metrics-servlet:${dropwizard_metrics_version}"
@@ -145,10 +149,7 @@ dependencies {
     compile ("io.dropwizard.metrics:metrics-servlets:${dropwizard_metrics_version}") {
         exclude(module: 'metrics-healthchecks')
     }
-    compile "io.prometheus:simpleclient:${prometheus_simpleclient_version}"
-    compile "io.prometheus:simpleclient_servlet:${prometheus_simpleclient_version}"
-    compile "io.prometheus:simpleclient_dropwizard:${prometheus_simpleclient_version}"
-    compile("net.logstash.logback:logstash-logback-encoder:${logstash_logback_encoder_version}") {
+    compile ("net.logstash.logback:logstash-logback-encoder:${logstash_logback_encoder_version}") {
         exclude(module: 'ch.qos.logback')
     }
     compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org:${jackson_version}"
@@ -160,23 +161,20 @@ dependencies {
     compile ("com.ryantenney.metrics:metrics-spring:${metrics_spring_version}") {
         exclude(module: 'metrics-core')
         exclude(module: 'metrics-healthchecks')
-    } 
+    }
     compile "javax.cache:cache-api:${jcache_version}"
     compile "org.hibernate:hibernate-core:${hibernate_version}"
-    compile("com.zaxxer:HikariCP") {
+    compile ("com.zaxxer:HikariCP") {
         exclude(module: 'tools')
     }
     compile "org.apache.commons:commons-lang3:${commons_lang_version}"
     compile "commons-io:commons-io:${commons_io_version}"
-    compile "javax.inject:javax.inject:${javax_inject_version}"
     compile "javax.transaction:javax.transaction-api"
     compile "org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:${geronimo_javamail_1_4_mail_version}"
-    
-    compile ("org.ehcache:ehcache")
-    compile ("org.hibernate:hibernate-jcache:${hibernate_version}")
-    
+    compile "org.ehcache:ehcache"
+    compile "org.hibernate:hibernate-jcache:${hibernate_version}"
     compile "org.hibernate:hibernate-envers"
-    compile "org.hibernate:hibernate-validator"
+    compile "org.hibernate:hibernate-validator:${hibernate_validator_version}"
     compile ("org.liquibase:liquibase-core:${liquibase_core_version}") {
         exclude(module: 'jetty-servlet')
     }
@@ -197,10 +195,10 @@ dependencies {
     compile ("org.springframework:spring-context-support") {
         exclude(module: 'quartz')
     }
-    compile "org.springframework.security:spring-security-config:${spring_security_version}"
-    compile "org.springframework.security:spring-security-data:${spring_security_version}"
-    compile "org.springframework.security:spring-security-web:${spring_security_version}"
-    compile("io.springfox:springfox-swagger2:${springfox_version}"){
+    compile "org.springframework.security:spring-security-config"
+    compile "org.springframework.security:spring-security-data"
+    compile "org.springframework.security:spring-security-web"
+    compile ("io.springfox:springfox-swagger2:${springfox_version}") {
         exclude module: 'mapstruct'
     }
     compile "io.springfox:springfox-bean-validators:${springfox_version}"
@@ -218,7 +216,6 @@ dependencies {
     testCompile "com.mattbertolini:liquibase-slf4j:${liquibase_slf4j_version}"
     testCompile "org.hamcrest:hamcrest-library"
     testCompile "io.gatling.highcharts:gatling-charts-highcharts:${gatling_version}"
-    
     optional "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
@@ -232,10 +229,32 @@ task cleanResources(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.2.1'
+    gradleVersion = '3.3'
 }
 
 task stage(dependsOn: 'bootRepackage') {
+}
+
+if (project.hasProperty('nodeInstall')) {
+    node {
+        version = '6.9.4'
+        npmVersion = '3.10.9'
+        download = true
+    }
+
+    // Workaround for https://github.com/srs/gradle-node-plugin/issues/134
+    task installLocalNpm {
+        def npmVersion = ''
+        def packageFile = file( new File( (File) node.nodeModulesDir, 'node_modules/npm/package.json' ) )
+        if (packageFile.exists()) {
+            def json = new JsonSlurper().parseText(packageFile.text)
+            npmVersion = json.version
+        }
+        if (npmVersion != node.npmVersion) {
+            npmInstall.dependsOn 'npm_install_npm@' + node.npmVersion
+        }
+    }
+    npmInstall.dependsOn installLocalNpm
 }
 
 compileJava.dependsOn processResources

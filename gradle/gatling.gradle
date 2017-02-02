@@ -4,7 +4,7 @@ sourceSets {
     test {
         scala {
             srcDirs = ['src/test/gatling/simulations']
-            output.classesDir = 'target/test-classes'
+            output.classesDir = 'build/test-classes'
         }
     }
 }

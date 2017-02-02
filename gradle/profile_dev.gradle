@@ -1,4 +1,8 @@
+import org.gradle.internal.os.OperatingSystem
+
 apply plugin: 'org.springframework.boot'
+apply plugin: 'com.moowork.node'
+apply plugin: 'com.moowork.gulp'
 
 ext {
     logbackLoglevel = "DEBUG"
@@ -17,12 +21,12 @@ bootRun {
     args = []
 }
 
-war {
-    webAppDirName = 'src/main/webapp/'
-}
-
 task gulpConstantDev(type: GulpTask) {
     args = ["ngconstant:dev", "--no-notification"]
+}
+
+war {
+    webAppDirName = 'src/main/webapp/'
 }
 
 processResources {
@@ -37,6 +41,5 @@ processResources {
         }
     }
 }
-
 
 processResources.dependsOn gulpConstantDev
