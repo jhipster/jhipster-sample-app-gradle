@@ -38,6 +38,7 @@ processResources {
     filesMatching('**/application.yml') {
         filter {
             it.replace('#spring.profiles.active#', profiles)
+            it.replace('#project.version#', version)
         }
     }
 }
