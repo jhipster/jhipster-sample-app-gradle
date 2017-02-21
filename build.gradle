@@ -15,7 +15,7 @@ buildscript {
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.9"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
         classpath "org.springframework.build.gradle:propdeps-plugin:0.0.7"
-        classpath "com.moowork.gradle:gradle-node-plugin:1.0.1"
+        classpath "com.moowork.gradle:gradle-node-plugin:1.1.1"
         classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
@@ -136,29 +136,26 @@ repositories {
 dependencies {
     compile "io.github.jhipster:jhipster:${jhipster_server_version}"
     compile "io.dropwizard.metrics:metrics-core"
-    compile "io.dropwizard.metrics:metrics-healthchecks:${dropwizard_metrics_version}"
-    compile "io.dropwizard.metrics:metrics-jvm:${dropwizard_metrics_version}"
-    compile "io.dropwizard.metrics:metrics-servlet:${dropwizard_metrics_version}"
-    compile "io.dropwizard.metrics:metrics-json:${dropwizard_metrics_version}"
-    compile ("io.dropwizard.metrics:metrics-servlets:${dropwizard_metrics_version}") {
-        exclude(module: 'metrics-healthchecks')
-    }
+    compile "io.dropwizard.metrics:metrics-jvm:" + dependencyManagement.managedVersions["io.dropwizard.metrics:metrics-core"]
+    compile "io.dropwizard.metrics:metrics-servlet:" + dependencyManagement.managedVersions["io.dropwizard.metrics:metrics-core"]
+    compile "io.dropwizard.metrics:metrics-json:" + dependencyManagement.managedVersions["io.dropwizard.metrics:metrics-core"]
+    compile ("io.dropwizard.metrics:metrics-servlets")
     compile ("net.logstash.logback:logstash-logback-encoder:${logstash_logback_encoder_version}") {
         exclude(module: 'ch.qos.logback')
     }
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org:${jackson_version}"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc:${jackson_version}"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jackson_version}"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-json-org"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
-    compile "com.fasterxml.jackson.core:jackson-annotations:${jackson_version}"
-    compile "com.fasterxml.jackson.core:jackson-databind:${jackson_version}"
+    compile "com.fasterxml.jackson.core:jackson-annotations"
+    compile "com.fasterxml.jackson.core:jackson-databind"
     compile ("com.ryantenney.metrics:metrics-spring:${metrics_spring_version}") {
         exclude(module: 'metrics-core')
         exclude(module: 'metrics-healthchecks')
     }
-    compile "javax.cache:cache-api:${jcache_version}"
+    compile "javax.cache:cache-api"
     compile "org.hibernate:hibernate-core:${hibernate_version}"
-    compile ("com.zaxxer:HikariCP") {
+    compile ("com.zaxxer:HikariCP:${hikaricp_version}") {
         exclude(module: 'tools')
     }
     compile "org.apache.commons:commons-lang3:${commons_lang_version}"
@@ -168,8 +165,8 @@ dependencies {
     compile "org.ehcache:ehcache"
     compile "org.hibernate:hibernate-jcache:${hibernate_version}"
     compile "org.hibernate:hibernate-envers"
-    compile "org.hibernate:hibernate-validator:${hibernate_validator_version}"
-    compile ("org.liquibase:liquibase-core:${liquibase_core_version}") {
+    compile "org.hibernate:hibernate-validator"
+    compile ("org.liquibase:liquibase-core") {
         exclude(module: 'jetty-servlet')
     }
     compile "com.mattbertolini:liquibase-slf4j:${liquibase_slf4j_version}"
@@ -199,12 +196,12 @@ dependencies {
     compile "mysql:mysql-connector-java"
     compile "com.h2database:h2"
     compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
-    testCompile "com.jayway.awaitility:awaitility:${awaility_version}"
+    testCompile "org.awaitility:awaitility:${awaitility_version}"
     testCompile "com.jayway.jsonpath:json-path"
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "org.springframework.security:spring-security-test"
     testCompile "org.springframework.boot:spring-boot-test"
-    testCompile "org.assertj:assertj-core:${assertj_core_version}"
+    testCompile "org.assertj:assertj-core:${assertj_version}"
     testCompile "junit:junit"
     testCompile "org.mockito:mockito-core"
     testCompile "com.mattbertolini:liquibase-slf4j:${liquibase_slf4j_version}"
@@ -231,24 +228,11 @@ task stage(dependsOn: 'bootRepackage') {
 
 if (project.hasProperty('nodeInstall')) {
     node {
-        version = '6.9.5'
-        npmVersion = '4.1.2'
+        version = '${node_version}'
+        npmVersion = '${npm_version}'
+        yarnVersion = '${yarn_version}'
         download = true
     }
-
-    // Workaround for https://github.com/srs/gradle-node-plugin/issues/134
-    task installLocalNpm {
-        def npmVersion = ''
-        def packageFile = file( new File( (File) node.nodeModulesDir, 'node_modules/npm/package.json' ) )
-        if (packageFile.exists()) {
-            def json = new JsonSlurper().parseText(packageFile.text)
-            npmVersion = json.version
-        }
-        if (npmVersion != node.npmVersion) {
-            npmInstall.dependsOn 'npm_install_npm@' + node.npmVersion
-        }
-    }
-    npmInstall.dependsOn installLocalNpm
 }
 
 compileJava.dependsOn processResources
