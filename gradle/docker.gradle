@@ -19,13 +19,11 @@ task copyDockerFiles(type: Copy) {
     into { "${project.buildDir}/docker" }
     include "*"
     exclude "**/*.yml"
-    filter {
-        it.replace('@project.build.finalName@', rootProject.name + '-' + version)
-    }
 }
 
 task buildDocker(type: DockerBuildImage, dependsOn: 'copyDockerFiles') {
     description = "Package application as Docker image"
+    group = "Docker"
     inputDir = project.file("${project.buildDir}/docker")
     tags = ["jhipstergradlesampleapplication:latest".toString(), "jhipstergradlesampleapplication:${project.version}".toString()]
 }
