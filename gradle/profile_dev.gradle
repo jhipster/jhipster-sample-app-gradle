@@ -10,6 +10,7 @@ ext {
 
 dependencies {
     compile "org.springframework.boot:spring-boot-devtools"
+    compile "com.h2database:h2"
 }
 
 def profiles = 'dev'

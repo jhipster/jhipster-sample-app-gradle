@@ -5,7 +5,7 @@ configurations {
 }
 
 dependencies {
-    liquibase "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
+    liquibase "org.liquibase.ext:liquibase-hibernate5"
 }
 
 if (OperatingSystem.current().isWindows()) {
@@ -33,28 +33,28 @@ task initPaths(dependsOn: compileJava) {
 }
 
 def liquibaseCommand(command) {
-	javaexec {	
-		if (OperatingSystem.current().isWindows()) {
-			classpath files(pathingLiquibaseJar.archivePath)
-		} else {
-			classpath sourceSets.main.runtimeClasspath
-			classpath configurations.liquibase
-		}
-		main = "liquibase.integration.commandline.Main"
-        
+    javaexec {
+        if (OperatingSystem.current().isWindows()) {
+            classpath files(pathingLiquibaseJar.archivePath)
+        } else {
+            classpath sourceSets.main.runtimeClasspath
+            classpath configurations.liquibase
+        }
+        main = "liquibase.integration.commandline.Main"
+
         args "--changeLogFile=src/main/resources/config/liquibase/changelog/" + buildTimestamp() +"_changelog.xml"
         args "--referenceUrl=hibernate:spring:io.github.jhipster.sample.domain?dialect=&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
         args "--username=jhipsterGradleSampleApplication"
         args "--password="
         args "--url="
         args "--driver="
-        args liquibaseCommand
+        args command
     }
 }
 
 task liquibaseDiffChangeLog(dependsOn: initPaths) {
     doLast {
-	    liquibaseCommand("diffChangeLog")
+        liquibaseCommand("diffChangeLog")
     }
 }
 
