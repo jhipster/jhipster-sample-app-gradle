@@ -34,7 +34,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 apply plugin: 'propdeps'
 apply plugin: 'com.moowork.node'
-apply plugin: 'com.moowork.gulp'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
 
@@ -108,7 +107,6 @@ task testReport(type: TestReport) {
 }
 
 
-apply from: 'gradle/yeoman.gradle'
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/sonar.gradle'
 apply from: 'gradle/liquibase.gradle'
