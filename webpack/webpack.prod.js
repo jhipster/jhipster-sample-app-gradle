@@ -87,12 +87,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             debug: false
         }),
         new WorkboxPlugin({
-          // to cache all under build/www
-          globDirectory: utils.root('build/www'),
-          // find these files and cache them
-          globPatterns: ['**/*.{html,bundle.js,css,png,svg,jpg,gif,json}'],
-          // create service worker at the build/www
-          swDest: path.resolve(utils.root('build/www'), 'sw.js'),
           clientsClaim: true,
           skipWaiting: true,
         })
