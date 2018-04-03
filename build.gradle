@@ -6,22 +6,24 @@ buildscript {
         jcenter()
         maven { url "http://repo.spring.io/plugins-release" }
         maven { url "https://plugins.gradle.org/m2/" }
+        // TODO To remove after final Spring Boot 2 release
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
         classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
-        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17"
+        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.21"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
 
 plugins {
-    id "org.sonarqube" version "2.5"
-    id "net.ltgt.apt-eclipse" version "0.13"
-    id "net.ltgt.apt-idea" version "0.13"
-    id "net.ltgt.apt" version "0.13"
+    id "org.sonarqube" version "2.6.2"
+    id "net.ltgt.apt-eclipse" version "0.15"
+    id "net.ltgt.apt-idea" version "0.15"
+    id "net.ltgt.apt" version "0.15"
     id "io.spring.dependency-management" version "1.0.3.RELEASE"
-    id "com.github.lkishalmi.gatling" version "0.7.1"
     id "com.moowork.node" version "1.2.0"
     //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
@@ -54,8 +56,8 @@ version = '0.0.1-SNAPSHOT'
 
 description = ''
 
-bootRepackage {
-   mainClass = 'io.github.jhipster.sample.JhipsterGradleSampleApplicationApp'
+bootWar {
+   mainClassName = 'io.github.jhipster.sample.JhipsterGradleSampleApplicationApp'
 }
 
 war {
@@ -63,15 +65,15 @@ war {
 }
 
 springBoot {
-    mainClass = 'io.github.jhipster.sample.JhipsterGradleSampleApplicationApp'
-    executable = true
+    mainClassName = 'io.github.jhipster.sample.JhipsterGradleSampleApplicationApp'
     buildInfo()
 }
 
 if (OperatingSystem.current().isWindows()) {
-    task pathingJar(type: Jar) {
+    // https://stackoverflow.com/questions/40037487/the-filename-or-extension-is-too-long-error-using-gradle
+    task classpathJar(type: Jar) {
         dependsOn configurations.runtime
-        appendix = 'pathing'
+        appendix = 'classpath'
 
         doFirst {
             manifest {
@@ -83,15 +85,10 @@ if (OperatingSystem.current().isWindows()) {
     }
 
     bootRun {
-        addResources = false
-        dependsOn pathingJar
+        dependsOn classpathJar
         doFirst {
-            classpath = files("$buildDir/classes/java/main", "$buildDir/resources/main", pathingJar.archivePath)
+            classpath = files("$buildDir/classes/java/main", "$buildDir/resources/main", classpathJar.archivePath)
         }
-    }
-} else {
-    bootRun {
-        addResources = false
     }
 }
 
@@ -113,8 +110,6 @@ task testReport(type: TestReport) {
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/sonar.gradle'
 apply from: 'gradle/liquibase.gradle'
-apply from: 'gradle/gatling.gradle'
-apply from: 'gradle/mapstruct.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty('prod')) {
@@ -139,11 +134,18 @@ configurations {
 repositories {
     mavenLocal()
     jcenter()
+    // TODO To remove after final Spring Boot 2 release
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    //jhipster-needle-gradle-repositories - JHipster will add additional repositories
 }
 
 dependencies {
+    // TODO To remove after final Spring Boot 2 release
+    compile "javax.xml.bind:jaxb-api"
     compile "org.springframework.boot:spring-boot-starter-cache"
-    compile "io.github.jhipster:jhipster"
+    // TODO remove the "changing: true" when the JHipster server library is released
+    compile group: "io.github.jhipster", name: "jhipster", version: jhipster_dependencies_version, changing: true
     compile "io.dropwizard.metrics:metrics-core"
     compile "io.dropwizard.metrics:metrics-jcache"
     compile "io.dropwizard.metrics:metrics-json"
@@ -169,14 +171,15 @@ dependencies {
     compile "org.hibernate:hibernate-jcache"
     compile "org.hibernate:hibernate-entitymanager"
     compile "org.hibernate:hibernate-envers"
-    compile "org.hibernate:hibernate-validator"
+    compile "org.hibernate.validator:hibernate-validator"
     compile "org.liquibase:liquibase-core"
     compile "com.mattbertolini:liquibase-slf4j"
-    compile "org.springframework.boot:spring-boot-actuator"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.springframework.boot:spring-boot-loader-tools"
     compile "org.springframework.boot:spring-boot-starter-mail"
     compile "org.springframework.boot:spring-boot-starter-logging"
+    compile ("org.springframework.boot:spring-boot-starter-actuator") {
+        exclude module: 'micrometer-core'
+    }
     compile "org.springframework.boot:spring-boot-starter-aop"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.boot:spring-boot-starter-security"
@@ -187,7 +190,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.zalando:problem-spring-web"
     compile "org.springframework.cloud:spring-cloud-spring-service-connector"
-    compile "org.springframework:spring-context-support"
     compile "org.springframework.security:spring-security-config"
     compile "org.springframework.security:spring-security-data"
     compile "org.springframework.security:spring-security-web"
@@ -197,6 +199,11 @@ dependencies {
     compile "io.springfox:springfox-bean-validators"
     compile "mysql:mysql-connector-java"
     compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
+    annotationProcessor "org.hibernate:hibernate-jpamodelgen"
+    annotationProcessor ("org.springframework.boot:spring-boot-configuration-processor") {
+        exclude group: 'com.vaadin.external.google', module: 'android-json'
+    }
     testCompile "com.jayway.jsonpath:json-path"
     testCompile ("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
@@ -208,9 +215,6 @@ dependencies {
     testCompile "org.mockito:mockito-core"
     testCompile "com.mattbertolini:liquibase-slf4j"
     testCompile "org.hamcrest:hamcrest-library"
-    optional ("org.springframework.boot:spring-boot-configuration-processor") {
-        exclude group: 'com.vaadin.external.google', module: 'android-json'
-    }
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
@@ -219,10 +223,10 @@ task cleanResources(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
+    gradleVersion = '4.6'
 }
 
-task stage(dependsOn: 'bootRepackage') {
+task stage(dependsOn: 'bootWar') {
 }
 
 if (project.hasProperty('nodeInstall')) {

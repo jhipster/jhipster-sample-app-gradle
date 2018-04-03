@@ -18,15 +18,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.rememberme.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.
@@ -152,7 +150,6 @@ public class PersistentTokenRememberMeServices extends
      * current user, so when he logs out from one browser, all his other sessions are destroyed.
      */
     @Override
-    @Transactional
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String rememberMeCookie = extractRememberMeCookie(request);
         if (rememberMeCookie != null && rememberMeCookie.length() != 0) {
@@ -179,13 +176,12 @@ public class PersistentTokenRememberMeServices extends
         }
         String presentedSeries = cookieTokens[0];
         String presentedToken = cookieTokens[1];
-        PersistentToken token = persistentTokenRepository.findOne(presentedSeries);
-
-        if (token == null) {
+        Optional<PersistentToken> optionalToken = persistentTokenRepository.findById(presentedSeries);
+        if (!optionalToken.isPresent()) {
             // No series match, so we can't authenticate using this cookie
             throw new RememberMeAuthenticationException("No persistent token found for series id: " + presentedSeries);
         }
-
+        PersistentToken token = optionalToken.get();
         // We have a match for this user/series combination
         log.info("presentedToken={} / tokenValue={}", presentedToken, token.getTokenValue());
         if (!presentedToken.equals(token.getTokenValue())) {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import io.github.jhipster.sample.service.dto.PasswordChangeDTO;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
@@ -83,7 +84,7 @@ public class AccountResource {
     public void activateAccount(@RequestParam(value = "key") String key) {
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
-            throw new InternalServerErrorException("No user was found for this reset key");
+            throw new InternalServerErrorException("No user was found for this activation key");
         }
     }
 
@@ -140,16 +141,16 @@ public class AccountResource {
     /**
      * POST  /account/change-password : changes the current user's password
      *
-     * @param password the new password
+     * @param passwordChangeDto current and new password
      * @throws InvalidPasswordException 400 (Bad Request) if the new password is incorrect
      */
     @PostMapping(path = "/account/change-password")
     @Timed
-    public void changePassword(@RequestBody String password) {
-        if (!checkPasswordLength(password)) {
+    public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
+        if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
         }
-        userService.changePassword(password);
+        userService.changePassword(passwordChangeDto.getCurrentPassword(),passwordChangeDto.getNewPassword());
    }
 
     /**
@@ -193,7 +194,7 @@ public class AccountResource {
             .ifPresent(u ->
                 persistentTokenRepository.findByUser(u).stream()
                     .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                    .findAny().ifPresent(t -> persistentTokenRepository.delete(decodedSeries)));
+                    .findAny().ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries)));
     }
 
     /**

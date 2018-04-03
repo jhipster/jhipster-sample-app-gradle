@@ -1,42 +1,11 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { registerLocaleData } from '@angular/common';
-import locale from '@angular/common/locales/en';
+import { NgModule } from '@angular/core';
 
-import {
-    JhipsterGradleSampleApplicationSharedLibsModule,
-    JhiLanguageHelper,
-    FindLanguageFromKeyPipe,
-    JhiAlertComponent,
-    JhiAlertErrorComponent
-} from './';
+import { JhipsterGradleSampleApplicationSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent } from './';
 
 @NgModule({
-    imports: [
-        JhipsterGradleSampleApplicationSharedLibsModule
-    ],
-    declarations: [
-        FindLanguageFromKeyPipe,
-        JhiAlertComponent,
-        JhiAlertErrorComponent
-    ],
-    providers: [
-        JhiLanguageHelper,
-        Title,
-        {
-            provide: LOCALE_ID,
-            useValue: 'en'
-        },
-    ],
-    exports: [
-        JhipsterGradleSampleApplicationSharedLibsModule,
-        FindLanguageFromKeyPipe,
-        JhiAlertComponent,
-        JhiAlertErrorComponent
-    ]
+  imports: [JhipsterGradleSampleApplicationSharedLibsModule],
+  declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent],
+  providers: [],
+  exports: [JhipsterGradleSampleApplicationSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent]
 })
-export class JhipsterGradleSampleApplicationSharedCommonModule {
-    constructor() {
-        registerLocaleData(locale);
-    }
-}
+export class JhipsterGradleSampleApplicationSharedCommonModule {}

@@ -11,6 +11,7 @@ import io.github.jhipster.sample.repository.UserRepository;
 import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.github.jhipster.sample.service.MailService;
 import io.github.jhipster.sample.service.dto.UserDTO;
+import io.github.jhipster.sample.service.dto.PasswordChangeDTO;
 import io.github.jhipster.sample.web.rest.errors.ExceptionTranslator;
 import io.github.jhipster.sample.web.rest.vm.KeyAndPasswordVM;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
@@ -39,7 +40,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -88,7 +89,7 @@ public class AccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        doNothing().when(mockMailService).sendActivationEmail(anyObject());
+        doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
             new AccountResource(userRepository, userService, mockMailService, persistentTokenRepository);
 
@@ -158,7 +159,7 @@ public class AccountResourceIntTest {
         when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.empty());
 
         restUserMockMvc.perform(get("/api/account")
-            .accept(MediaType.APPLICATION_JSON))
+            .accept(MediaType.APPLICATION_PROBLEM_JSON))
             .andExpect(status().isInternalServerError());
     }
 
@@ -415,7 +416,7 @@ public class AccountResourceIntTest {
         validUser.setActivated(true);
         validUser.setImageUrl("http://placehold.it/50x50");
         validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
-        validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+        validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.ADMIN));
 
         restMvc.perform(
             post("/api/register")
@@ -426,7 +427,7 @@ public class AccountResourceIntTest {
         Optional<User> userDup = userRepository.findOneByLogin("badguy");
         assertThat(userDup.isPresent()).isTrue();
         assertThat(userDup.get().getAuthorities()).hasSize(1)
-            .containsExactly(authorityRepository.findOne(AuthoritiesConstants.USER));
+            .containsExactly(authorityRepository.findById(AuthoritiesConstants.USER).get());
     }
 
     @Test
@@ -600,16 +601,38 @@ public class AccountResourceIntTest {
 
     @Test
     @Transactional
+    @WithMockUser("change-password-wrong-existing-password")
+    public void testChangePasswordWrongExistingPassword() throws Exception {
+        User user = new User();
+        String currentPassword = RandomStringUtils.random(60);
+        user.setPassword(passwordEncoder.encode(currentPassword));
+        user.setLogin("change-password-wrong-existing-password");
+        user.setEmail("change-password-wrong-existing-password@example.com");
+        userRepository.saveAndFlush(user);
+
+        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1"+currentPassword,"new password"))))
+            .andExpect(status().isBadRequest());
+
+        User updatedUser = userRepository.findOneByLogin("change-password-wrong-existing-password").orElse(null);
+        assertThat(passwordEncoder.matches("new password", updatedUser.getPassword())).isFalse();
+        assertThat(passwordEncoder.matches(currentPassword, updatedUser.getPassword())).isTrue();
+    }
+
+    @Test
+    @Transactional
     @WithMockUser("change-password")
     public void testChangePassword() throws Exception {
         User user = new User();
-        user.setPassword(RandomStringUtils.random(60));
+        String currentPassword = RandomStringUtils.random(60);
+        user.setPassword(passwordEncoder.encode(currentPassword));
         user.setLogin("change-password");
         user.setEmail("change-password@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").content("new password"))
-            .andExpect(status().isOk());
+        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword,"new password"))))
+                .andExpect(status().isOk());
 
         User updatedUser = userRepository.findOneByLogin("change-password").orElse(null);
         assertThat(passwordEncoder.matches("new password", updatedUser.getPassword())).isTrue();
@@ -620,13 +643,15 @@ public class AccountResourceIntTest {
     @WithMockUser("change-password-too-small")
     public void testChangePasswordTooSmall() throws Exception {
         User user = new User();
-        user.setPassword(RandomStringUtils.random(60));
+        String currentPassword = RandomStringUtils.random(60);
+        user.setPassword(passwordEncoder.encode(currentPassword));
         user.setLogin("change-password-too-small");
         user.setEmail("change-password-too-small@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").content("new"))
-            .andExpect(status().isBadRequest());
+        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword,"new"))))
+                .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-small").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());
@@ -637,13 +662,15 @@ public class AccountResourceIntTest {
     @WithMockUser("change-password-too-long")
     public void testChangePasswordTooLong() throws Exception {
         User user = new User();
-        user.setPassword(RandomStringUtils.random(60));
+        String currentPassword = RandomStringUtils.random(60);
+        user.setPassword(passwordEncoder.encode(currentPassword));
         user.setLogin("change-password-too-long");
         user.setEmail("change-password-too-long@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").content(RandomStringUtils.random(101)))
-            .andExpect(status().isBadRequest());
+        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword,RandomStringUtils.random(101)))))
+                .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-long").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());

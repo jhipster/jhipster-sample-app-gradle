@@ -19,7 +19,6 @@ bootRun {
     args = []
 }
 
-
 task webpack_test(type: YarnTask, dependsOn: 'yarn_install') {
     args = ["run", "webpack:test"]
 }

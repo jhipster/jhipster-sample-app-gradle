@@ -5,9 +5,10 @@ import { JhipsterGradleSampleApplicationAppModule } from './app.module';
 ProdConfig();
 
 if (module['hot']) {
-    module['hot'].accept();
+  module['hot'].accept();
 }
 
-platformBrowserDynamic().bootstrapModule(JhipsterGradleSampleApplicationAppModule)
-.then((success) => console.log(`Application started`))
-.catch((err) => console.error(err));
+platformBrowserDynamic()
+  .bootstrapModule(JhipsterGradleSampleApplicationAppModule)
+  .then(success => console.log(`Application started`))
+  .catch(err => console.error(err));
