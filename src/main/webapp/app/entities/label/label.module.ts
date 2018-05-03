@@ -3,24 +3,24 @@ import { RouterModule } from '@angular/router';
 
 import { JhipsterGradleSampleApplicationSharedModule } from 'app/shared';
 import {
-  LabelService,
-  LabelComponent,
-  LabelDetailComponent,
-  LabelUpdateComponent,
-  LabelDeletePopupComponent,
-  LabelDeleteDialogComponent,
-  labelRoute,
-  labelPopupRoute,
-  LabelResolve
+    LabelService,
+    LabelComponent,
+    LabelDetailComponent,
+    LabelUpdateComponent,
+    LabelDeletePopupComponent,
+    LabelDeleteDialogComponent,
+    labelRoute,
+    labelPopupRoute,
+    LabelResolve
 } from './';
 
 const ENTITY_STATES = [...labelRoute, ...labelPopupRoute];
 
 @NgModule({
-  imports: [JhipsterGradleSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
-  entryComponents: [LabelComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
-  providers: [LabelService, LabelResolve],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [JhipsterGradleSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
+    entryComponents: [LabelComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
+    providers: [LabelService, LabelResolve],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhipsterGradleSampleApplicationLabelModule {}

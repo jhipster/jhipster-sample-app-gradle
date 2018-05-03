@@ -8,7 +8,6 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
         // TODO To remove after final Spring Boot 2 release
         maven { url "https://repo.spring.io/milestone" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
@@ -136,16 +135,17 @@ repositories {
     jcenter()
     // TODO To remove after final Spring Boot 2 release
     maven { url "https://repo.spring.io/milestone" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     //jhipster-needle-gradle-repositories - JHipster will add additional repositories
 }
 
 dependencies {
+    // Use ", version: jhipster_dependencies_version, changing: true" if you want
+    // to use a SNAPSHOT release instead of a stable release
+    compile group: "io.github.jhipster", name: "jhipster-framework"
+
     // TODO To remove after final Spring Boot 2 release
     compile "javax.xml.bind:jaxb-api"
     compile "org.springframework.boot:spring-boot-starter-cache"
-    // TODO remove the "changing: true" when the JHipster server library is released
-    compile group: "io.github.jhipster", name: "jhipster", version: jhipster_dependencies_version, changing: true
     compile "io.dropwizard.metrics:metrics-core"
     compile "io.dropwizard.metrics:metrics-jcache"
     compile "io.dropwizard.metrics:metrics-json"
@@ -193,6 +193,7 @@ dependencies {
     compile "org.springframework.security:spring-security-config"
     compile "org.springframework.security:spring-security-data"
     compile "org.springframework.security:spring-security-web"
+    compile "com.google.guava:guava"
     compile ("io.springfox:springfox-swagger2") {
         exclude module: 'mapstruct'
     }
