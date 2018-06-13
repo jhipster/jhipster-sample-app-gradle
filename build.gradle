@@ -6,13 +6,13 @@ buildscript {
         jcenter()
         maven { url "http://repo.spring.io/plugins-release" }
         maven { url "https://plugins.gradle.org/m2/" }
-        // TODO To remove after final Spring Boot 2 release
+        // TODO To remove after final Spring Cloud release
         maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
-        classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
-        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.21"
+        classpath "io.spring.gradle:propdeps-plugin:0.0.10.RELEASE"
+        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.0"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
@@ -22,7 +22,7 @@ plugins {
     id "net.ltgt.apt-eclipse" version "0.15"
     id "net.ltgt.apt-idea" version "0.15"
     id "net.ltgt.apt" version "0.15"
-    id "io.spring.dependency-management" version "1.0.3.RELEASE"
+    id "io.spring.dependency-management" version "1.0.5.RELEASE"
     id "com.moowork.node" version "1.2.0"
     //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
@@ -133,7 +133,7 @@ configurations {
 repositories {
     mavenLocal()
     jcenter()
-    // TODO To remove after final Spring Boot 2 release
+    // TODO To remove after final Spring Cloud release
     maven { url "https://repo.spring.io/milestone" }
     //jhipster-needle-gradle-repositories - JHipster will add additional repositories
 }
@@ -142,9 +142,6 @@ dependencies {
     // Use ", version: jhipster_dependencies_version, changing: true" if you want
     // to use a SNAPSHOT release instead of a stable release
     compile group: "io.github.jhipster", name: "jhipster-framework"
-
-    // TODO To remove after final Spring Boot 2 release
-    compile "javax.xml.bind:jaxb-api"
     compile "org.springframework.boot:spring-boot-starter-cache"
     compile "io.dropwizard.metrics:metrics-core"
     compile "io.dropwizard.metrics:metrics-jcache"
@@ -193,7 +190,6 @@ dependencies {
     compile "org.springframework.security:spring-security-config"
     compile "org.springframework.security:spring-security-data"
     compile "org.springframework.security:spring-security-web"
-    compile "com.google.guava:guava"
     compile ("io.springfox:springfox-swagger2") {
         exclude module: 'mapstruct'
     }

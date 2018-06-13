@@ -4,12 +4,6 @@ import { RouterModule } from '@angular/router';
 import { JhipsterGradleSampleApplicationSharedModule } from 'app/shared';
 
 import {
-    Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService,
-    SessionsService,
     SessionsComponent,
     PasswordStrengthBarComponent,
     RegisterComponent,
@@ -33,7 +27,6 @@ import {
         SessionsComponent,
         SettingsComponent
     ],
-    providers: [SessionsService, Register, ActivateService, PasswordService, PasswordResetInitService, PasswordResetFinishService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhipsterGradleSampleApplicationAccountModule {}

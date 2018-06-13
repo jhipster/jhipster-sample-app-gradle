@@ -47,17 +47,7 @@
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
         </createTable>
-        <createIndex indexName="idx_user_login"
-            tableName="jhi_user"
-            unique="true">
-            <column name="login" type="varchar(50)"/>
-        </createIndex>
 
-        <createIndex indexName="idx_user_email"
-            tableName="jhi_user"
-            unique="true">
-            <column name="email" type="varchar(100)"/>
-        </createIndex>
         <createTable tableName="jhi_authority">
             <column name="name" type="varchar(50)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -98,6 +88,10 @@
                                  constraintName="fk_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
+
+        <addNotNullConstraint   columnName="password_hash"
+                                columnDataType="varchar(60)"
+                                tableName="jhi_user"/>
 
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="jhi_persistent_token"

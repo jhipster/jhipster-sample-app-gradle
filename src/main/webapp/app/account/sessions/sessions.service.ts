@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { Session } from './session.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SessionsService {
     private resourceUrl = SERVER_API_URL + 'api/account/sessions/';
     constructor(private http: HttpClient) {}

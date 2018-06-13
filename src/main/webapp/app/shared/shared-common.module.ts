@@ -5,7 +5,6 @@ import { JhipsterGradleSampleApplicationSharedLibsModule, FindLanguageFromKeyPip
 @NgModule({
     imports: [JhipsterGradleSampleApplicationSharedLibsModule],
     declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent],
-    providers: [],
     exports: [JhipsterGradleSampleApplicationSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent]
 })
 export class JhipsterGradleSampleApplicationSharedCommonModule {}

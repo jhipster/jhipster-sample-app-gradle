@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { JhipsterGradleSampleApplicationTestModule } from '../../../test.module';
 import { Session } from 'app/account/sessions/session.model';
@@ -19,8 +19,7 @@ describe('Component Tests', () => {
 
             fixture = TestBed.configureTestingModule({
                 imports: [JhipsterGradleSampleApplicationTestModule],
-                declarations: [SessionsComponent],
-                providers: [SessionsService]
+                declarations: [SessionsComponent]
             })
                 .overrideTemplate(SessionsComponent, '')
                 .createComponent(SessionsComponent);
@@ -37,7 +36,7 @@ describe('Component Tests', () => {
                             id: 'fuzzer'
                         })
                     );
-                    spyOn(service, 'findAll').and.returnValue(Observable.of(sessions));
+                    spyOn(service, 'findAll').and.returnValue(of(sessions));
 
                     comp.ngOnInit();
                     tick();
@@ -64,8 +63,8 @@ describe('Component Tests', () => {
                             id: 'fuzzer'
                         })
                     );
-                    spyOn(service, 'findAll').and.returnValue(Observable.of(sessions));
-                    spyOn(service, 'delete').and.returnValue(Observable.of({}));
+                    spyOn(service, 'findAll').and.returnValue(of(sessions));
+                    spyOn(service, 'delete').and.returnValue(of({}));
 
                     comp.ngOnInit();
                     comp.invalidate('xyz');
@@ -86,9 +85,9 @@ describe('Component Tests', () => {
                             id: 'fuzzer'
                         })
                     );
-                    spyOn(service, 'findAll').and.returnValue(Observable.of(sessions));
+                    spyOn(service, 'findAll').and.returnValue(of(sessions));
                     spyOn(service, 'delete').and.returnValue(
-                        Observable.of({
+                        of({
                             status: 400
                         })
                     );
@@ -113,9 +112,9 @@ describe('Component Tests', () => {
                             id: 'fuzzer'
                         })
                     );
-                    spyOn(service, 'findAll').and.returnValue(Observable.of(sessions));
+                    spyOn(service, 'findAll').and.returnValue(of(sessions));
                     spyOn(service, 'delete').and.returnValue(
-                        Observable.of({
+                        of({
                             status: 200
                         })
                     );
