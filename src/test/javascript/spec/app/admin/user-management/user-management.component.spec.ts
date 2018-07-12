@@ -12,14 +12,16 @@ describe('Component Tests', () => {
         let fixture: ComponentFixture<UserMgmtComponent>;
         let service: UserService;
 
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                imports: [JhipsterGradleSampleApplicationTestModule],
-                declarations: [UserMgmtComponent]
+        beforeEach(
+            async(() => {
+                TestBed.configureTestingModule({
+                    imports: [JhipsterGradleSampleApplicationTestModule],
+                    declarations: [UserMgmtComponent]
+                })
+                    .overrideTemplate(UserMgmtComponent, '')
+                    .compileComponents();
             })
-                .overrideTemplate(UserMgmtComponent, '')
-                .compileComponents();
-        }));
+        );
 
         beforeEach(() => {
             fixture = TestBed.createComponent(UserMgmtComponent);
