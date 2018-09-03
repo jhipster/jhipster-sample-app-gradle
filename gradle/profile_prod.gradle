@@ -3,7 +3,7 @@ apply plugin: 'com.gorylenko.gradle-git-properties'
 apply plugin: 'com.moowork.node'
 
 dependencies {
-
+    testCompile "com.h2database:h2"
 }
 
 def profiles = 'prod'
@@ -19,11 +19,11 @@ bootRun {
     args = []
 }
 
-task webpack_test(type: YarnTask, dependsOn: 'yarn_install') {
+task webpack_test(type: NpmTask, dependsOn: 'npm_install') {
     args = ["run", "webpack:test"]
 }
 
-task webpack(type: YarnTask, dependsOn: 'yarn_install') {
+task webpack(type: NpmTask, dependsOn: 'npm_install') {
     args = ["run", "webpack:prod"]
 }
 

@@ -17,7 +17,7 @@ bootRun {
     args = []
 }
 
-task webpackBuildDev(type: YarnTask, dependsOn: 'yarn_install') {
+task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {
     onlyIf { shouldWebpackRun() == true }
     args = ["run", "webpack:build"]
 }
