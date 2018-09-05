@@ -1,7 +1,7 @@
 package io.github.jhipster.sample.web.rest;
 
-import io.github.jhipster.sample.config.Constants;
 import io.github.jhipster.sample.JhipsterGradleSampleApplicationApp;
+import io.github.jhipster.sample.config.Constants;
 import io.github.jhipster.sample.domain.Authority;
 import io.github.jhipster.sample.domain.PersistentToken;
 import io.github.jhipster.sample.domain.User;
@@ -10,12 +10,12 @@ import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
 import io.github.jhipster.sample.security.AuthoritiesConstants;
 import io.github.jhipster.sample.service.MailService;
-import io.github.jhipster.sample.service.dto.UserDTO;
+import io.github.jhipster.sample.service.UserService;
 import io.github.jhipster.sample.service.dto.PasswordChangeDTO;
+import io.github.jhipster.sample.service.dto.UserDTO;
 import io.github.jhipster.sample.web.rest.errors.ExceptionTranslator;
 import io.github.jhipster.sample.web.rest.vm.KeyAndPasswordVM;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
-import io.github.jhipster.sample.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import org.junit.Before;
@@ -33,9 +33,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Instant;
 import java.time.LocalDate;
-
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -184,32 +184,6 @@ public class AccountResourceIntTest {
             .andExpect(status().isCreated());
 
         assertThat(userRepository.findOneByLogin("test-register-valid").isPresent()).isTrue();
-    }
-
-    @Test
-    @Transactional
-    public void testRegisterUppercaseEmail() throws Exception {
-        ManagedUserVM uppercaseEmailUser = new ManagedUserVM();
-        uppercaseEmailUser.setLogin("joe");
-        uppercaseEmailUser.setPassword("password");
-        uppercaseEmailUser.setFirstName("Joe");
-        uppercaseEmailUser.setLastName("Shmoe");
-        uppercaseEmailUser.setEmail("Joe@example.com");
-        uppercaseEmailUser.setActivated(true);
-        uppercaseEmailUser.setImageUrl("http://placehold.it/50x50");
-        uppercaseEmailUser.setLangKey(Constants.DEFAULT_LANGUAGE);
-        uppercaseEmailUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
-        assertThat(userRepository.findOneByLogin("joe").isPresent()).isFalse();
-
-        restMvc.perform(
-            post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(uppercaseEmailUser)))
-            .andExpect(status().isCreated());
-
-        Optional<User> user = userRepository.findOneByLogin("joe");
-        assertThat(user.isPresent()).isTrue();
-        assertThat(user.get().getEmail()).isEqualTo("joe@example.com");
     }
 
     @Test
@@ -652,8 +626,9 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-wrong-existing-password@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
-        .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1"+currentPassword, "new password"))))
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1"+currentPassword, "new password"))))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-wrong-existing-password").orElse(null);
@@ -672,9 +647,10 @@ public class AccountResourceIntTest {
         user.setEmail("change-password@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new password"))))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         User updatedUser = userRepository.findOneByLogin("change-password").orElse(null);
         assertThat(passwordEncoder.matches("new password", updatedUser.getPassword())).isTrue();
@@ -691,9 +667,10 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-small@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new"))))
-                .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-small").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());
@@ -710,9 +687,10 @@ public class AccountResourceIntTest {
         user.setEmail("change-password-too-long@example.com");
         userRepository.saveAndFlush(user);
 
-        restMvc.perform(post("/api/account/change-password").contentType(TestUtil.APPLICATION_JSON_UTF8)
+        restMvc.perform(post("/api/account/change-password")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, RandomStringUtils.random(101)))))
-                .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin("change-password-too-long").orElse(null);
         assertThat(updatedUser.getPassword()).isEqualTo(user.getPassword());
@@ -738,7 +716,7 @@ public class AccountResourceIntTest {
     @Test
     @Transactional
     @WithMockUser("current-sessions")
-    public void testGetCurrentSessions()  throws Exception {
+    public void testGetCurrentSessions() throws Exception {
         User user = new User();
         user.setPassword(RandomStringUtils.random(60));
         user.setLogin("current-sessions");
