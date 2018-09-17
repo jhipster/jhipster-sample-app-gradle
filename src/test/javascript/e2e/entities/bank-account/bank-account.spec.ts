@@ -1,7 +1,10 @@
+/* tslint:disable no-unused-expression */
 import { browser, ExpectedConditions as ec } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { BankAccountComponentsPage, BankAccountDeleteDialog, BankAccountUpdatePage } from './bank-account.page-object';
+
+const expect = chai.expect;
 
 describe('BankAccount e2e test', () => {
     let navBarPage: NavBarPage;
@@ -10,7 +13,7 @@ describe('BankAccount e2e test', () => {
     let bankAccountComponentsPage: BankAccountComponentsPage;
     let bankAccountDeleteDialog: BankAccountDeleteDialog;
 
-    beforeAll(async () => {
+    before(async () => {
         await browser.get('/');
         navBarPage = new NavBarPage();
         signInPage = await navBarPage.getSignInPage();
@@ -21,25 +24,29 @@ describe('BankAccount e2e test', () => {
     it('should load BankAccounts', async () => {
         await navBarPage.goToEntity('bank-account');
         bankAccountComponentsPage = new BankAccountComponentsPage();
-        expect(await bankAccountComponentsPage.getTitle()).toMatch(/jhipsterGradleSampleApplicationApp.bankAccount.home.title/);
+        expect(await bankAccountComponentsPage.getTitle()).to.eq('jhipsterGradleSampleApplicationApp.bankAccount.home.title');
     });
 
     it('should load create BankAccount page', async () => {
         await bankAccountComponentsPage.clickOnCreateButton();
         bankAccountUpdatePage = new BankAccountUpdatePage();
-        expect(await bankAccountUpdatePage.getPageTitle()).toMatch(/jhipsterGradleSampleApplicationApp.bankAccount.home.createOrEditLabel/);
+        expect(await bankAccountUpdatePage.getPageTitle()).to.eq('jhipsterGradleSampleApplicationApp.bankAccount.home.createOrEditLabel');
         await bankAccountUpdatePage.cancel();
     });
 
     it('should create and save BankAccounts', async () => {
+        const nbButtonsBeforeCreate = await bankAccountComponentsPage.countDeleteButtons();
+
         await bankAccountComponentsPage.clickOnCreateButton();
         await bankAccountUpdatePage.setNameInput('name');
-        expect(await bankAccountUpdatePage.getNameInput()).toMatch('name');
+        expect(await bankAccountUpdatePage.getNameInput()).to.eq('name');
         await bankAccountUpdatePage.setBalanceInput('5');
-        expect(await bankAccountUpdatePage.getBalanceInput()).toMatch('5');
+        expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
         await bankAccountUpdatePage.userSelectLastOption();
         await bankAccountUpdatePage.save();
-        expect(await bankAccountUpdatePage.getSaveButton().isPresent()).toBeFalsy();
+        expect(await bankAccountUpdatePage.getSaveButton().isPresent()).to.be.false;
+
+        expect(await bankAccountComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);
     });
 
     it('should delete last BankAccount', async () => {
@@ -47,13 +54,13 @@ describe('BankAccount e2e test', () => {
         await bankAccountComponentsPage.clickOnLastDeleteButton();
 
         bankAccountDeleteDialog = new BankAccountDeleteDialog();
-        expect(await bankAccountDeleteDialog.getDialogTitle()).toMatch(/jhipsterGradleSampleApplicationApp.bankAccount.delete.question/);
+        expect(await bankAccountDeleteDialog.getDialogTitle()).to.eq('jhipsterGradleSampleApplicationApp.bankAccount.delete.question');
         await bankAccountDeleteDialog.clickOnConfirmButton();
 
-        expect(await bankAccountComponentsPage.countDeleteButtons()).toBe(nbButtonsBeforeDelete - 1);
+        expect(await bankAccountComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeDelete - 1);
     });
 
-    afterAll(async () => {
+    after(async () => {
         await navBarPage.autoSignOut();
     });
 });

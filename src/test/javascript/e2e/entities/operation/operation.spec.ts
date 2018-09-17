@@ -1,7 +1,10 @@
+/* tslint:disable no-unused-expression */
 import { browser, ExpectedConditions as ec, protractor } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { OperationComponentsPage, OperationDeleteDialog, OperationUpdatePage } from './operation.page-object';
+
+const expect = chai.expect;
 
 describe('Operation e2e test', () => {
     let navBarPage: NavBarPage;
@@ -10,7 +13,7 @@ describe('Operation e2e test', () => {
     let operationComponentsPage: OperationComponentsPage;
     let operationDeleteDialog: OperationDeleteDialog;
 
-    beforeAll(async () => {
+    before(async () => {
         await browser.get('/');
         navBarPage = new NavBarPage();
         signInPage = await navBarPage.getSignInPage();
@@ -21,28 +24,32 @@ describe('Operation e2e test', () => {
     it('should load Operations', async () => {
         await navBarPage.goToEntity('operation');
         operationComponentsPage = new OperationComponentsPage();
-        expect(await operationComponentsPage.getTitle()).toMatch(/jhipsterGradleSampleApplicationApp.operation.home.title/);
+        expect(await operationComponentsPage.getTitle()).to.eq('jhipsterGradleSampleApplicationApp.operation.home.title');
     });
 
     it('should load create Operation page', async () => {
         await operationComponentsPage.clickOnCreateButton();
         operationUpdatePage = new OperationUpdatePage();
-        expect(await operationUpdatePage.getPageTitle()).toMatch(/jhipsterGradleSampleApplicationApp.operation.home.createOrEditLabel/);
+        expect(await operationUpdatePage.getPageTitle()).to.eq('jhipsterGradleSampleApplicationApp.operation.home.createOrEditLabel');
         await operationUpdatePage.cancel();
     });
 
     it('should create and save Operations', async () => {
+        const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
+
         await operationComponentsPage.clickOnCreateButton();
         await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-        expect(await operationUpdatePage.getDateInput()).toContain('2001-01-01T02:30');
+        expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30');
         await operationUpdatePage.setDescriptionInput('description');
-        expect(await operationUpdatePage.getDescriptionInput()).toMatch('description');
+        expect(await operationUpdatePage.getDescriptionInput()).to.eq('description');
         await operationUpdatePage.setAmountInput('5');
-        expect(await operationUpdatePage.getAmountInput()).toMatch('5');
+        expect(await operationUpdatePage.getAmountInput()).to.eq('5');
         await operationUpdatePage.bankAccountSelectLastOption();
         // operationUpdatePage.labelSelectLastOption();
         await operationUpdatePage.save();
-        expect(await operationUpdatePage.getSaveButton().isPresent()).toBeFalsy();
+        expect(await operationUpdatePage.getSaveButton().isPresent()).to.be.false;
+
+        expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);
     });
 
     it('should delete last Operation', async () => {
@@ -50,13 +57,13 @@ describe('Operation e2e test', () => {
         await operationComponentsPage.clickOnLastDeleteButton();
 
         operationDeleteDialog = new OperationDeleteDialog();
-        expect(await operationDeleteDialog.getDialogTitle()).toMatch(/jhipsterGradleSampleApplicationApp.operation.delete.question/);
+        expect(await operationDeleteDialog.getDialogTitle()).to.eq('jhipsterGradleSampleApplicationApp.operation.delete.question');
         await operationDeleteDialog.clickOnConfirmButton();
 
-        expect(await operationComponentsPage.countDeleteButtons()).toBe(nbButtonsBeforeDelete - 1);
+        expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeDelete - 1);
     });
 
-    afterAll(async () => {
+    after(async () => {
         await navBarPage.autoSignOut();
     });
 });
