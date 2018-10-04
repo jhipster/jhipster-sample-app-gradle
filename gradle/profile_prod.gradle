@@ -24,6 +24,10 @@ task webpack_test(type: NpmTask, dependsOn: 'npm_install') {
 }
 
 task webpack(type: NpmTask, dependsOn: 'npm_install') {
+    inputs.dir("CLIENT_MAIN_SRC_DIR")
+    inputs.files(fileTree('CLIENT_MAIN_SRC_DIRp'))
+    outputs.dir("build/www/")
+    outputs.file("build/www/app/main.bundle.js")
     args = ["run", "webpack:prod"]
 }
 
