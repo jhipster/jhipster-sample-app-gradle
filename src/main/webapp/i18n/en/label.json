@@ -1,7 +1,6 @@
-
 {
     "jhipsterGradleSampleApplicationApp": {
-        "label" : {
+        "label": {
             "home": {
                 "title": "Labels",
                 "createLabel": "Create a new Label",

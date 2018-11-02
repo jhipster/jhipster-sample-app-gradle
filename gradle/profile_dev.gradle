@@ -51,9 +51,3 @@ processResources {
 processResources.dependsOn webpackBuildDev
 copyIntoStatic.dependsOn processResources
 bootJar.dependsOn copyIntoStatic
-
-npm_install.onlyIf { shouldWebpackRun() == true }
-
-def shouldWebpackRun() {
-    project.hasProperty('webpack')
-}
