@@ -26,3 +26,10 @@ jib {
         useCurrentTimestamp = true
     }
 }
+
+task copyWwwIntoStatic (type: Copy) {
+    from 'build/www/'
+    into 'build/resources/main/static'
+}
+
+jibDockerBuild.dependsOn copyWwwIntoStatic

@@ -28,10 +28,6 @@ task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {
     args = ["run", "webpack:build"]
 }
 
-war {
-    webAppDirName = 'build/www/'
-}
-
 task copyIntoStatic (type: Copy) {
     from 'build/www/'
     into 'build/resources/main/static'
