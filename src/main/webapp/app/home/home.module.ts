@@ -5,8 +5,8 @@ import { JhipsterGradleSampleApplicationSharedModule } from 'app/shared';
 import { HOME_ROUTE, HomeComponent } from './';
 
 @NgModule({
-  imports: [JhipsterGradleSampleApplicationSharedModule, RouterModule.forChild([HOME_ROUTE])],
-  declarations: [HomeComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [JhipsterGradleSampleApplicationSharedModule, RouterModule.forChild([HOME_ROUTE])],
+    declarations: [HomeComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhipsterGradleSampleApplicationHomeModule {}

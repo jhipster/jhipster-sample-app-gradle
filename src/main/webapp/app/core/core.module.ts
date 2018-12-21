@@ -5,20 +5,20 @@ import { Title } from '@angular/platform-browser';
 import locale from '@angular/common/locales/en';
 
 @NgModule({
-  imports: [HttpClientModule],
-  exports: [],
-  declarations: [],
-  providers: [
-    Title,
-    {
-      provide: LOCALE_ID,
-      useValue: 'en'
-    },
-    DatePipe
-  ]
+    imports: [HttpClientModule],
+    exports: [],
+    declarations: [],
+    providers: [
+        Title,
+        {
+            provide: LOCALE_ID,
+            useValue: 'en'
+        },
+        DatePipe
+    ]
 })
 export class JhipsterGradleSampleApplicationCoreModule {
-  constructor() {
-    registerLocaleData(locale);
-  }
+    constructor() {
+        registerLocaleData(locale);
+    }
 }

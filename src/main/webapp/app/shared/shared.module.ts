@@ -3,24 +3,24 @@ import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbDateMomentAdapter } from './util/datepicker-adapter';
 import {
-  JhipsterGradleSampleApplicationSharedLibsModule,
-  JhipsterGradleSampleApplicationSharedCommonModule,
-  JhiLoginModalComponent,
-  HasAnyAuthorityDirective
+    JhipsterGradleSampleApplicationSharedLibsModule,
+    JhipsterGradleSampleApplicationSharedCommonModule,
+    JhiLoginModalComponent,
+    HasAnyAuthorityDirective
 } from './';
 
 @NgModule({
-  imports: [JhipsterGradleSampleApplicationSharedLibsModule, JhipsterGradleSampleApplicationSharedCommonModule],
-  declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
-  entryComponents: [JhiLoginModalComponent],
-  exports: [JhipsterGradleSampleApplicationSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [JhipsterGradleSampleApplicationSharedLibsModule, JhipsterGradleSampleApplicationSharedCommonModule],
+    declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
+    providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
+    entryComponents: [JhiLoginModalComponent],
+    exports: [JhipsterGradleSampleApplicationSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class JhipsterGradleSampleApplicationSharedModule {
-  static forRoot() {
-    return {
-      ngModule: JhipsterGradleSampleApplicationSharedModule
-    };
-  }
+    static forRoot() {
+        return {
+            ngModule: JhipsterGradleSampleApplicationSharedModule
+        };
+    }
 }
