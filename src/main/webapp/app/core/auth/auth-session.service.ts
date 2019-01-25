@@ -11,13 +11,10 @@ export class AuthServerProvider {
 
     login(credentials): Observable<any> {
         const data =
-            'j_username=' +
-            encodeURIComponent(credentials.username) +
-            '&j_password=' +
-            encodeURIComponent(credentials.password) +
-            '&remember-me=' +
-            credentials.rememberMe +
-            '&submit=Login';
+            `username=${encodeURIComponent(credentials.username)}` +
+            `&password=${encodeURIComponent(credentials.password)}` +
+            `&remember-me=${credentials.rememberMe}` +
+            `&submit=Login`;
         const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
         return this.http.post(SERVER_API_URL + 'api/authentication', data, { headers });
