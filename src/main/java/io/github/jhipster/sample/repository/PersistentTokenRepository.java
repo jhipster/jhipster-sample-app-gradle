@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * Spring Data JPA repository for the PersistentToken entity.
+ * Spring Data JPA repository for the {@link PersistentToken} entity.
  */
 public interface PersistentTokenRepository extends JpaRepository<PersistentToken, String> {
 

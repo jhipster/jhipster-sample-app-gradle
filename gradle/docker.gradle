@@ -1,35 +1,18 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath "gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:0.9.11"
-    }
-}
-
-apply plugin: com.google.cloud.tools.jib.gradle.JibPlugin
-
 jib {
     from {
-        image = 'openjdk:8-jre-alpine'
+        image = "openjdk:11-jre-slim-stretch"
     }
     to {
-        image = 'jhipstergradlesampleapplication:latest'
+        image = "jhipstergradlesampleapplication:latest"
     }
     container {
-        entrypoint = ['sh', '-c', 'chmod +x /entrypoint.sh && sync && /entrypoint.sh']
-        ports = ['8080']
+        entrypoint = ["sh", "-c", "chmod +x /entrypoint.sh && sync && /entrypoint.sh"]
+        ports = ["8080"]
         environment = [
-            SPRING_OUTPUT_ANSI_ENABLED: 'ALWAYS',
-            JHIPSTER_SLEEP: '0'
+            SPRING_OUTPUT_ANSI_ENABLED: "ALWAYS",
+            JHIPSTER_SLEEP: "0"
         ]
         useCurrentTimestamp = true
     }
 }
 
-task copyWwwIntoStatic (type: Copy) {
-    from 'build/www/'
-    into 'build/resources/main/static'
-}
-
-jibDockerBuild.dependsOn copyWwwIntoStatic

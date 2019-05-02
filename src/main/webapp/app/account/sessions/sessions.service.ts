@@ -7,14 +7,14 @@ import { Session } from './session.model';
 
 @Injectable({ providedIn: 'root' })
 export class SessionsService {
-    public resourceUrl = SERVER_API_URL + 'api/account/sessions/';
-    constructor(private http: HttpClient) {}
+  public resourceUrl = SERVER_API_URL + 'api/account/sessions/';
+  constructor(private http: HttpClient) {}
 
-    findAll(): Observable<Session[]> {
-        return this.http.get<Session[]>(this.resourceUrl);
-    }
+  findAll(): Observable<Session[]> {
+    return this.http.get<Session[]>(this.resourceUrl);
+  }
 
-    delete(series: string): Observable<HttpResponse<any>> {
-        return this.http.delete(`${this.resourceUrl}${series}`, { observe: 'response' });
-    }
+  delete(series: string): Observable<HttpResponse<any>> {
+    return this.http.delete(`${this.resourceUrl}${series}`, { observe: 'response' });
+  }
 }

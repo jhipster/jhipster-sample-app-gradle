@@ -48,7 +48,7 @@ import java.util.*;
  * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">GitHub's "Modeling your App's User Session"</a></li>
  * </ul>
  * <p>
- * The main algorithm comes from Spring Security's PersistentTokenBasedRememberMeServices, but this class
+ * The main algorithm comes from Spring Security's {@code PersistentTokenBasedRememberMeServices}, but this class
  * couldn't be cleanly extended.
  */
 @Service
@@ -145,6 +145,10 @@ public class PersistentTokenRememberMeServices extends
      * <p>
      * The standard Spring Security implementations are too basic: they invalidate all tokens for the
      * current user, so when he logs out from one browser, all his other sessions are destroyed.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @param authentication the authentication.
      */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
