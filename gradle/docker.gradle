@@ -1,6 +1,6 @@
 jib {
     from {
-        image = "openjdk:11-jre-slim-stretch"
+        image = "adoptopenjdk/openjdk11:alpine-jre"
     }
     to {
         image = "jhipstergradlesampleapplication:latest"
