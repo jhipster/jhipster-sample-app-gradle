@@ -1,6 +1,6 @@
 jib {
     from {
-        image = "adoptopenjdk/openjdk11:alpine-jre"
+        image = "adoptopenjdk:11-jre-hotspot"
     }
     to {
         image = "jhipstergradlesampleapplication:latest"
