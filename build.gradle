@@ -62,7 +62,7 @@ eclipse {
     sourceSets {
         main {
             java {
-                srcDirs += ["build/generated/source/apt/main"]
+                srcDirs += ["build/generated/sources/annotationProcessor/java/main"]
             }
         }
     }
@@ -180,6 +180,8 @@ repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
+    // TODO To remove after final JHipster release
+    maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
     //jhipster-needle-gradle-repositories - JHipster will add additional repositories
 }
 
