@@ -110,7 +110,6 @@ jhipster:
       # security key (this key should be unique for your application, and kept secret)
       key: e48612ba1fd46fa7089fe9f5085d8d164b53ffb2
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    from: jhipsterGradleSampleApplication@localhost
     base-url: http://my-server-url-to-change # Modify according to your server's URL
   metrics:
     logs: # Reports metrics in the logs

@@ -32,6 +32,7 @@ bootRun {
 
 task webpackBuildDev(type: NpmTask) {
     inputs.files("package-lock.json")
+    inputs.files("build.gradle")
     inputs.dir("src/main/webapp/")
 
     def webpackDevFiles = fileTree("webpack//")
@@ -42,9 +43,12 @@ task webpackBuildDev(type: NpmTask) {
 
     dependsOn npmInstall
     args = ["run", "webpack:build"]
+    environment = [APP_VERSION: project.version]
 }
 
 processResources {
+    inputs.property('version', version)
+    inputs.property('springProfiles', profiles)
     filesMatching("**/application.yml") {
         filter {
             it.replace("#project.version#", version)
