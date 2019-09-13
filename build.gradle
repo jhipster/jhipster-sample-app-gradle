@@ -8,8 +8,6 @@ buildscript {
         maven { url "http://repo.spring.io/plugins-release" }
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
-        classpath "io.spring.gradle:propdeps-plugin:0.0.10.RELEASE"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
@@ -19,14 +17,15 @@ plugins {
     id "maven"
     id "idea"
     id "jacoco"
-    id "com.google.cloud.tools.jib" version "1.4.0"
-    id "com.gorylenko.gradle-git-properties" version "2.0.0"
-    id "com.github.node-gradle.node" version "1.5.1"
-    id "net.ltgt.apt-eclipse" version "0.21"
-    id "net.ltgt.apt-idea" version "0.21"
-    id "net.ltgt.apt" version "0.21"
-    id "org.liquibase.gradle" version "2.0.1"
-    id "org.sonarqube" version "2.7.1"
+    id "org.springframework.boot"
+    id "com.google.cloud.tools.jib"
+    id "com.gorylenko.gradle-git-properties"
+    id "com.github.node-gradle.node"
+    id "net.ltgt.apt-eclipse"
+    id "net.ltgt.apt-idea"
+    id "net.ltgt.apt"
+    id "org.liquibase.gradle"
+    id "org.sonarqube"
     //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
 
@@ -38,9 +37,6 @@ description = ""
 sourceCompatibility=1.8
 targetCompatibility=1.8
 assert System.properties["java.specification.version"] == "1.8" || "11" || "12"
-
-apply plugin: "org.springframework.boot"
-apply plugin: "propdeps"
 
 apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
@@ -253,6 +249,8 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.springframework.boot:spring-boot-test"
     testImplementation "org.junit.jupiter:junit-jupiter-engine"
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.11.0'
+    testRuntime 'com.tngtech.archunit:archunit-junit5-engine:0.11.0'
     testImplementation "org.assertj:assertj-core"
     testImplementation "junit:junit"
     testImplementation "org.mockito:mockito-core"
@@ -267,7 +265,7 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "5.4.1"
+    gradleVersion = "5.6.2"
 }
 
 if (project.hasProperty("nodeInstall")) {
@@ -278,6 +276,5 @@ if (project.hasProperty("nodeInstall")) {
         download = true
     }
 }
-
 compileJava.dependsOn processResources
 processResources.dependsOn bootBuildInfo

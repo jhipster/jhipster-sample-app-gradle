@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { JhipsterGradleSampleApplicationTestModule } from '../../../test.module';
 import { Session } from 'app/account/sessions/session.model';

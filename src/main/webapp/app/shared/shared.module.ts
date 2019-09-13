@@ -1,17 +1,22 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { JhipsterGradleSampleApplicationSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
+import { NgModule } from '@angular/core';
+import { JhipsterGradleSampleApplicationSharedLibsModule } from './shared-libs.module';
+import { FindLanguageFromKeyPipe } from './language/find-language-from-key.pipe';
+import { JhiAlertComponent } from './alert/alert.component';
+import { JhiAlertErrorComponent } from './alert/alert-error.component';
+import { JhiLoginModalComponent } from './login/login.component';
+import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 
 @NgModule({
-  imports: [JhipsterGradleSampleApplicationSharedCommonModule],
-  declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
+  imports: [JhipsterGradleSampleApplicationSharedLibsModule],
+  declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent, JhiLoginModalComponent, HasAnyAuthorityDirective],
   entryComponents: [JhiLoginModalComponent],
-  exports: [JhipsterGradleSampleApplicationSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  exports: [
+    JhipsterGradleSampleApplicationSharedLibsModule,
+    FindLanguageFromKeyPipe,
+    JhiAlertComponent,
+    JhiAlertErrorComponent,
+    JhiLoginModalComponent,
+    HasAnyAuthorityDirective
+  ]
 })
-export class JhipsterGradleSampleApplicationSharedModule {
-  static forRoot() {
-    return {
-      ngModule: JhipsterGradleSampleApplicationSharedModule
-    };
-  }
-}
+export class JhipsterGradleSampleApplicationSharedModule {}
