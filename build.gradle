@@ -5,7 +5,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        maven { url "http://repo.spring.io/plugins-release" }
+        maven { url "https://repo.spring.io/plugins-release" }
     }
     dependencies {
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
@@ -98,6 +98,7 @@ springBoot {
 test {
     useJUnitPlatform()
     exclude "**/*IT*", "**/*IntTest*"
+
     testLogging {
         events 'FAILED', 'SKIPPED'
     }
@@ -205,7 +206,6 @@ dependencies {
     implementation "org.ehcache:ehcache"
     implementation "org.hibernate:hibernate-jcache"
     implementation "org.hibernate:hibernate-entitymanager"
-    implementation "org.hibernate:hibernate-envers"
     implementation "org.hibernate.validator:hibernate-validator"
     implementation "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase:liquibase-core"
