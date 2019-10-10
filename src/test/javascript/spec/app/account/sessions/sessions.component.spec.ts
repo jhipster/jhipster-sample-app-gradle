@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { JhipsterGradleSampleApplicationTestModule } from '../../../test.module';
 import { Session } from 'app/account/sessions/session.model';
@@ -30,7 +30,7 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
-          Promise.resolve({
+          of({
             id: 'fuzzer'
           })
         );
@@ -54,7 +54,7 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
-          Promise.resolve({
+          of({
             id: 'fuzzer'
           })
         );
@@ -73,16 +73,12 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
-          Promise.resolve({
+          of({
             id: 'fuzzer'
           })
         );
         spyOn(service, 'findAll').and.returnValue(of(sessions));
-        spyOn(service, 'delete').and.returnValue(
-          of({
-            status: 400
-          })
-        );
+        spyOn(service, 'delete').and.returnValue(throwError({}));
 
         comp.ngOnInit();
         comp.invalidate('xyz');
@@ -97,16 +93,12 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
-          Promise.resolve({
+          of({
             id: 'fuzzer'
           })
         );
         spyOn(service, 'findAll').and.returnValue(of(sessions));
-        spyOn(service, 'delete').and.returnValue(
-          of({
-            status: 200
-          })
-        );
+        spyOn(service, 'delete').and.returnValue(of({}));
 
         comp.ngOnInit();
         comp.invalidate('xyz');

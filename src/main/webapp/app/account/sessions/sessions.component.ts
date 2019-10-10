@@ -19,21 +19,22 @@ export class SessionsComponent implements OnInit {
   ngOnInit() {
     this.sessionsService.findAll().subscribe(sessions => (this.sessions = sessions));
 
-    this.accountService.identity().then(account => {
+    this.accountService.identity().subscribe(account => {
       this.account = account;
     });
   }
 
   invalidate(series) {
-    this.sessionsService.delete(encodeURIComponent(series)).subscribe(response => {
-      if (response.status === 200) {
+    this.sessionsService.delete(encodeURIComponent(series)).subscribe(
+      response => {
         this.error = null;
         this.success = 'OK';
         this.sessionsService.findAll().subscribe(sessions => (this.sessions = sessions));
-      } else {
+      },
+      () => {
         this.success = null;
         this.error = 'ERROR';
       }
-    });
+    );
   }
 }

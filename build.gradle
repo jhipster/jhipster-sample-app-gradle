@@ -78,7 +78,7 @@ if (OperatingSystem.current().isWindows()) {
         archiveName = "runboot-classpath.jar"
         doFirst {
             manifest {
-                def classpath = sourceSets.test.runtimeClasspath.files
+                def classpath = sourceSets.main.runtimeClasspath.files
                 attributes "Class-Path": classpath.collect {f -> f.toURI().toString()}.join(" ")
             }
         }
@@ -249,8 +249,8 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.springframework.boot:spring-boot-test"
     testImplementation "org.junit.jupiter:junit-jupiter-engine"
-    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.11.0'
-    testRuntime 'com.tngtech.archunit:archunit-junit5-engine:0.11.0'
+    testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunit_junit5_version}"
+    testRuntime "com.tngtech.archunit:archunit-junit5-engine:${archunit_junit5_version}"
     testImplementation "org.assertj:assertj-core"
     testImplementation "junit:junit"
     testImplementation "org.mockito:mockito-core"
