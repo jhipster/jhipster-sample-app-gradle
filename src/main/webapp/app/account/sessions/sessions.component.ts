@@ -26,7 +26,7 @@ export class SessionsComponent implements OnInit {
 
   invalidate(series) {
     this.sessionsService.delete(encodeURIComponent(series)).subscribe(
-      response => {
+      () => {
         this.error = null;
         this.success = 'OK';
         this.sessionsService.findAll().subscribe(sessions => (this.sessions = sessions));
