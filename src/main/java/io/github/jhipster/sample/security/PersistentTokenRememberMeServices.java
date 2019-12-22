@@ -3,11 +3,11 @@ package io.github.jhipster.sample.security;
 import io.github.jhipster.sample.domain.PersistentToken;
 import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
-import io.github.jhipster.sample.service.util.RandomUtil;
 
 
 import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.security.PersistentTokenCache;
+import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +99,7 @@ public class PersistentTokenRememberMeServices extends
                 // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
                 log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
                 token.setTokenDate(LocalDate.now());
-                token.setTokenValue(RandomUtil.generateTokenData());
+                token.setTokenValue(RandomUtil.generateRandomAlphanumericString());
                 token.setIpAddress(request.getRemoteAddr());
                 token.setUserAgent(request.getHeader("User-Agent"));
                 try {
@@ -124,9 +124,9 @@ public class PersistentTokenRememberMeServices extends
         log.debug("Creating new persistent login for user {}", login);
         PersistentToken token = userRepository.findOneByLogin(login).map(u -> {
             PersistentToken t = new PersistentToken();
-            t.setSeries(RandomUtil.generateSeriesData());
+            t.setSeries(RandomUtil.generateRandomAlphanumericString());
             t.setUser(u);
-            t.setTokenValue(RandomUtil.generateTokenData());
+            t.setTokenValue(RandomUtil.generateRandomAlphanumericString());
             t.setTokenDate(LocalDate.now());
             t.setIpAddress(request.getRemoteAddr());
             t.setUserAgent(request.getHeader("User-Agent"));
