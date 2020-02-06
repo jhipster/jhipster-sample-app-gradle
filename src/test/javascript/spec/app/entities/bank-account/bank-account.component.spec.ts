@@ -16,8 +16,7 @@ describe('Component Tests', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [JhipsterGradleSampleApplicationTestModule],
-        declarations: [BankAccountComponent],
-        providers: []
+        declarations: [BankAccountComponent]
       })
         .overrideTemplate(BankAccountComponent, '')
         .compileComponents();

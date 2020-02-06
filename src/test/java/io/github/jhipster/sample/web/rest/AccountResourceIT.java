@@ -139,7 +139,7 @@ public class AccountResourceIT {
         restUserMockMvc.perform(get("/api/account")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.login").value("test"))
             .andExpect(jsonPath("$.firstName").value("john"))
             .andExpect(jsonPath("$.lastName").value("doe"))
@@ -174,7 +174,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
@@ -197,7 +197,7 @@ public class AccountResourceIT {
 
         restUserMockMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
@@ -221,7 +221,7 @@ public class AccountResourceIT {
 
         restUserMockMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
@@ -245,7 +245,7 @@ public class AccountResourceIT {
 
         restUserMockMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
@@ -269,7 +269,7 @@ public class AccountResourceIT {
 
         restUserMockMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(invalidUser)))
             .andExpect(status().isBadRequest());
 
@@ -309,14 +309,14 @@ public class AccountResourceIT {
         // First user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(firstUser)))
             .andExpect(status().isCreated());
 
         // Second (non activated) user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(secondUser)))
             .andExpect(status().isCreated());
 
@@ -328,7 +328,7 @@ public class AccountResourceIT {
         // Second (already activated) user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(secondUser)))
             .andExpect(status().is4xxClientError());
     }
@@ -350,7 +350,7 @@ public class AccountResourceIT {
         // Register first user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(firstUser)))
             .andExpect(status().isCreated());
 
@@ -371,7 +371,7 @@ public class AccountResourceIT {
         // Register second (non activated) user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(secondUser)))
             .andExpect(status().isCreated());
 
@@ -396,7 +396,7 @@ public class AccountResourceIT {
         // Register third (not activated) user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(userWithUpperCaseEmail)))
             .andExpect(status().isCreated());
 
@@ -410,7 +410,7 @@ public class AccountResourceIT {
         // Register 4th (already activated) user
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(secondUser)))
             .andExpect(status().is4xxClientError());
     }
@@ -431,7 +431,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/register")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
@@ -492,7 +492,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(userDTO)))
             .andExpect(status().isOk());
 
@@ -531,7 +531,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(userDTO)))
             .andExpect(status().isBadRequest());
 
@@ -570,7 +570,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(userDTO)))
             .andExpect(status().isBadRequest());
 
@@ -602,7 +602,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(userDTO)))
             .andExpect(status().isOk());
 
@@ -622,7 +622,7 @@ public class AccountResourceIT {
         userRepository.saveAndFlush(user);
 
         restMvc.perform(post("/api/account/change-password")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO("1"+currentPassword, "new password"))))
             .andExpect(status().isBadRequest());
 
@@ -643,7 +643,7 @@ public class AccountResourceIT {
         userRepository.saveAndFlush(user);
 
         restMvc.perform(post("/api/account/change-password")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, "new password"))))
             .andExpect(status().isOk());
 
@@ -665,7 +665,7 @@ public class AccountResourceIT {
         String newPassword = RandomStringUtils.random(ManagedUserVM.PASSWORD_MIN_LENGTH - 1);
 
         restMvc.perform(post("/api/account/change-password")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, newPassword))))
             .andExpect(status().isBadRequest());
 
@@ -687,7 +687,7 @@ public class AccountResourceIT {
         String newPassword = RandomStringUtils.random(ManagedUserVM.PASSWORD_MAX_LENGTH + 1);
 
         restMvc.perform(post("/api/account/change-password")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, newPassword))))
             .andExpect(status().isBadRequest());
 
@@ -707,7 +707,7 @@ public class AccountResourceIT {
         userRepository.saveAndFlush(user);
 
         restMvc.perform(post("/api/account/change-password")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(new PasswordChangeDTO(currentPassword, ""))))
             .andExpect(status().isBadRequest());
 
@@ -804,7 +804,7 @@ public class AccountResourceIT {
         restMvc.perform(
             post("/api/account/reset-password/init")
                 .content("password-reset-wrong-email@example.com"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -824,7 +824,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account/reset-password/finish")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(keyAndPassword)))
             .andExpect(status().isOk());
 
@@ -849,14 +849,13 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account/reset-password/finish")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(keyAndPassword)))
             .andExpect(status().isBadRequest());
 
         User updatedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
         assertThat(passwordEncoder.matches(keyAndPassword.getNewPassword(), updatedUser.getPassword())).isFalse();
     }
-
 
     @Test
     @Transactional
@@ -867,7 +866,7 @@ public class AccountResourceIT {
 
         restMvc.perform(
             post("/api/account/reset-password/finish")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .contentType(TestUtil.APPLICATION_JSON)
                 .content(TestUtil.convertObjectToJsonBytes(keyAndPassword)))
             .andExpect(status().isInternalServerError());
     }

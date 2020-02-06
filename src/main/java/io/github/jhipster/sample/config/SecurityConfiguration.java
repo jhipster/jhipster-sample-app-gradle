@@ -5,8 +5,6 @@ import io.github.jhipster.sample.security.*;
 import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.security.*;
 
-import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;

@@ -8,6 +8,7 @@ import { Session } from './session.model';
 @Injectable({ providedIn: 'root' })
 export class SessionsService {
   public resourceUrl = SERVER_API_URL + 'api/account/sessions/';
+
   constructor(private http: HttpClient) {}
 
   findAll(): Observable<Session[]> {
