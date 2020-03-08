@@ -6,13 +6,17 @@ jib {
         image = "jhipstergradlesampleapplication:latest"
     }
     container {
-        entrypoint = ["bash", "-c", "chmod +x /entrypoint.sh && sync && /entrypoint.sh"]
+        entrypoint = ["bash", "-c", "/entrypoint.sh"]
         ports = ["8080"]
         environment = [
             SPRING_OUTPUT_ANSI_ENABLED: "ALWAYS",
             JHIPSTER_SLEEP: "0"
         ]
         creationTime = "USE_CURRENT_TIMESTAMP"
+    }
+    extraDirectories {
+      paths = file("src/main/jib")
+      permissions = ["/entrypoint.sh": "755"]
     }
 }
 
