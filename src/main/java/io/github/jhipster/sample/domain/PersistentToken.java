@@ -19,7 +19,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "jhi_persistent_token")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PersistentToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -117,6 +117,7 @@ public class PersistentToken implements Serializable {
         return Objects.hashCode(series);
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "PersistentToken{" +

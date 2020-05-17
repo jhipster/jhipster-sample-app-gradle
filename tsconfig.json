@@ -23,6 +23,7 @@
   "angularCompilerOptions": {
     "genDir": "build/resources/main/aot",
     "fullTemplateTypeCheck": true,
+    "strictTemplates": true,
     "preserveWhitespaces": true
   }
 }

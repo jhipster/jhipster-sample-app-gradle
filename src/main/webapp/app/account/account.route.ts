@@ -15,12 +15,12 @@ const ACCOUNT_ROUTES = [
   passwordResetInitRoute,
   registerRoute,
   sessionsRoute,
-  settingsRoute
+  settingsRoute,
 ];
 
 export const accountState: Routes = [
   {
     path: '',
-    children: ACCOUNT_ROUTES
-  }
+    children: ACCOUNT_ROUTES,
+  },
 ];

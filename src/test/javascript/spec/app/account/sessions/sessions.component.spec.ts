@@ -19,7 +19,7 @@ describe('Component Tests', () => {
 
       fixture = TestBed.configureTestingModule({
         imports: [JhipsterGradleSampleApplicationTestModule],
-        declarations: [SessionsComponent]
+        declarations: [SessionsComponent],
       })
         .overrideTemplate(SessionsComponent, '')
         .createComponent(SessionsComponent);
@@ -31,7 +31,7 @@ describe('Component Tests', () => {
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
           of({
-            id: 'fuzzer'
+            id: 'fuzzer',
           })
         );
         spyOn(service, 'findAll').and.returnValue(of(sessions));
@@ -44,7 +44,7 @@ describe('Component Tests', () => {
         expect(comp.success).toBe(false);
         expect(comp.error).toBe(false);
         expect(comp.account).toEqual({
-          id: 'fuzzer'
+          id: 'fuzzer',
         });
         expect(comp.sessions).toEqual(sessions);
       })
@@ -55,7 +55,7 @@ describe('Component Tests', () => {
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
           of({
-            id: 'fuzzer'
+            id: 'fuzzer',
           })
         );
         spyOn(service, 'findAll').and.returnValue(of(sessions));
@@ -74,7 +74,7 @@ describe('Component Tests', () => {
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
           of({
-            id: 'fuzzer'
+            id: 'fuzzer',
           })
         );
         spyOn(service, 'findAll').and.returnValue(of(sessions));
@@ -94,7 +94,7 @@ describe('Component Tests', () => {
       fakeAsync((mockAccountService: MockAccountService, service: SessionsService) => {
         mockAccountService.spy('identity').and.returnValue(
           of({
-            id: 'fuzzer'
+            id: 'fuzzer',
           })
         );
         spyOn(service, 'findAll').and.returnValue(of(sessions));

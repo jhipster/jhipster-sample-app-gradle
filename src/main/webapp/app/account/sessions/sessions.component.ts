@@ -7,7 +7,7 @@ import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-sessions',
-  templateUrl: './sessions.component.html'
+  templateUrl: './sessions.component.html',
 })
 export class SessionsComponent implements OnInit {
   account: Account | null = null;

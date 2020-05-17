@@ -8,6 +8,6 @@ import { auditsRoute } from './audits.route';
 
 @NgModule({
   imports: [JhipsterGradleSampleApplicationSharedModule, RouterModule.forChild([auditsRoute])],
-  declarations: [AuditsComponent]
+  declarations: [AuditsComponent],
 })
 export class AuditsModule {}

@@ -100,7 +100,6 @@ public class OperationResourceIT {
     @Transactional
     public void createOperation() throws Exception {
         int databaseSizeBeforeCreate = operationRepository.findAll().size();
-
         // Create the Operation
         restOperationMockMvc.perform(post("/api/operations").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -145,6 +144,7 @@ public class OperationResourceIT {
 
         // Create the Operation, which fails.
 
+
         restOperationMockMvc.perform(post("/api/operations").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(operation)))
@@ -162,6 +162,7 @@ public class OperationResourceIT {
         operation.setAmount(null);
 
         // Create the Operation, which fails.
+
 
         restOperationMockMvc.perform(post("/api/operations").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -190,7 +191,6 @@ public class OperationResourceIT {
     
     @SuppressWarnings({"unchecked"})
     public void getAllOperationsWithEagerRelationshipsIsEnabled() throws Exception {
-        OperationResource operationResource = new OperationResource(operationRepositoryMock);
         when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         restOperationMockMvc.perform(get("/api/operations?eagerload=true"))
@@ -201,7 +201,6 @@ public class OperationResourceIT {
 
     @SuppressWarnings({"unchecked"})
     public void getAllOperationsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        OperationResource operationResource = new OperationResource(operationRepositoryMock);
         when(operationRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         restOperationMockMvc.perform(get("/api/operations?eagerload=true"))
@@ -225,7 +224,6 @@ public class OperationResourceIT {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()));
     }
-
     @Test
     @Transactional
     public void getNonExistingOperation() throws Exception {
@@ -268,8 +266,6 @@ public class OperationResourceIT {
     @Transactional
     public void updateNonExistingOperation() throws Exception {
         int databaseSizeBeforeUpdate = operationRepository.findAll().size();
-
-        // Create the Operation
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restOperationMockMvc.perform(put("/api/operations").with(csrf())
