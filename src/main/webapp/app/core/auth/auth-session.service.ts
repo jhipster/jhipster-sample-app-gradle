@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { Login } from 'app/core/login/login.model';
+import { Login } from 'app/login/login.model';
 
 export const LOGOUT_URL = SERVER_API_URL + 'api/logout';
 
@@ -16,7 +16,7 @@ export class AuthServerProvider {
     const data =
       `username=${encodeURIComponent(credentials.username)}` +
       `&password=${encodeURIComponent(credentials.password)}` +
-      `&remember-me=${credentials.rememberMe}` +
+      `&remember-me=${credentials.rememberMe ? 'true' : 'false'}` +
       '&submit=Login';
 
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');

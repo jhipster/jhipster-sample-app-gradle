@@ -1,21 +1,19 @@
 package io.github.jhipster.sample.security;
 
+import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 /**
  * Utility class for Spring Security.
  */
 public final class SecurityUtils {
 
-    private SecurityUtils() {
-    }
+    private SecurityUtils() {}
 
     /**
      * Get the login of the current user.
@@ -39,7 +37,6 @@ public final class SecurityUtils {
         return null;
     }
 
-
     /**
      * Check if a user is authenticated.
      *
@@ -47,8 +44,7 @@ public final class SecurityUtils {
      */
     public static boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null &&
-            getAuthorities(authentication).noneMatch(AuthoritiesConstants.ANONYMOUS::equals);
+        return authentication != null && getAuthorities(authentication).noneMatch(AuthoritiesConstants.ANONYMOUS::equals);
     }
 
     /**
@@ -61,13 +57,10 @@ public final class SecurityUtils {
      */
     public static boolean isCurrentUserInRole(String authority) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null &&
-            getAuthorities(authentication).anyMatch(authority::equals);
+        return authentication != null && getAuthorities(authentication).anyMatch(authority::equals);
     }
 
     private static Stream<String> getAuthorities(Authentication authentication) {
-        return authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority);
+        return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
     }
-
 }
