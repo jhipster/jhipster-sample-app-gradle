@@ -171,7 +171,7 @@ gitProperties {
 }
 
 checkstyle {
-    toolVersion '${checkstyleVersion}'
+    toolVersion "${checkstyleVersion}"
     configFile file("checkstyle.xml")
     checkstyleTest.enabled = false
 }
@@ -285,7 +285,7 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.7"
+    gradleVersion = "6.8"
 }
 
 
