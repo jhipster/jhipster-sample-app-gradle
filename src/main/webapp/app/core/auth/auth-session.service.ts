@@ -3,14 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'app/app.constants';
+import { ApplicationConfigService } from '../config/application-config.service';
 import { Login } from 'app/login/login.model';
-
-export const LOGOUT_URL = SERVER_API_URL + 'api/logout';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   login(credentials: Login): Observable<{}> {
     const data =
@@ -21,15 +19,15 @@ export class AuthServerProvider {
 
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(SERVER_API_URL + 'api/authentication', data, { headers });
+    return this.http.post(this.applicationConfigService.getEndpointFor('api/authentication'), data, { headers });
   }
 
   logout(): Observable<void> {
     // logout from the server
-    return this.http.post(LOGOUT_URL, {}).pipe(
+    return this.http.post(this.applicationConfigService.getEndpointFor('api/logout'), {}).pipe(
       map(() => {
         // to get a new csrf token call the api
-        this.http.get(SERVER_API_URL + 'api/account').subscribe();
+        this.http.get(this.applicationConfigService.getEndpointFor('api/account')).subscribe();
       })
     );
   }
