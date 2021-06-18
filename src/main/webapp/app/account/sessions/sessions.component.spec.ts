@@ -42,7 +42,7 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: AccountService, service: SessionsService) => {
         mockAccountService.identity = jest.fn(() => of(account));
-        spyOn(service, 'findAll').and.returnValue(of(sessions));
+        jest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
 
         comp.ngOnInit();
         tick();
@@ -60,8 +60,8 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: AccountService, service: SessionsService) => {
         mockAccountService.identity = jest.fn(() => of(account));
-        spyOn(service, 'findAll').and.returnValue(of(sessions));
-        spyOn(service, 'delete').and.returnValue(of({}));
+        jest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+        jest.spyOn(service, 'delete').mockReturnValue(of({}));
 
         comp.ngOnInit();
         comp.invalidate('xyz');
@@ -75,8 +75,8 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: AccountService, service: SessionsService) => {
         mockAccountService.identity = jest.fn(() => of(account));
-        spyOn(service, 'findAll').and.returnValue(of(sessions));
-        spyOn(service, 'delete').and.returnValue(throwError({}));
+        jest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+        jest.spyOn(service, 'delete').mockReturnValue(throwError({}));
 
         comp.ngOnInit();
         comp.invalidate('xyz');
@@ -91,8 +91,8 @@ describe('Component Tests', () => {
       [AccountService, SessionsService],
       fakeAsync((mockAccountService: AccountService, service: SessionsService) => {
         mockAccountService.identity = jest.fn(() => of(account));
-        spyOn(service, 'findAll').and.returnValue(of(sessions));
-        spyOn(service, 'delete').and.returnValue(of({}));
+        jest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+        jest.spyOn(service, 'delete').mockReturnValue(of({}));
 
         comp.ngOnInit();
         comp.invalidate('xyz');

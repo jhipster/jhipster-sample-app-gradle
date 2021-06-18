@@ -354,8 +354,6 @@ class OperationResourceIT {
         Operation partialUpdatedOperation = new Operation();
         partialUpdatedOperation.setId(operation.getId());
 
-        partialUpdatedOperation.description(UPDATED_DESCRIPTION).amount(UPDATED_AMOUNT);
-
         restOperationMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedOperation.getId())
@@ -370,8 +368,8 @@ class OperationResourceIT {
         assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
         Operation testOperation = operationList.get(operationList.size() - 1);
         assertThat(testOperation.getDate()).isEqualTo(DEFAULT_DATE);
-        assertThat(testOperation.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testOperation.getAmount()).isEqualByComparingTo(UPDATED_AMOUNT);
+        assertThat(testOperation.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testOperation.getAmount()).isEqualByComparingTo(DEFAULT_AMOUNT);
     }
 
     @Test

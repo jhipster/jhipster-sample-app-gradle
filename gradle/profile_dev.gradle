@@ -33,6 +33,7 @@ task webapp(type: NpmTask) {
     outputs.dir("build/resources/main/static/")
 
     dependsOn npmInstall
+
     args = ["run", "webapp:build"]
     environment = [APP_VERSION: project.version]
 }

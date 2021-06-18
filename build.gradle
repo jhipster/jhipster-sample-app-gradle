@@ -30,7 +30,7 @@ description = ""
 
 sourceCompatibility=11
 targetCompatibility=11
-assert System.properties["java.specification.version"] == "1.8" || "1.9" || "10" || "11" || "12" || "13" || "14" || "15"
+assert System.properties["java.specification.version"] == "1.8" || "1.9" || "10" || "11" || "12" || "13" || "14" || "15" || "16"
 
 apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
@@ -85,10 +85,10 @@ springBoot {
 test {
     useJUnitPlatform()
     exclude "**/*IT*", "**/*IntTest*"
-
     testLogging {
         events 'FAILED', 'SKIPPED'
     }
+    jvmArgs += '-Djava.security.egd=file:/dev/./urandom -Xmx256m'
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
@@ -100,11 +100,10 @@ task integrationTest(type: Test) {
     description = "Execute integration tests."
     group = "verification"
     include "**/*IT*", "**/*IntTest*"
-
     testLogging {
         events 'FAILED', 'SKIPPED'
     }
-
+    jvmArgs += '-Djava.security.egd=file:/dev/./urandom -Xmx256m'
     if (project.hasProperty('testcontainers')) {
         environment 'spring.profiles.active', 'testcontainers'
     }
@@ -181,7 +180,7 @@ configurations {
         resolutionStrategy {
             // Inherited version from Spring Boot can't be used because of regressions:
             // To be removed as soon as spring-boot use the same version
-            force 'org.liquibase:liquibase-core:4.3.2'
+            force 'org.liquibase:liquibase-core:4.3.5'
         }
     }
 }
@@ -238,7 +237,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.zalando:problem-spring-web"
     implementation "org.springframework.security:spring-security-config"
-
     implementation "org.springframework.security:spring-security-data"
     implementation "org.springframework.security:spring-security-web"
     implementation ("io.springfox:springfox-oas")
@@ -258,6 +256,7 @@ dependencies {
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunitJunit5Version}"
     testImplementation "com.h2database:h2"
     liquibaseRuntime "com.h2database:h2"
+    developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
@@ -278,15 +277,19 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.8.3"
+    gradleVersion = "7.0.2"
 }
 
 
 if (project.hasProperty("nodeInstall")) {
+    // Workaround node grade plugin not working on apple silicon https://github.com/node-gradle/gradle-node-plugin/issues/154
+    OperatingSystem os = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem();
+    Architecture arch = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture();
+    Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
     node {
-        version = "14.16.0"
-        npmVersion = "7.8.0"
-        download = true
+        version = "14.17.1"
+        npmVersion = "7.18.1"
+        download = downloadNode
     }
 }
 compileJava.dependsOn processResources
