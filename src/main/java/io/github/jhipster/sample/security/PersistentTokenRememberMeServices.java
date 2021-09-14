@@ -117,18 +117,16 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
         log.debug("Creating new persistent login for user {}", login);
         PersistentToken token = userRepository
             .findOneByLogin(login)
-            .map(
-                u -> {
-                    PersistentToken t = new PersistentToken();
-                    t.setSeries(RandomUtil.generateRandomAlphanumericString());
-                    t.setUser(u);
-                    t.setTokenValue(RandomUtil.generateRandomAlphanumericString());
-                    t.setTokenDate(LocalDate.now());
-                    t.setIpAddress(request.getRemoteAddr());
-                    t.setUserAgent(request.getHeader("User-Agent"));
-                    return t;
-                }
-            )
+            .map(u -> {
+                PersistentToken t = new PersistentToken();
+                t.setSeries(RandomUtil.generateRandomAlphanumericString());
+                t.setUser(u);
+                t.setTokenValue(RandomUtil.generateRandomAlphanumericString());
+                t.setTokenDate(LocalDate.now());
+                t.setIpAddress(request.getRemoteAddr());
+                t.setUserAgent(request.getHeader("User-Agent"));
+                return t;
+            })
             .orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
         try {
             persistentTokenRepository.saveAndFlush(token);

@@ -9,12 +9,11 @@ import io.github.jhipster.sample.service.MailService;
 import io.github.jhipster.sample.service.UserService;
 import io.github.jhipster.sample.service.dto.AdminUserDTO;
 import io.github.jhipster.sample.service.dto.PasswordChangeDTO;
-import io.github.jhipster.sample.service.dto.UserDTO;
 import io.github.jhipster.sample.web.rest.errors.*;
 import io.github.jhipster.sample.web.rest.vm.KeyAndPasswordVM;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -192,22 +191,21 @@ public class AccountResource {
      *   cookie.
      *
      * @param series the series of an existing session.
-     * @throws UnsupportedEncodingException if the series couldn't be URL decoded.
+     * @throws IllegalArgumentException if the series couldn't be URL decoded.
      */
     @DeleteMapping("/account/sessions/{series}")
-    public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
-        String decodedSeries = URLDecoder.decode(series, "UTF-8");
+    public void invalidateSession(@PathVariable String series) {
+        String decodedSeries = URLDecoder.decode(series, StandardCharsets.UTF_8);
         SecurityUtils
             .getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
-            .ifPresent(
-                u ->
-                    persistentTokenRepository
-                        .findByUser(u)
-                        .stream()
-                        .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                        .findAny()
-                        .ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries))
+            .ifPresent(u ->
+                persistentTokenRepository
+                    .findByUser(u)
+                    .stream()
+                    .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
+                    .findAny()
+                    .ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries))
             );
     }
 
