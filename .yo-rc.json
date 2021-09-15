@@ -12,6 +12,8 @@
     "prodDatabaseType": "mysql",
     "useCompass": false,
     "buildTool": "gradle",
+    "enableGradleEnterprise": true,
+    "gradleEnterpriseHost": "https://ge.jhipster.tech",
     "rememberMeKey": "e48612ba1fd46fa7089fe9f5085d8d164b53ffb2",
     "searchEngine": false,
     "enableTranslation": true,
@@ -47,7 +49,6 @@
     "pages": [],
     "nativeLanguage": "en",
     "entities": ["BankAccount", "Label", "Operation"],
-    "devServerPort": 4200,
-    "enableGradleEnterprise": false
+    "devServerPort": 4200
   }
 }
