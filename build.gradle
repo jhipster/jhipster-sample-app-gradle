@@ -31,7 +31,7 @@ description = ""
 
 sourceCompatibility=11
 targetCompatibility=11
-assert System.properties["java.specification.version"] == "1.8" || "1.9" || "10" || "11" || "12" || "13" || "14" || "15" || "16"
+assert System.properties["java.specification.version"] == "1.8" || "1.9" || "10" || "11" || "12" || "13" || "14" || "15" || "16" || "17"
 
 apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
@@ -186,7 +186,7 @@ configurations {
         resolutionStrategy {
             // Inherited version from Spring Boot can't be used because of regressions:
             // To be removed as soon as spring-boot use the same version
-            force 'org.liquibase:liquibase-core:4.4.3'
+            force 'org.liquibase:liquibase-core:4.5.0'
         }
     }
 }
@@ -294,7 +294,7 @@ if (project.hasProperty("nodeInstall")) {
     Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
     node {
         version = "14.17.6"
-        npmVersion = "7.23.0"
+        npmVersion = "7.24.2"
         download = downloadNode
     }
 }
