@@ -31,7 +31,7 @@ description = ""
 
 sourceCompatibility=11
 targetCompatibility=11
-assert System.properties["java.specification.version"] == "1.8" || "1.9" || "10" || "11" || "12" || "13" || "14" || "15" || "16" || "17"
+assert System.properties["java.specification.version"] == "11" || "12" || "13" || "14" || "15" || "16" || "17"
 
 apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
@@ -294,7 +294,7 @@ if (project.hasProperty("nodeInstall")) {
     Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
     node {
         version = "14.17.6"
-        npmVersion = "7.24.2"
+        npmVersion = "8.1.0"
         download = downloadNode
     }
 }
