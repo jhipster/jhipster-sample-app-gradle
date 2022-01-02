@@ -192,7 +192,8 @@ configurations {
 }
 
 repositories {
-    mavenLocal()
+    // Local maven repository is required for libraries built locally with maven like development jhipster-bom.
+    // mavenLocal()
     mavenCentral()
     //jhipster-needle-gradle-repositories - JHipster will add additional repositories
 }
@@ -245,9 +246,7 @@ dependencies {
     implementation "org.springframework.security:spring-security-config"
     implementation "org.springframework.security:spring-security-data"
     implementation "org.springframework.security:spring-security-web"
-    implementation ("io.springfox:springfox-oas")
-    implementation ("io.springfox:springfox-swagger2")
-    implementation "io.springfox:springfox-bean-validators"
+    implementation ("org.springdoc:springdoc-openapi-webmvc-core")
     implementation "mysql:mysql-connector-java"
     liquibaseRuntime "mysql:mysql-connector-java"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
@@ -283,7 +282,7 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "7.0.2"
+    gradleVersion = "7.3.1"
 }
 
 
@@ -293,10 +292,23 @@ if (project.hasProperty("nodeInstall")) {
     Architecture arch = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture();
     Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
     node {
-        version = "14.18.1"
-        npmVersion = "8.1.4"
+        version = "16.13.1"
+        npmVersion = "8.3.0"
         download = downloadNode
     }
+
+    // Copy local node and npm to a fixed location for npmw
+    def fixedNode = tasks.register("fixedNode", Copy) {
+        from nodeSetup
+        into 'build/node'
+    }
+    tasks.named("nodeSetup").configure { finalizedBy fixedNode }
+
+    def fixedNpm = tasks.register("fixedNpm", Copy) {
+        from npmSetup
+        into 'build/node'
+    }
+    tasks.named("npmSetup").configure { finalizedBy fixedNpm }
 }
 compileJava.dependsOn processResources
 processResources.dependsOn bootBuildInfo

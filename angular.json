@@ -108,6 +108,11 @@
   },
   "defaultProject": "jhipster-gradle-sample-application",
   "cli": {
+    "cache": {
+      "enabled": true,
+      "path": "./build/",
+      "environment": "all"
+    },
     "packageManager": "npm"
   }
 }
