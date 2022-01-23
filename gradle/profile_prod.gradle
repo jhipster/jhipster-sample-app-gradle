@@ -19,10 +19,6 @@ bootRun {
     args = []
 }
 
-task webapp_test(type: NpmTask, dependsOn: "npm_install") {
-    args = ["run", "webapp:test"]
-}
-
 task webapp(type: NpmTask, dependsOn: "npm_install") {
     args = ["run", "webapp:prod"]
     environment = [APP_VERSION: project.version]
@@ -41,6 +37,5 @@ processResources {
     }
 }
 
-test.dependsOn webapp_test
 processResources.dependsOn webapp
 bootJar.dependsOn processResources

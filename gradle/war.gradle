@@ -1,7 +1,7 @@
 apply plugin: "war"
 
 bootWar {
-    mainClassName = "io.github.jhipster.sample.JhipsterGradleSampleApplicationApp"
+    mainClass = "io.github.jhipster.sample.JhipsterGradleSampleApplicationApp"
     includes = ["WEB-INF/**", "META-INF/**"]
     webXml = file("${project.rootDir}/src/main/webapp/WEB-INF/web.xml")
 }
