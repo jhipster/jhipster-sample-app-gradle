@@ -11,6 +11,10 @@ if (project.hasProperty("api-docs")) {
     profiles += ",api-docs"
 }
 
+if (project.hasProperty("e2e")) {
+    profiles += ",e2e"
+}
+
 springBoot {
     buildInfo()
 }
