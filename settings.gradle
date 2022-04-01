@@ -3,6 +3,7 @@ pluginManagement {
     repositories {
         maven { url 'https://repo.spring.io/milestone' }
         gradlePluginPortal()
+        //jhipster-needle-gradle-plugin-management-repositories - JHipster will add additional entries here
     }
     plugins {
         id 'org.springframework.boot' version "${springBootVersion}"
@@ -15,6 +16,7 @@ pluginManagement {
         id 'com.github.andygoossens.gradle-modernizer-plugin' version "${modernizerPluginVersion}"
         id "com.gradle.enterprise" version "${gradleEnterprisePluginVersion}"
         id "com.gradle.common-custom-user-data-gradle-plugin" version "${gradleCommonCustomUserDataPluginVersion}"
+        //jhipster-needle-gradle-plugin-management-plugins - JHipster will add additional entries here
     }
 }
 
@@ -22,7 +24,7 @@ plugins {
     id 'com.gradle.enterprise'
     id 'com.gradle.common-custom-user-data-gradle-plugin'
 }
-    
+
 gradleEnterprise {
     server = "https://ge.jhipster.tech"
     buildScan {
