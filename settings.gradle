@@ -1,6 +1,7 @@
 
 pluginManagement {
     repositories {
+        mavenCentral()
         maven { url 'https://repo.spring.io/milestone' }
         gradlePluginPortal()
         //jhipster-needle-gradle-plugin-management-repositories - JHipster will add additional entries here
