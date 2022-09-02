@@ -1,5 +1,4 @@
 {
-  "include": [],
   "compilerOptions": {
     "baseUrl": "src/main/webapp/",
     "outDir": "./build/resources/main/static/",

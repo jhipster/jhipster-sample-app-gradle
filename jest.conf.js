@@ -17,10 +17,13 @@ module.exports = {
   cacheDirectory: '<rootDir>/build/jest-cache',
   coverageDirectory: '<rootDir>/build/test-results/',
   moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: `<rootDir>/${baseUrl}/` }),
-  reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/build/test-results/', outputName: 'TESTS-results-jest.xml' }]],
-  testResultsProcessor: 'jest-sonar-reporter',
+  reporters: [
+    'default',
+    ['jest-junit', { outputDirectory: '<rootDir>/build/test-results/', outputName: 'TESTS-results-jest.xml' }],
+    ['jest-sonar', { outputDirectory: './build/test-results/jest', outputName: 'TESTS-results-sonar.xml' }],
+  ],
   testMatch: ['<rootDir>/src/main/webapp/app/**/@(*.)@(spec.ts)'],
   testEnvironmentOptions: {
-    url: 'http://localhost/',
+    url: 'https://jhipster.tech',
   },
 };

@@ -169,8 +169,7 @@ configurations {
         resolutionStrategy {
             // Inherited version from Spring Boot can't be used because of regressions:
             // To be removed as soon as spring-boot use the same version
-            force 'org.liquibase:liquibase-core:4.12.0'
-            force 'com.h2database:h2:1.4.200'
+            force 'org.liquibase:liquibase-core:4.15.0'
         }
     }
 }
@@ -262,14 +261,10 @@ task webapp_test(type: NpmTask, dependsOn: "npm_install") {
 }
 
 if (project.hasProperty("nodeInstall")) {
-    // Workaround node grade plugin not working on apple silicon https://github.com/node-gradle/gradle-node-plugin/issues/154
-    OperatingSystem os = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem();
-    Architecture arch = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture();
-    Boolean downloadNode = !os.isMacOsX() || arch.isAmd64()
     node {
-        version = "16.16.0"
-        npmVersion = "8.15.1"
-        download = downloadNode
+        version = "16.17.0"
+        npmVersion = "8.19.1"
+        download = true
     }
 
     // Copy local node and npm to a fixed location for npmw
