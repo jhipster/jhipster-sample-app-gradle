@@ -26,7 +26,7 @@
         <tr *ngFor="let session of sessions">
           <td>{{ session.ipAddress }}</td>
           <td>{{ session.userAgent }}</td>
-          <td>{{ session.tokenDate | date: 'longDate' }}</td>
+          <td>{{ session.tokenDate | date : 'longDate' }}</td>
           <td>
             <button type="submit" class="btn btn-primary" (click)="invalidate(session.series)" jhiTranslate="sessions.table.button">
               Invalidate

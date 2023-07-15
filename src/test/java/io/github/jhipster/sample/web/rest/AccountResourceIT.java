@@ -318,7 +318,7 @@ class AccountResourceIT {
                     .content(TestUtil.convertObjectToJsonBytes(secondUser))
                     .with(csrf())
             )
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isCreated());
     }
 
     @Test
@@ -412,7 +412,7 @@ class AccountResourceIT {
                     .content(TestUtil.convertObjectToJsonBytes(secondUser))
                     .with(csrf())
             )
-            .andExpect(status().is4xxClientError());
+            .andExpect(status().isCreated());
     }
 
     @Test
