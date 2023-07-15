@@ -256,7 +256,7 @@ class OperationResourceIT {
         int databaseSizeBeforeUpdate = operationRepository.findAll().size();
 
         // Update the operation
-        Operation updatedOperation = operationRepository.findById(operation.getId()).get();
+        Operation updatedOperation = operationRepository.findById(operation.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedOperation are not directly saved in db
         em.detach(updatedOperation);
         updatedOperation.date(UPDATED_DATE).description(UPDATED_DESCRIPTION).amount(UPDATED_AMOUNT);
@@ -354,7 +354,7 @@ class OperationResourceIT {
         Operation partialUpdatedOperation = new Operation();
         partialUpdatedOperation.setId(operation.getId());
 
-        partialUpdatedOperation.description(UPDATED_DESCRIPTION);
+        partialUpdatedOperation.date(UPDATED_DATE).amount(UPDATED_AMOUNT);
 
         restOperationMockMvc
             .perform(
@@ -369,9 +369,9 @@ class OperationResourceIT {
         List<Operation> operationList = operationRepository.findAll();
         assertThat(operationList).hasSize(databaseSizeBeforeUpdate);
         Operation testOperation = operationList.get(operationList.size() - 1);
-        assertThat(testOperation.getDate()).isEqualTo(DEFAULT_DATE);
-        assertThat(testOperation.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testOperation.getAmount()).isEqualByComparingTo(DEFAULT_AMOUNT);
+        assertThat(testOperation.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testOperation.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testOperation.getAmount()).isEqualByComparingTo(UPDATED_AMOUNT);
     }
 
     @Test

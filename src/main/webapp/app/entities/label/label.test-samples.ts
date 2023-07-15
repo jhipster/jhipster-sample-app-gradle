@@ -1,22 +1,22 @@
 import { ILabel, NewLabel } from './label.model';
 
 export const sampleWithRequiredData: ILabel = {
-  id: 28739,
-  label: 'Buckinghamshire Southeast Soft',
+  id: 9417,
+  label: 'Northwest Southwest Shoes',
 };
 
 export const sampleWithPartialData: ILabel = {
-  id: 26484,
-  label: 'blah Borders',
+  id: 2445,
+  label: 'Usability',
 };
 
 export const sampleWithFullData: ILabel = {
-  id: 96746,
-  label: 'penalise',
+  id: 1959,
+  label: 'Functionality lavender Northeast',
 };
 
 export const sampleWithNewData: NewLabel = {
-  label: 'lavender',
+  label: 'viral Southwest override',
   id: null,
 };
 

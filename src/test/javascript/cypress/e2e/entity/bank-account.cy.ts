@@ -15,7 +15,7 @@ describe('BankAccount e2e test', () => {
   const bankAccountPageUrlPattern = new RegExp('/bank-account(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const bankAccountSample = { name: 'Practical intuitive Steel', balance: 71857 };
+  const bankAccountSample = { name: 'Latin Practical platforms', balance: 7871 };
 
   let bankAccount;
 
@@ -157,11 +157,11 @@ describe('BankAccount e2e test', () => {
     });
 
     it('should create an instance of BankAccount', () => {
-      cy.get(`[data-cy="name"]`).type('XSS');
-      cy.get(`[data-cy="name"]`).should('have.value', 'XSS');
+      cy.get(`[data-cy="name"]`).type('brr foil digital');
+      cy.get(`[data-cy="name"]`).should('have.value', 'brr foil digital');
 
-      cy.get(`[data-cy="balance"]`).type('57302');
-      cy.get(`[data-cy="balance"]`).should('have.value', '57302');
+      cy.get(`[data-cy="balance"]`).type('15610');
+      cy.get(`[data-cy="balance"]`).should('have.value', '15610');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
