@@ -3,11 +3,11 @@ package io.github.jhipster.sample.security;
 import io.github.jhipster.sample.domain.PersistentToken;
 import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -177,7 +177,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
             // No series match, so we can't authenticate using this cookie
             throw new RememberMeAuthenticationException("No persistent token found for series id: " + presentedSeries);
         }
-        PersistentToken token = optionalToken.orElseThrow();
+        PersistentToken token = optionalToken.get();
         // We have a match for this user/series combination
         log.info("presentedToken={} / tokenValue={}", presentedToken, token.getTokenValue());
         if (!presentedToken.equals(token.getTokenValue())) {

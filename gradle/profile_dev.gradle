@@ -1,40 +1,34 @@
 sourceSets {
     test {
         java {
-            exclude 'io/github/jhipster/sample//config/MysqlTestContainer.java'
+            exclude 'io/github/jhipster/sample/config/MysqlTestContainer.java'
         }
     }
 }
-
-configurations {
-  all {
-    resolutionStrategy {
-      // TODO drop forced version. Refer to https://github.com/jhipster/generator-jhipster/issues/22579
-      force "org.hibernate.orm:hibernate-core:${hibernateVersion}"
-      // TODO drop forced version. Refer to https://github.com/jhipster/generator-jhipster/issues/22579
-      force "org.hibernate.orm:hibernate-jcache:${hibernateVersion}"
-    }
-  }
-}
-
 dependencies {
     developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
     implementation "com.h2database:h2"
     testImplementation "org.testcontainers:mysql"
 }
 
-ext {
-    springProfiles = "dev" + springProfiles
+def profiles = "dev"
+if (project.hasProperty("no-liquibase")) {
+    profiles += ",no-liquibase"
+}
+if (project.hasProperty("tls")) {
+    profiles += ",tls"
 }
 
 springBoot {
     buildInfo {
-        excludes = ['time']
+        properties {
+            time = null
+        }
     }
 }
 
 bootRun {
-    args = ["--spring.profiles.active=${springProfiles}"]
+    args = ["--spring.profiles.active=${profiles}"]
 }
 
 task webapp(type: NpmTask) {
@@ -45,17 +39,17 @@ task webapp(type: NpmTask) {
     inputs.files("build.gradle")
         .withPropertyName('build.gradle')
         .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("angular.json")
-        .withPropertyName('angular.json')
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("tsconfig.json", "tsconfig.app.json")
-        .withPropertyName("tsconfig")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.dir("webpack/")
-        .withPropertyName("webpack/")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.dir("src/main/webapp/")
         .withPropertyName("webapp-source-dir")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.files("tsconfig.json")
+        .withPropertyName("tsconfig")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+
+    def webpackDevFiles = fileTree("webpack/")
+    webpackDevFiles.exclude("webpack.prod.js")
+    inputs.files(webpackDevFiles)
+        .withPropertyName("webpack-dir")
         .withPathSensitivity(PathSensitivity.RELATIVE)
     outputs.dir("build/resources/main/static/")
         .withPropertyName("webapp-build-dir")
@@ -68,13 +62,13 @@ task webapp(type: NpmTask) {
 
 processResources {
     inputs.property('version', version)
-    inputs.property('springProfiles', springProfiles)
+    inputs.property('springProfiles', profiles)
     filesMatching("**/application.yml") {
         filter {
             it.replace("#project.version#", version)
         }
         filter {
-            it.replace("#spring.profiles.active#", springProfiles)
+            it.replace("#spring.profiles.active#", profiles)
         }
     }
 }
@@ -93,7 +87,7 @@ task integrationTest(type: Test) {
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
-    reports.html.required = false
+    reports.html.enabled = false
 }
 integrationTest.dependsOn test
 

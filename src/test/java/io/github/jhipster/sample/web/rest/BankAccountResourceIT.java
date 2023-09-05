@@ -11,12 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import io.github.jhipster.sample.IntegrationTest;
 import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -248,7 +248,7 @@ class BankAccountResourceIT {
         int databaseSizeBeforeUpdate = bankAccountRepository.findAll().size();
 
         // Update the bankAccount
-        BankAccount updatedBankAccount = bankAccountRepository.findById(bankAccount.getId()).orElseThrow();
+        BankAccount updatedBankAccount = bankAccountRepository.findById(bankAccount.getId()).get();
         // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
         em.detach(updatedBankAccount);
         updatedBankAccount.name(UPDATED_NAME).balance(UPDATED_BALANCE);
@@ -345,7 +345,7 @@ class BankAccountResourceIT {
         BankAccount partialUpdatedBankAccount = new BankAccount();
         partialUpdatedBankAccount.setId(bankAccount.getId());
 
-        partialUpdatedBankAccount.balance(UPDATED_BALANCE);
+        partialUpdatedBankAccount.name(UPDATED_NAME).balance(UPDATED_BALANCE);
 
         restBankAccountMockMvc
             .perform(
@@ -360,7 +360,7 @@ class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeUpdate);
         BankAccount testBankAccount = bankAccountList.get(bankAccountList.size() - 1);
-        assertThat(testBankAccount.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testBankAccount.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testBankAccount.getBalance()).isEqualByComparingTo(UPDATED_BALANCE);
     }
 

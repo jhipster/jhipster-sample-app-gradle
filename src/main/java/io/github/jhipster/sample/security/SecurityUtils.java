@@ -29,10 +29,11 @@ public final class SecurityUtils {
     private static String extractPrincipal(Authentication authentication) {
         if (authentication == null) {
             return null;
-        } else if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
             return springSecurityUser.getUsername();
-        } else if (authentication.getPrincipal() instanceof String s) {
-            return s;
+        } else if (authentication.getPrincipal() instanceof String) {
+            return (String) authentication.getPrincipal();
         }
         return null;
     }
