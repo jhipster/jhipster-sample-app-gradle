@@ -26,9 +26,6 @@ spring:
     host: localhost
   main:
     allow-bean-definition-overriding: true
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
   messages:
     basename: i18n/messages
   task:
@@ -67,7 +64,7 @@ jhipster:
       enabled: false
       host: localhost
       port: 5000
-      queue-size: 512
+      ring-buffer-size: 512
   security:
     remember-me:
       # security key (this key should be unique for your application, and kept secret)
