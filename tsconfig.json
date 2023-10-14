@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src/main/webapp/",
-    "outDir": "./build/resources/main/static/",
+    "outDir": "./build/out-tsc/root",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,

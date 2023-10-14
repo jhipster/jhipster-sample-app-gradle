@@ -23,7 +23,7 @@ liquibase {
   activities {
     main {
       driver "org.h2.Driver"
-      url "jdbc:h2:tcp://localhost:18080/mem:jhipstergradlesampleapplication"
+      url "jdbc:h2:tcp://localhost:18080/mem:jhipsterGradleSampleApplication"
       username "jhipsterGradleSampleApplication"
       changelogFile "src/main/resources/config/liquibase/master.xml"
       logLevel "debug"
@@ -31,7 +31,7 @@ liquibase {
     }
     diffLog {
       driver "org.h2.Driver"
-      url "jdbc:h2:tcp://localhost:18080/mem:jhipstergradlesampleapplication"
+      url "jdbc:h2:tcp://localhost:18080/mem:jhipsterGradleSampleApplication"
       username "jhipsterGradleSampleApplication"
       changelogFile project.ext.diffChangelogFile
       referenceUrl "hibernate:spring:io.github.jhipster.sample.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
@@ -51,7 +51,7 @@ configurations {
     resolutionStrategy {
       // Inherited version from Spring Boot can't be used because of regressions:
       // To be removed as soon as spring-boot use the same version
-      force 'org.liquibase:liquibase-core:4.23.1'
+      force 'org.liquibase:liquibase-core:4.24.0'
     }
   }
 }
