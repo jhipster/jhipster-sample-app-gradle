@@ -273,8 +273,8 @@ task webapp_test(type: NpmTask) {
 
 if (project.hasProperty("nodeInstall")) {
     node {
-        version = "18.18.1"
-        npmVersion = "10.2.0"
+        version = "18.18.2"
+        npmVersion = "10.2.2"
         download = true
     }
 
