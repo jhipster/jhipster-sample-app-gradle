@@ -27,7 +27,7 @@
     "gradleEnterpriseHost": "https://ge.jhipster.tech",
     "hibernateCache": "ehcache",
     "jhiPrefix": "jhi",
-    "jhipsterVersion": "8.0.0",
+    "jhipsterVersion": "8.1.0",
     "languages": ["en"],
     "messageBroker": false,
     "nativeLanguage": "en",

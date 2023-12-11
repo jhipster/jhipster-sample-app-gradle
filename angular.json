@@ -76,15 +76,15 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "jhipster-gradle-sample-application:build:development",
+            "buildTarget": "jhipster-gradle-sample-application:build:development",
             "port": 9060
           },
           "configurations": {
             "production": {
-              "browserTarget": "jhipster-gradle-sample-application:build:production"
+              "buildTarget": "jhipster-gradle-sample-application:build:production"
             },
             "development": {
-              "browserTarget": "jhipster-gradle-sample-application:build:development"
+              "buildTarget": "jhipster-gradle-sample-application:build:development"
             }
           },
           "defaultConfiguration": "development"
