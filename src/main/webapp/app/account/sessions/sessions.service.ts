@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,18 +7,16 @@ import { Session } from './session.model';
 
 @Injectable({ providedIn: 'root' })
 export class SessionsService {
-  private resourceUrl = this.applicationConfigService.getEndpointFor('api/account/sessions/');
+  private http = inject(HttpClient);
+  private applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService,
-  ) {}
+  private resourceUrl = this.applicationConfigService.getEndpointFor('api/account/sessions');
 
   findAll(): Observable<Session[]> {
     return this.http.get<Session[]>(this.resourceUrl);
   }
 
   delete(series: string): Observable<{}> {
-    return this.http.delete(`${this.resourceUrl}${series}`);
+    return this.http.delete(`${this.resourceUrl}/${series}`);
   }
 }

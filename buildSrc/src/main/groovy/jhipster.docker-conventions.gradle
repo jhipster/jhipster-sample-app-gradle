@@ -1,3 +1,7 @@
+plugins {
+    id "com.google.cloud.tools.jib"
+}
+
 jib {
     from {
         image = "eclipse-temurin:17-jre-focal"
@@ -26,4 +30,3 @@ jib {
       permissions = ["/entrypoint.sh": "755"]
     }
 }
-

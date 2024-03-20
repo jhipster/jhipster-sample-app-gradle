@@ -126,8 +126,7 @@ public class AccountResource {
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody AdminUserDTO userDTO) {
-        String userLogin = SecurityUtils
-            .getCurrentUserLogin()
+        String userLogin = SecurityUtils.getCurrentUserLogin()
             .orElseThrow(() -> new AccountResourceException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.orElseThrow().getLogin().equalsIgnoreCase(userLogin))) {
@@ -196,16 +195,16 @@ public class AccountResource {
     @DeleteMapping("/account/sessions/{series}")
     public void invalidateSession(@PathVariable("series") String series) {
         String decodedSeries = URLDecoder.decode(series, StandardCharsets.UTF_8);
-        SecurityUtils
-            .getCurrentUserLogin()
+        SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
-            .ifPresent(u ->
-                persistentTokenRepository
-                    .findByUser(u)
-                    .stream()
-                    .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                    .findAny()
-                    .ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries))
+            .ifPresent(
+                u ->
+                    persistentTokenRepository
+                        .findByUser(u)
+                        .stream()
+                        .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
+                        .findAny()
+                        .ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries))
             );
     }
 

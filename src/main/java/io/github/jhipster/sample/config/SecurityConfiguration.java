@@ -59,23 +59,27 @@ public class SecurityConfiguration {
                 csrf
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                     // See https://stackoverflow.com/q/74447118/65681
-                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-            )
+                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
             .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
             .addFilterAfter(new CookieCsrfFilter(), BasicAuthenticationFilter.class)
-            .headers(headers ->
-                headers
-                    .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
-                    .frameOptions(FrameOptionsConfig::sameOrigin)
-                    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
-                    .permissionsPolicy(permissions ->
-                        permissions.policy(
-                            "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()"
+            .headers(
+                headers ->
+                    headers
+                        .contentSecurityPolicy(csp -> csp.policyDirectives(jHipsterProperties.getSecurity().getContentSecurityPolicy()))
+                        .frameOptions(FrameOptionsConfig::sameOrigin)
+                        .referrerPolicy(
+                            referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                         )
-                    )
+                        .permissionsPolicy(
+                            permissions ->
+                                permissions.policy(
+                                    "camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()"
+                                )
+                        )
             )
-            .authorizeHttpRequests(authz ->
-                // prettier-ignore
+            .authorizeHttpRequests(
+                authz ->
+                    // prettier-ignore
                 authz
                     .requestMatchers(mvc.pattern("/index.html"), mvc.pattern("/*.js"), mvc.pattern("/*.txt"), mvc.pattern("/*.json"), mvc.pattern("/*.map"), mvc.pattern("/*.css")).permitAll()
                     .requestMatchers(mvc.pattern("/*.ico"), mvc.pattern("/*.png"), mvc.pattern("/*.svg"), mvc.pattern("/*.webapp")).permitAll()
@@ -97,28 +101,31 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
                     .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
             )
-            .rememberMe(rememberMe ->
-                rememberMe
-                    .rememberMeServices(rememberMeServices)
-                    .rememberMeParameter("remember-me")
-                    .key(jHipsterProperties.getSecurity().getRememberMe().getKey())
+            .rememberMe(
+                rememberMe ->
+                    rememberMe
+                        .rememberMeServices(rememberMeServices)
+                        .rememberMeParameter("remember-me")
+                        .key(jHipsterProperties.getSecurity().getRememberMe().getKey())
             )
-            .exceptionHandling(exceptionHanding ->
-                exceptionHanding.defaultAuthenticationEntryPointFor(
-                    new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                    new OrRequestMatcher(antMatcher("/api/**"))
-                )
+            .exceptionHandling(
+                exceptionHanding ->
+                    exceptionHanding.defaultAuthenticationEntryPointFor(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                        new OrRequestMatcher(antMatcher("/api/**"))
+                    )
             )
-            .formLogin(formLogin ->
-                formLogin
-                    .loginPage("/")
-                    .loginProcessingUrl("/api/authentication")
-                    .successHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()))
-                    .failureHandler((request, response, exception) -> response.setStatus(HttpStatus.UNAUTHORIZED.value()))
-                    .permitAll()
+            .formLogin(
+                formLogin ->
+                    formLogin
+                        .loginPage("/")
+                        .loginProcessingUrl("/api/authentication")
+                        .successHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()))
+                        .failureHandler((request, response, exception) -> response.setStatus(HttpStatus.UNAUTHORIZED.value()))
+                        .permitAll()
             )
-            .logout(logout ->
-                logout.logoutUrl("/api/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()).permitAll()
+            .logout(
+                logout -> logout.logoutUrl("/api/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()).permitAll()
             );
         if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT))) {
             http

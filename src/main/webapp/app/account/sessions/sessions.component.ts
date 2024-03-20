@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
 import { AccountService } from 'app/core/auth/account.service';
@@ -18,10 +18,8 @@ export default class SessionsComponent implements OnInit {
   success = false;
   sessions: Session[] = [];
 
-  constructor(
-    private sessionsService: SessionsService,
-    private accountService: AccountService,
-  ) {}
+  private sessionsService = inject(SessionsService);
+  private accountService = inject(AccountService);
 
   ngOnInit(): void {
     this.sessionsService.findAll().subscribe(sessions => (this.sessions = sessions));

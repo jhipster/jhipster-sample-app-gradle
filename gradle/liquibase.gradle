@@ -8,7 +8,7 @@ dependencies {
   // Dependency required to parse options. Refer to https://github.com/liquibase/liquibase-gradle-plugin/tree/Release_2.2.0#news.
   liquibaseRuntime "info.picocli:picocli:4.7.5"
 
-  liquibaseRuntime "org.liquibase.ext:liquibase-hibernate6:${liquibaseHibernate6Version}"
+  liquibaseRuntime "org.liquibase.ext:liquibase-hibernate6:${liquibaseVersion}"
   if (project.hasProperty("prod") || project.hasProperty("gae")) {
   liquibaseRuntime "com.mysql:mysql-connector-j"
   }
@@ -45,16 +45,6 @@ liquibase {
 
 liquibaseDiff.dependsOn compileJava
 liquibaseDiffChangelog.dependsOn compileJava
-
-configurations {
-  all {
-    resolutionStrategy {
-      // Inherited version from Spring Boot can't be used because of regressions:
-      // To be removed as soon as spring-boot use the same version
-      force 'org.liquibase:liquibase-core:4.24.0'
-    }
-  }
-}
 
 ext {
   if (project.hasProperty("no-liquibase")) {

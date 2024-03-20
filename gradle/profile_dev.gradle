@@ -9,16 +9,12 @@ sourceSets {
 configurations {
   all {
     resolutionStrategy {
-      // TODO drop forced version. Refer to https://github.com/jhipster/generator-jhipster/issues/22579
-      force "org.hibernate.orm:hibernate-core:${hibernateVersion}"
-      // TODO drop forced version. Refer to https://github.com/jhipster/generator-jhipster/issues/22579
-      force "org.hibernate.orm:hibernate-jcache:${hibernateVersion}"
     }
   }
 }
 
 dependencies {
-    developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    compileOnly "org.springframework.boot:spring-boot-devtools"
     implementation "com.h2database:h2"
     testImplementation "org.testcontainers:mysql"
 }
