@@ -1,11 +1,17 @@
 [versions]
-checkstyle = "10.14.2"
-jacoco = "0.8.11"
-sonarqube-plugin = "4.4.1.3373"
-spotless-plugin = "6.23.3"
-modernizer-plugin = "1.9.0"
-nohttp-plugin = "0.0.11"
-jib-plugin = "3.4.1"
-gatling-plugin = "3.10.3"
-gatling-highcharts = "3.10.4"
-# jhipster-needle-gradle-build-src-dependency-catalog-version - JHipster will add additional versions for convention plugins here
+gatling-plugin = "3.10.5.1"
+gatling-highcharts = "3.10.5"
+# jhipster-needle-gradle-dependency-catalog-version - JHipster will add additional versions for convention plugins heref
+# jhipster-needle-gradle-build-src-dependency-catalog-version - Deprecated: JHipster will add additional versions for convention plugins here
+
+[libraries]
+jib-plugin = { module = "com.google.cloud.tools:jib-gradle-plugin", version = "3.4.2" }
+modernizer-plugin = { module = "com.github.andygoossens:gradle-modernizer-plugin", version = "1.9.2" }
+nohttp-plugin = { module = "io.spring.nohttp:nohttp-gradle", version = "0.0.11" }
+sonarqube-plugin = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version = "5.0.0.4638" }
+spotless-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "6.25.0" }
+node-gradle = { module = "com.github.node-gradle:gradle-node-plugin", version = "7.0.2" }
+# jhipster-needle-gradle-dependency-catalog-libraries - JHipster will add additional libraries versions
+
+[plugins]
+# jhipster-needle-gradle-dependency-catalog-plugins - JHipster will add additional plugins versions

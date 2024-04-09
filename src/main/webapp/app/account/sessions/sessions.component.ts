@@ -7,8 +7,8 @@ import { Session } from './session.model';
 import { SessionsService } from './sessions.service';
 
 @Component({
-  selector: 'jhi-sessions',
   standalone: true,
+  selector: 'jhi-sessions',
   imports: [SharedModule],
   templateUrl: './sessions.component.html',
 })

@@ -4,12 +4,12 @@ plugins {
     id "idea"
     id "eclipse"
     id "com.gorylenko.gradle-git-properties"
-    id "com.github.node-gradle.node"
-    id "jhipster.code-quality-conventions"
-    id "jhipster.docker-conventions"
     alias(libs.plugins.spring.boot)
     id "jhipster.gatling-conventions"
     id "jhipster.spring-cache-conventions"
+    id "jhipster.docker-conventions"
+    id "jhipster.code-quality-conventions"
+    id "jhipster.node-gradle-conventions"
     id "org.liquibase.gradle"
     // jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
@@ -32,6 +32,15 @@ ext {
         springProfiles += ",e2e"
     }
 }
+
+repositories {
+    // Local maven repository is required for libraries built locally with maven like development jhipster-bom.
+    // mavenLocal()
+    mavenCentral()
+    // jhipster-needle-gradle-repositories - JHipster will add additional repositories
+}
+
+apply plugin: 'io.spring.dependency-management'
 
 apply from: "gradle/liquibase.gradle"
 // jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
@@ -108,18 +117,7 @@ configurations {
     implementation.exclude module: "spring-boot-starter-tomcat"
 }
 
-
-repositories {
-    // Local maven repository is required for libraries built locally with maven like development jhipster-bom.
-    // mavenLocal()
-    mavenCentral()
-    // jhipster-needle-gradle-repositories - JHipster will add additional repositories
-}
-
 dependencies {
-    // Allows unversioned annotationProcessor
-    annotationProcessor platform(libs.jhipster.dependencies)
-
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     testImplementation("com.tngtech.archunit:archunit-junit5-api:${archunitJunit5Version}") {
@@ -137,18 +135,24 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation "org.springframework.boot:spring-boot-loader-tools"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "org.springframework.boot:spring-boot-starter-logging"
     implementation "org.springframework.boot:spring-boot-starter-mail"
     implementation "org.springframework.boot:spring-boot-starter-security"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-undertow"
+    modules {
+        module("org.springframework.boot:spring-boot-starter-tomcat") {
+            replacedBy("org.springframework.boot:spring-boot-starter-undertow", "Use Undertow instead of Tomcat")
+        }
+    }
+    implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-web"
     testImplementation "org.springframework.boot:spring-boot-test"
     testImplementation "org.springframework.security:spring-security-test"
-    implementation "tech.jhipster:jhipster-framework"
-    implementation platform(libs.jhipster.dependencies)
-    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api"
+    implementation libs.jhipster.framework
+    implementation libs.springdoc.openapi.starter.webmvc.api
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.security:spring-security-data"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate6"
@@ -168,67 +172,6 @@ task cleanResources(type: Delete) {
     delete "build/resources"
 }
 
-wrapper {
-    gradleVersion = "8.6"
-}
 
-task webapp_test(type: NpmTask) {
-    inputs.property('appVersion', project.version)
-    inputs.files("package-lock.json")
-        .withPropertyName('package-lock')
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("build.gradle")
-        .withPropertyName('build.gradle')
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("angular.json")
-        .withPropertyName('angular.json')
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("tsconfig.json", "tsconfig.app.json")
-        .withPropertyName("tsconfig")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.dir("webpack/")
-        .withPropertyName("webpack/")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.dir("src/main/webapp/")
-        .withPropertyName("webapp-source-dir")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-
-    outputs.dir("build/test-results/jest/")
-        .withPropertyName("jest-result-dir")
-    outputs.file("build/test-results/TESTS-results-jest.xml")
-        .withPropertyName("jest-result")
-        outputs.file("build/test-results/clover.xml")
-        .withPropertyName("clover-result")
-
-    dependsOn npmInstall,compileTestJava
-    args = ["run", "webapp:test"]
-}
-
-if (project.hasProperty("nodeInstall")) {
-    node {
-        version = "20.11.1"
-        npmVersion = "10.5.0"
-        download = true
-    }
-
-    // Copy local node and npm to a fixed location for npmw
-    def deleteOldNpm = tasks.register("deleteOldNpm", Delete) {
-        delete 'build/node/lib/node_modules/npm'
-    }
-    def fixedNode = tasks.register("fixedNode", Copy) {
-        from nodeSetup
-        into 'build/node'
-        finalizedBy deleteOldNpm
-    }
-    tasks.named("nodeSetup").configure { finalizedBy fixedNode }
-
-    def fixedNpm = tasks.register("fixedNpm", Copy) {
-        from npmSetup
-        into 'build/node'
-    }
-    tasks.named("npmSetup").configure { finalizedBy fixedNpm }
-}
-
-test.dependsOn webapp_test
 compileJava.dependsOn processResources
 processResources.dependsOn bootBuildInfo

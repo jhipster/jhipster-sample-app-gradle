@@ -4,9 +4,7 @@ pluginManagement {
         // jhipster-needle-gradle-plugin-management-repositories - JHipster will add additional entries here
     }
     plugins {
-        id 'com.google.cloud.tools.jib' version "${jibPluginVersion}"
         id 'com.gorylenko.gradle-git-properties' version "${gitPropertiesPluginVersion}"
-        id 'com.github.node-gradle.node' version "${gradleNodePluginVersion}"
         id "com.gradle.enterprise" version "${gradleEnterprisePluginVersion}"
         id "com.gradle.common-custom-user-data-gradle-plugin" version "${gradleCommonCustomUserDataPluginVersion}"
         id "org.liquibase.gradle" version "${liquibasePluginVersion}"
