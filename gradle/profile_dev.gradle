@@ -70,7 +70,7 @@ processResources {
             it.replace("#project.version#", version)
         }
         filter {
-            it.replace("#spring.profiles.active#", springProfiles)
+            it.replace("@spring.profiles.active@", springProfiles)
         }
     }
 }
