@@ -89,8 +89,8 @@ test {
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
     reports.html.required = false
+    testLogging.exceptionFormat "full"
 }
-
 
 check.dependsOn integrationTest
 task testReport(type: TestReport) {
@@ -126,8 +126,7 @@ dependencies {
     testRuntimeOnly("com.tngtech.archunit:archunit-junit5-engine:${archunitJunit5Version}") {
         exclude group: "org.slf4j", module: "slf4j-api"
     }
-    implementation "io.dropwizard.metrics:metrics-core"
-    implementation "io.micrometer:micrometer-registry-prometheus"
+    implementation "io.micrometer:micrometer-registry-prometheus-simpleclient"
     implementation "jakarta.annotation:jakarta.annotation-api"
     implementation "org.apache.commons:commons-lang3"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

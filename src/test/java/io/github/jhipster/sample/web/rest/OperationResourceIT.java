@@ -21,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -76,6 +77,8 @@ class OperationResourceIT {
 
     private Operation operation;
 
+    private Operation insertedOperation;
+
     /**
      * Create an entity for this test.
      *
@@ -103,6 +106,14 @@ class OperationResourceIT {
         operation = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedOperation != null) {
+            operationRepository.delete(insertedOperation);
+            insertedOperation = null;
+        }
+    }
+
     @Test
     @Transactional
     void createOperation() throws Exception {
@@ -121,6 +132,8 @@ class OperationResourceIT {
         // Validate the Operation in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         assertOperationUpdatableFieldsEquals(returnedOperation, getPersistedOperation(returnedOperation));
+
+        insertedOperation = returnedOperation;
     }
 
     @Test
@@ -176,7 +189,7 @@ class OperationResourceIT {
     @Transactional
     void getAllOperations() throws Exception {
         // Initialize the database
-        operationRepository.saveAndFlush(operation);
+        insertedOperation = operationRepository.saveAndFlush(operation);
 
         // Get all the operationList
         restOperationMockMvc
@@ -210,7 +223,7 @@ class OperationResourceIT {
     @Transactional
     void getOperation() throws Exception {
         // Initialize the database
-        operationRepository.saveAndFlush(operation);
+        insertedOperation = operationRepository.saveAndFlush(operation);
 
         // Get the operation
         restOperationMockMvc
@@ -234,7 +247,7 @@ class OperationResourceIT {
     @Transactional
     void putExistingOperation() throws Exception {
         // Initialize the database
-        operationRepository.saveAndFlush(operation);
+        insertedOperation = operationRepository.saveAndFlush(operation);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -317,7 +330,7 @@ class OperationResourceIT {
     @Transactional
     void partialUpdateOperationWithPatch() throws Exception {
         // Initialize the database
-        operationRepository.saveAndFlush(operation);
+        insertedOperation = operationRepository.saveAndFlush(operation);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -349,7 +362,7 @@ class OperationResourceIT {
     @Transactional
     void fullUpdateOperationWithPatch() throws Exception {
         // Initialize the database
-        operationRepository.saveAndFlush(operation);
+        insertedOperation = operationRepository.saveAndFlush(operation);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -435,7 +448,7 @@ class OperationResourceIT {
     @Transactional
     void deleteOperation() throws Exception {
         // Initialize the database
-        operationRepository.saveAndFlush(operation);
+        insertedOperation = operationRepository.saveAndFlush(operation);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

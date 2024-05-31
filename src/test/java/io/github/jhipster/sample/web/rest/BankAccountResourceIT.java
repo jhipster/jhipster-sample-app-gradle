@@ -14,11 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jhipster.sample.IntegrationTest;
 import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
+import io.github.jhipster.sample.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,6 +62,9 @@ class BankAccountResourceIT {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Mock
     private BankAccountRepository bankAccountRepositoryMock;
 
@@ -70,6 +75,8 @@ class BankAccountResourceIT {
     private MockMvc restBankAccountMockMvc;
 
     private BankAccount bankAccount;
+
+    private BankAccount insertedBankAccount;
 
     /**
      * Create an entity for this test.
@@ -98,6 +105,14 @@ class BankAccountResourceIT {
         bankAccount = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedBankAccount != null) {
+            bankAccountRepository.delete(insertedBankAccount);
+            insertedBankAccount = null;
+        }
+    }
+
     @Test
     @Transactional
     void createBankAccount() throws Exception {
@@ -118,6 +133,8 @@ class BankAccountResourceIT {
         // Validate the BankAccount in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         assertBankAccountUpdatableFieldsEquals(returnedBankAccount, getPersistedBankAccount(returnedBankAccount));
+
+        insertedBankAccount = returnedBankAccount;
     }
 
     @Test
@@ -173,7 +190,7 @@ class BankAccountResourceIT {
     @Transactional
     void getAllBankAccounts() throws Exception {
         // Initialize the database
-        bankAccountRepository.saveAndFlush(bankAccount);
+        insertedBankAccount = bankAccountRepository.saveAndFlush(bankAccount);
 
         // Get all the bankAccountList
         restBankAccountMockMvc
@@ -206,7 +223,7 @@ class BankAccountResourceIT {
     @Transactional
     void getBankAccount() throws Exception {
         // Initialize the database
-        bankAccountRepository.saveAndFlush(bankAccount);
+        insertedBankAccount = bankAccountRepository.saveAndFlush(bankAccount);
 
         // Get the bankAccount
         restBankAccountMockMvc
@@ -229,7 +246,7 @@ class BankAccountResourceIT {
     @Transactional
     void putExistingBankAccount() throws Exception {
         // Initialize the database
-        bankAccountRepository.saveAndFlush(bankAccount);
+        insertedBankAccount = bankAccountRepository.saveAndFlush(bankAccount);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -312,7 +329,7 @@ class BankAccountResourceIT {
     @Transactional
     void partialUpdateBankAccountWithPatch() throws Exception {
         // Initialize the database
-        bankAccountRepository.saveAndFlush(bankAccount);
+        insertedBankAccount = bankAccountRepository.saveAndFlush(bankAccount);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -320,7 +337,7 @@ class BankAccountResourceIT {
         BankAccount partialUpdatedBankAccount = new BankAccount();
         partialUpdatedBankAccount.setId(bankAccount.getId());
 
-        partialUpdatedBankAccount.name(UPDATED_NAME);
+        partialUpdatedBankAccount.balance(UPDATED_BALANCE);
 
         restBankAccountMockMvc
             .perform(
@@ -344,7 +361,7 @@ class BankAccountResourceIT {
     @Transactional
     void fullUpdateBankAccountWithPatch() throws Exception {
         // Initialize the database
-        bankAccountRepository.saveAndFlush(bankAccount);
+        insertedBankAccount = bankAccountRepository.saveAndFlush(bankAccount);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -430,7 +447,7 @@ class BankAccountResourceIT {
     @Transactional
     void deleteBankAccount() throws Exception {
         // Initialize the database
-        bankAccountRepository.saveAndFlush(bankAccount);
+        insertedBankAccount = bankAccountRepository.saveAndFlush(bankAccount);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 
