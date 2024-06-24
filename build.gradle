@@ -21,7 +21,7 @@ description = ""
 
 sourceCompatibility=17
 targetCompatibility=17
-assert System.properties["java.specification.version"] == "17" || "18" || "19" || "20" || "21"
+assert System.properties["java.specification.version"] == "17" || "18" || "19" || "20" || "21" || "22"
 
 ext {
     springProfiles = ""

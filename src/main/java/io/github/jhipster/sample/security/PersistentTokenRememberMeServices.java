@@ -48,7 +48,7 @@ import tech.jhipster.security.RandomUtil;
 @Service
 public class PersistentTokenRememberMeServices extends AbstractRememberMeServices {
 
-    private final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
+    private static final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
 
     // Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
