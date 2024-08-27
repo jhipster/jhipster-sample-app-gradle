@@ -48,7 +48,7 @@ import tech.jhipster.security.RandomUtil;
 @Service
 public class PersistentTokenRememberMeServices extends AbstractRememberMeServices {
 
-    private static final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
 
     // Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
@@ -82,7 +82,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
             UpgradedRememberMeToken upgradedToken = upgradedTokenCache.get(cookieTokens[0]);
             if (upgradedToken != null) {
                 login = upgradedToken.getUserLoginIfValid(cookieTokens);
-                log.debug("Detected previously upgraded login token for user '{}'", login);
+                LOG.debug("Detected previously upgraded login token for user '{}'", login);
             }
 
             if (login == null) {
@@ -90,7 +90,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
                 login = token.getUser().getLogin();
 
                 // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
-                log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
+                LOG.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
                 token.setTokenDate(LocalDate.now());
                 token.setTokenValue(RandomUtil.generateRandomAlphanumericString());
                 token.setIpAddress(request.getRemoteAddr());
@@ -98,7 +98,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
                 try {
                     persistentTokenRepository.saveAndFlush(token);
                 } catch (DataAccessException e) {
-                    log.error("Failed to update token: ", e);
+                    LOG.error("Failed to update token: ", e);
                     throw new RememberMeAuthenticationException("Autologin failed due to data access problem", e);
                 }
                 addCookie(token, request, response);
@@ -112,7 +112,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
     protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication) {
         String login = successfulAuthentication.getName();
 
-        log.debug("Creating new persistent login for user {}", login);
+        LOG.debug("Creating new persistent login for user {}", login);
         PersistentToken token = userRepository
             .findOneByLogin(login)
             .map(u -> {
@@ -130,7 +130,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
             persistentTokenRepository.saveAndFlush(token);
             addCookie(token, request, response);
         } catch (DataAccessException e) {
-            log.error("Failed to save persistent token ", e);
+            LOG.error("Failed to save persistent token ", e);
         }
     }
 
@@ -153,9 +153,9 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
                 PersistentToken token = getPersistentToken(cookieTokens);
                 persistentTokenRepository.deleteById(token.getSeries());
             } catch (InvalidCookieException ice) {
-                log.info("Invalid cookie, no persistent token could be deleted", ice);
+                LOG.info("Invalid cookie, no persistent token could be deleted", ice);
             } catch (RememberMeAuthenticationException rmae) {
-                log.debug("No persistent token found, so no token could be deleted", rmae);
+                LOG.debug("No persistent token found, so no token could be deleted", rmae);
             }
         }
         super.logout(request, response, authentication);
@@ -179,7 +179,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
         }
         PersistentToken token = optionalToken.orElseThrow();
         // We have a match for this user/series combination
-        log.info("presentedToken={} / tokenValue={}", presentedToken, token.getTokenValue());
+        LOG.info("presentedToken={} / tokenValue={}", presentedToken, token.getTokenValue());
         if (!presentedToken.equals(token.getTokenValue())) {
             // Token doesn't match series value. Delete this session and throw an exception.
             persistentTokenRepository.deleteById(token.getSeries());

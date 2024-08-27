@@ -3,6 +3,14 @@ pluginManagement {
     repositories {
         // jhipster-needle-gradle-plugin-management-repositories - JHipster will add additional entries here
     }
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath group: 'org.liquibase', name: 'liquibase-core', version: "${liquibaseCoreVersion}"
+        }
+    }
     plugins {
         id 'com.gorylenko.gradle-git-properties' version "${gitPropertiesPluginVersion}"
         id "com.gradle.enterprise" version "${gradleEnterprisePluginVersion}"

@@ -12,15 +12,16 @@ import io.github.jhipster.sample.service.dto.PasswordChangeDTO;
 import io.github.jhipster.sample.web.rest.errors.*;
 import io.github.jhipster.sample.web.rest.vm.KeyAndPasswordVM;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -37,7 +38,7 @@ public class AccountResource {
         }
     }
 
-    private static final Logger log = LoggerFactory.getLogger(AccountResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccountResource.class);
 
     private final UserRepository userRepository;
 
@@ -94,13 +95,13 @@ public class AccountResource {
     /**
      * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
      *
-     * @param request the HTTP request.
+     * @param principal the authentication principal.
      * @return the login if the user is authenticated.
      */
-    @GetMapping("/authenticate")
-    public String isAuthenticated(HttpServletRequest request) {
-        log.debug("REST request to check if the current user is authenticated");
-        return request.getRemoteUser();
+    @GetMapping(value = "/authenticate", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String isAuthenticated(Principal principal) {
+        LOG.debug("REST request to check if the current user is authenticated");
+        return principal == null ? null : principal.getName();
     }
 
     /**
@@ -197,14 +198,13 @@ public class AccountResource {
         String decodedSeries = URLDecoder.decode(series, StandardCharsets.UTF_8);
         SecurityUtils.getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
-            .ifPresent(
-                u ->
-                    persistentTokenRepository
-                        .findByUser(u)
-                        .stream()
-                        .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-                        .findAny()
-                        .ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries))
+            .ifPresent(u ->
+                persistentTokenRepository
+                    .findByUser(u)
+                    .stream()
+                    .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
+                    .findAny()
+                    .ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries))
             );
     }
 
@@ -221,7 +221,7 @@ public class AccountResource {
         } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
-            log.warn("Password reset requested for non existing mail");
+            LOG.warn("Password reset requested for non existing mail");
         }
     }
 

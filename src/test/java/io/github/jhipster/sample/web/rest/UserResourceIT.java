@@ -44,9 +44,6 @@ class UserResourceIT {
 
     private static final Long DEFAULT_ID = 1L;
 
-    private static final String DEFAULT_PASSWORD = "passjohndoe";
-    private static final String UPDATED_PASSWORD = "passjhipster";
-
     private static final String DEFAULT_EMAIL = "johndoe@localhost";
     private static final String UPDATED_EMAIL = "jhipster@localhost";
 
@@ -98,7 +95,7 @@ class UserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which has a required relationship to the User entity.
      */
-    public static User createEntity(EntityManager em) {
+    public static User createEntity() {
         User persistUser = new User();
         persistUser.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
         persistUser.setPassword(RandomStringUtils.randomAlphanumeric(60));
@@ -114,8 +111,8 @@ class UserResourceIT {
     /**
      * Setups the database with one user.
      */
-    public static User initTestUser(EntityManager em) {
-        User persistUser = createEntity(em);
+    public static User initTestUser() {
+        User persistUser = createEntity();
         persistUser.setLogin(DEFAULT_LOGIN);
         persistUser.setEmail(DEFAULT_EMAIL);
         return persistUser;
@@ -123,7 +120,7 @@ class UserResourceIT {
 
     @BeforeEach
     public void initTest() {
-        user = initTestUser(em);
+        user = initTestUser();
     }
 
     @AfterEach
