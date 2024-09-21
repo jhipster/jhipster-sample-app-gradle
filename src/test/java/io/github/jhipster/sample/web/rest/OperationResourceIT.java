@@ -336,7 +336,7 @@ class OperationResourceIT {
         Operation partialUpdatedOperation = new Operation();
         partialUpdatedOperation.setId(operation.getId());
 
-        partialUpdatedOperation.date(UPDATED_DATE).amount(UPDATED_AMOUNT);
+        partialUpdatedOperation.date(UPDATED_DATE).description(UPDATED_DESCRIPTION);
 
         restOperationMockMvc
             .perform(

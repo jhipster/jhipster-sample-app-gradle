@@ -14,7 +14,7 @@ describe('Authority e2e test', () => {
   const authorityPageUrlPattern = new RegExp('/authority(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const authoritySample = { name: 'cd107f8f-5913-4099-9e31-ee325ab662e3' };
+  const authoritySample = { name: '0c269e72-43b6-48fe-842b-9d77ee4827b9' };
 
   let authority;
 
@@ -135,8 +135,8 @@ describe('Authority e2e test', () => {
     });
 
     it('should create an instance of Authority', () => {
-      cy.get(`[data-cy="name"]`).type('04656162-a702-46c9-9a49-6382c9aacc79');
-      cy.get(`[data-cy="name"]`).should('have.value', '04656162-a702-46c9-9a49-6382c9aacc79');
+      cy.get(`[data-cy="name"]`).type('9a905379-9600-4886-9886-eafe2ef7e720');
+      cy.get(`[data-cy="name"]`).should('have.value', '9a905379-9600-4886-9886-eafe2ef7e720');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

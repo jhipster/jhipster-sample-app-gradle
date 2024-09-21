@@ -9,8 +9,8 @@ plugins {
     id "jhipster.spring-cache-conventions"
     id "jhipster.docker-conventions"
     id "jhipster.code-quality-conventions"
-    id "jhipster.node-gradle-conventions"
     id "org.liquibase.gradle"
+    id "jhipster.node-gradle-conventions"
     // jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
 
@@ -150,6 +150,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     testImplementation "org.springframework.boot:spring-boot-test"
     testImplementation "org.springframework.security:spring-security-test"
+    implementation platform(libs.spring.cloud.dependencies)
     implementation libs.jhipster.framework
     implementation libs.springdoc.openapi.starter.webmvc.api
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
@@ -164,6 +165,7 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers"
     annotationProcessor "org.glassfish.jaxb:jaxb-runtime"
     annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
+    developmentOnly "org.springframework.boot:spring-boot-docker-compose"
     // jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

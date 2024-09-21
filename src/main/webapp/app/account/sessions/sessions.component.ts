@@ -31,12 +31,12 @@ export default class SessionsComponent implements OnInit {
     this.error = false;
     this.success = false;
 
-    this.sessionsService.delete(encodeURIComponent(series)).subscribe(
-      () => {
+    this.sessionsService.delete(encodeURIComponent(series)).subscribe({
+      next: () => {
         this.success = true;
         this.sessionsService.findAll().subscribe(sessions => (this.sessions = sessions));
       },
-      () => (this.error = true),
-    );
+      error: () => (this.error = true),
+    });
   }
 }
