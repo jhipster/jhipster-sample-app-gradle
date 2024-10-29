@@ -8,8 +8,8 @@ import { ApplicationConfigService } from '../config/application-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
-  private http = inject(HttpClient);
-  private applicationConfigService = inject(ApplicationConfigService);
+  private readonly http = inject(HttpClient);
+  private readonly applicationConfigService = inject(ApplicationConfigService);
 
   login(credentials: Login): Observable<{}> {
     const data =

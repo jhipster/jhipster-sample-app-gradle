@@ -1,16 +1,16 @@
 [versions]
-gatling-plugin = "3.12.0"
+gatling-plugin = "3.12.0.3"
 gatling-highcharts = "3.12.0"
 jacoco = "0.8.12"
-checkstyle = "10.18.1"
+checkstyle = "10.19.0"
 # jhipster-needle-gradle-dependency-catalog-version - JHipster will add additional versions for convention plugins heref
 
 [libraries]
-jhipster-framework = { module = "tech.jhipster:jhipster-framework", version = "8.7.1" }
+jhipster-framework = { module = "tech.jhipster:jhipster-framework", version = "8.7.2" }
 spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version = "2023.0.3" }
 springdoc-openapi-starter-webmvc-api = { module = "org.springdoc:springdoc-openapi-starter-webmvc-api", version = "2.6.0" }
 # jhipster-needle-gradle-dependency-catalog-libraries - JHipster will add additional libraries versions
 
 [plugins]
-spring-boot = { id = "org.springframework.boot", version = "3.3.4" }
+spring-boot = { id = "org.springframework.boot", version = "3.3.5" }
 # jhipster-needle-gradle-dependency-catalog-plugins - JHipster will add additional plugins versions

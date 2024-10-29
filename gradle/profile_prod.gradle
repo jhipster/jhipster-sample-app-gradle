@@ -1,14 +1,7 @@
-
-configurations {
-  all {
-    resolutionStrategy {
-    }
-  }
-}
-
 dependencies {
     implementation "com.mysql:mysql-connector-j"
     testImplementation "org.testcontainers:mysql"
+    // jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
 ext {
