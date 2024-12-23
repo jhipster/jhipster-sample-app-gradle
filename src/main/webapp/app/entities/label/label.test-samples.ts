@@ -1,22 +1,22 @@
 import { ILabel, NewLabel } from './label.model';
 
 export const sampleWithRequiredData: ILabel = {
-  id: 30717,
-  label: 'pinion fooey short-term',
+  id: 28258,
+  label: 'impressive',
 };
 
 export const sampleWithPartialData: ILabel = {
-  id: 17676,
-  label: 'hard-to-find opposite',
+  id: 5331,
+  label: 'within helpfully zowie',
 };
 
 export const sampleWithFullData: ILabel = {
-  id: 22413,
-  label: 'versus gadzooks jealous',
+  id: 11722,
+  label: 'gloomy unless sew',
 };
 
 export const sampleWithNewData: NewLabel = {
-  label: 'inhibit personal',
+  label: 'scaly save yum',
   id: null,
 };
 

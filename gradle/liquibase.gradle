@@ -10,7 +10,7 @@ dependencies {
   if (project.hasProperty("prod") || project.hasProperty("gae")) {
   liquibaseRuntime "com.mysql:mysql-connector-j"
   }
-  liquibaseRuntime "org.liquibase.ext:liquibase-hibernate6:${dependencyManagement.importedProperties['liquibase.version']}"
+  liquibaseRuntime "org.liquibase.ext:liquibase-hibernate6:${liquibaseVersion}"
   // jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

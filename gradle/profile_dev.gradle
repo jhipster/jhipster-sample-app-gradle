@@ -28,24 +28,19 @@ bootRun {
 
 task webapp(type: NpmTask) {
     inputs.property('appVersion', project.version)
-    inputs.files("package-lock.json")
-        .withPropertyName('package-lock')
-        .withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.files("build.gradle")
         .withPropertyName('build.gradle')
         .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("angular.json")
-        .withPropertyName('angular.json')
+    inputs.files('angular.json', 'package-lock.json', 'package.json', 'tsconfig.app.json', 'tsconfig.json')
+        .withPropertyName('angular-build')
         .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("tsconfig.json", "tsconfig.app.json")
-        .withPropertyName("tsconfig")
+    inputs.dir("src/main/webapp/")
+        .withPropertyName("src/main/webapp/")
         .withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.dir("webpack/")
         .withPropertyName("webpack/")
         .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.dir("src/main/webapp/")
-        .withPropertyName("webapp-source-dir")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
+
     outputs.dir("build/resources/main/static/")
         .withPropertyName("webapp-build-dir")
 
@@ -78,7 +73,7 @@ task integrationTest(type: Test) {
         events 'FAILED', 'SKIPPED'
         exceptionFormat "full"
     }
-    systemProperty('spring.profiles.active', 'testdev')
+    systemProperty('spring.profiles.active', 'test,testdev')
     systemProperty('java.security.egd', 'file:/dev/./urandom')
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484

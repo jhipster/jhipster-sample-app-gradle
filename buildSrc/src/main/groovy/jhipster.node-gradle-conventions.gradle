@@ -4,8 +4,8 @@ plugins {
 
 if (project.hasProperty("nodeInstall")) {
     node {
-        version = "22.11.0"
-        npmVersion = "10.9.0"
+        version = "22.12.0"
+        npmVersion = "11.0.0"
         download = true
     }
 
@@ -29,23 +29,17 @@ if (project.hasProperty("nodeInstall")) {
 
 task webapp_test(type: NpmTask) {
     inputs.property('appVersion', project.version)
-    inputs.files("package-lock.json")
-        .withPropertyName('package-lock')
-        .withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.files("build.gradle")
         .withPropertyName('build.gradle')
         .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("angular.json")
-        .withPropertyName('angular.json')
+    inputs.files('angular.json', 'package-lock.json', 'package.json', 'tsconfig.app.json', 'tsconfig.json')
+        .withPropertyName('angular-build')
         .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.files("tsconfig.json", "tsconfig.app.json")
-        .withPropertyName("tsconfig")
+    inputs.dir("src/main/webapp/")
+        .withPropertyName("src/main/webapp/")
         .withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.dir("webpack/")
         .withPropertyName("webpack/")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.dir("src/main/webapp/")
-        .withPropertyName("webapp-source-dir")
         .withPathSensitivity(PathSensitivity.RELATIVE)
 
     outputs.dir("build/test-results/jest/")

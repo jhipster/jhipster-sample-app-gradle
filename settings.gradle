@@ -8,7 +8,7 @@ pluginManagement {
             mavenCentral()
         }
         dependencies {
-            classpath group: 'org.liquibase', name: 'liquibase-core', version: "${liquibaseCoreVersion}"
+            classpath group: 'org.liquibase', name: 'liquibase-core', version: "${liquibaseVersion}"
         }
     }
     plugins {
