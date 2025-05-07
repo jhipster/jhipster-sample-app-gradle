@@ -6,7 +6,7 @@ dependencies {
   implementation "org.liquibase:liquibase-core"
   liquibaseRuntime "org.liquibase:liquibase-core"
   // Dependency required to parse options. Refer to https://github.com/liquibase/liquibase-gradle-plugin/tree/Release_2.2.0#news.
-  liquibaseRuntime "info.picocli:picocli:4.7.6"
+  liquibaseRuntime "info.picocli:picocli:4.7.7"
   if (project.hasProperty("prod") || project.hasProperty("gae")) {
   liquibaseRuntime "com.mysql:mysql-connector-j"
   }
