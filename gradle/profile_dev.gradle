@@ -12,10 +12,6 @@ dependencies {
     // jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
-ext {
-    springProfiles = "dev" + springProfiles
-}
-
 springBoot {
     buildInfo {
         excludes = ['time']
@@ -44,7 +40,7 @@ task webapp(type: NpmTask) {
     outputs.dir("build/resources/main/static/")
         .withPropertyName("webapp-build-dir")
 
-    dependsOn npmInstall
+    dependsOn(npmInstall)
 
     args = ["run", "webapp:build"]
     environment = [APP_VERSION: project.version]
@@ -70,17 +66,16 @@ task integrationTest(type: Test) {
     group = "verification"
     include "**/*IT*", "**/*IntTest*"
     testLogging {
-        events 'FAILED', 'SKIPPED'
-        exceptionFormat "full"
+        events = ['FAILED', 'SKIPPED']
+        exceptionFormat = "full"
     }
-    systemProperty('spring.profiles.active', 'test,testdev')
-    systemProperty('java.security.egd', 'file:/dev/./urandom')
+    systemProperty('spring.profiles.active', springTestProfiles)
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
     reports.html.required = false
 }
-integrationTest.dependsOn test
+integrationTest.dependsOn(test)
 
-processResources.dependsOn webapp
-bootJar.dependsOn processResources
+processResources.dependsOn(webapp)
+bootJar.dependsOn(processResources)

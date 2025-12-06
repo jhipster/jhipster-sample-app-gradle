@@ -10,6 +10,12 @@
     <!-- For detailed checkstyle configuration, see https://github.com/spring-io/nohttp/tree/master/nohttp-checkstyle -->
     <module name="io.spring.nohttp.checkstyle.check.NoHttpCheck">
     </module>
+    <module name="TreeWalker">
+        <module name="MissingJavadocMethod">
+            <!-- Disable Javadoc requirement as we want to follow "clean code" guidelines and classes, methods and arguments names should be self-explanatory -->
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+        </module>
+    </module>
     <!-- Allow suppression with comments
        // CHECKSTYLE:OFF
        ... ignored content ...

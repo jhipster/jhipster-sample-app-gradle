@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { Authority } from 'app/config/authority.constants';
 import { User } from '../user-management.model';

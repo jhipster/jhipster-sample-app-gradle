@@ -8,7 +8,6 @@ describe('Operation Form Service', () => {
   let service: OperationFormService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     service = TestBed.inject(OperationFormService);
   });
 
@@ -49,7 +48,7 @@ describe('Operation Form Service', () => {
       it('should return NewOperation for default Operation initial value', () => {
         const formGroup = service.createOperationFormGroup(sampleWithNewData);
 
-        const operation = service.getOperation(formGroup) as any;
+        const operation = service.getOperation(formGroup);
 
         expect(operation).toMatchObject(sampleWithNewData);
       });
@@ -57,7 +56,7 @@ describe('Operation Form Service', () => {
       it('should return NewOperation for empty Operation initial value', () => {
         const formGroup = service.createOperationFormGroup();
 
-        const operation = service.getOperation(formGroup) as any;
+        const operation = service.getOperation(formGroup);
 
         expect(operation).toMatchObject({});
       });
@@ -65,7 +64,7 @@ describe('Operation Form Service', () => {
       it('should return IOperation', () => {
         const formGroup = service.createOperationFormGroup(sampleWithRequiredData);
 
-        const operation = service.getOperation(formGroup) as any;
+        const operation = service.getOperation(formGroup);
 
         expect(operation).toMatchObject(sampleWithRequiredData);
       });

@@ -1,0 +1,81 @@
+ext {
+    if (project.hasProperty("prod")) {
+        springProfiles = "prod"
+        springTestProfiles = "test,testprod"
+    } else {
+        springProfiles = "dev"
+        springTestProfiles = "test,testdev"
+    }
+    if (project.hasProperty("tls")) {
+        springProfiles += ",tls"
+    }
+    if (project.hasProperty("e2e")) {
+        springProfiles += ",e2e"
+    }
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+// jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
+
+if (project.hasProperty("prod")) {
+    apply from: "gradle/profile_prod.gradle"
+} else {
+    apply from: "gradle/profile_dev.gradle"
+}
+
+if (project.hasProperty("war")) {
+    apply from: "gradle/war.gradle"
+}
+
+
+defaultTasks "bootRun"
+
+springBoot {
+    mainClass = "io.github.jhipster.sample.JhipsterGradleSampleApplicationApp"
+}
+
+test {
+    useJUnitPlatform()
+    exclude "**/*IT*", "**/*IntTest*"
+    testLogging {
+        events = ['FAILED', 'SKIPPED']
+        exceptionFormat = "full"
+    }
+    jvmArgs += '-Xmx512m'
+
+    systemProperty('spring.profiles.active', springTestProfiles)
+
+    // uncomment if the tests reports are not generated
+    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
+    // ignoreFailures true
+    reports.html.required = false
+}
+
+check.dependsOn(integrationTest)
+
+task testReport(type: TestReport) {
+    destinationDirectory = file("$buildDir/reports/tests")
+    testResults.from(test)
+}
+
+task integrationTestReport(type: TestReport) {
+    destinationDirectory = file("$buildDir/reports/tests")
+    testResults.from(integrationTest)
+}
+
+gitProperties {
+    failOnNoGitDirectory = false
+    keys = ["git.branch", "git.commit.id.abbrev", "git.commit.id.describe"]
+}
+
+tasks.named('generateGitProperties') {
+  outputs.doNotCacheIf("Task is always executed") { true }
+}
+
+task cleanResources(type: Delete) {
+    delete "build/resources"
+}
+
+compileJava.dependsOn(processResources)
+processResources.dependsOn(bootBuildInfo)

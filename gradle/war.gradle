@@ -1,16 +1,14 @@
 apply plugin: "war"
 
 bootWar {
+    webAppDirectory = file("build/resources/main/static/")
     mainClass = "io.github.jhipster.sample.JhipsterGradleSampleApplicationApp"
     includes = ["WEB-INF/**", "META-INF/**"]
-    webXml = file("${project.rootDir}/src/main/webapp/WEB-INF/web.xml")
 }
 
 war {
-    webAppDirName = "build/resources/main/static/"
-    webXml = file("${project.rootDir}/src/main/webapp/WEB-INF/web.xml")
+    webAppDirectory = file("build/resources/main/static/")
     enabled = true
     archiveExtension = "war.original"
     includes = ["WEB-INF/**", "META-INF/**"]
-
 }

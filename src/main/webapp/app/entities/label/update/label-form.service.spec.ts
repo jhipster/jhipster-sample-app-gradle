@@ -8,7 +8,6 @@ describe('Label Form Service', () => {
   let service: LabelFormService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     service = TestBed.inject(LabelFormService);
   });
 
@@ -43,7 +42,7 @@ describe('Label Form Service', () => {
       it('should return NewLabel for default Label initial value', () => {
         const formGroup = service.createLabelFormGroup(sampleWithNewData);
 
-        const label = service.getLabel(formGroup) as any;
+        const label = service.getLabel(formGroup);
 
         expect(label).toMatchObject(sampleWithNewData);
       });
@@ -51,7 +50,7 @@ describe('Label Form Service', () => {
       it('should return NewLabel for empty Label initial value', () => {
         const formGroup = service.createLabelFormGroup();
 
-        const label = service.getLabel(formGroup) as any;
+        const label = service.getLabel(formGroup);
 
         expect(label).toMatchObject({});
       });
@@ -59,7 +58,7 @@ describe('Label Form Service', () => {
       it('should return ILabel', () => {
         const formGroup = service.createLabelFormGroup(sampleWithRequiredData);
 
-        const label = service.getLabel(formGroup) as any;
+        const label = service.getLabel(formGroup);
 
         expect(label).toMatchObject(sampleWithRequiredData);
       });

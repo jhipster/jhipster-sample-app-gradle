@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+
 import OperationResolve from './route/operation-routing-resolve.service';
 
 const operationRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/operation.component').then(m => m.OperationComponent),
+    loadComponent: () => import('./list/operation').then(m => m.Operation),
     data: {
       defaultSort: `id,${ASC}`,
     },
@@ -15,7 +16,7 @@ const operationRoute: Routes = [
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/operation-detail.component').then(m => m.OperationDetailComponent),
+    loadComponent: () => import('./detail/operation-detail').then(m => m.OperationDetail),
     resolve: {
       operation: OperationResolve,
     },
@@ -23,7 +24,7 @@ const operationRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/operation-update.component').then(m => m.OperationUpdateComponent),
+    loadComponent: () => import('./update/operation-update').then(m => m.OperationUpdate),
     resolve: {
       operation: OperationResolve,
     },
@@ -31,7 +32,7 @@ const operationRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/operation-update.component').then(m => m.OperationUpdateComponent),
+    loadComponent: () => import('./update/operation-update').then(m => m.OperationUpdate),
     resolve: {
       operation: OperationResolve,
     },

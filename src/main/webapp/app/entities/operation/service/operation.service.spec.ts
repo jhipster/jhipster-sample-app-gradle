@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { IOperation } from '../operation.model';
 import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../operation.test-samples';
@@ -101,8 +101,7 @@ describe('Operation Service', () => {
       it('should add a Operation to an empty array', () => {
         const operation: IOperation = sampleWithRequiredData;
         expectedResult = service.addOperationToCollectionIfMissing([], operation);
-        expect(expectedResult).toHaveLength(1);
-        expect(expectedResult).toContain(operation);
+        expect(expectedResult).toEqual([operation]);
       });
 
       it('should not add a Operation to an array that contains it', () => {
@@ -136,16 +135,13 @@ describe('Operation Service', () => {
         const operation: IOperation = sampleWithRequiredData;
         const operation2: IOperation = sampleWithPartialData;
         expectedResult = service.addOperationToCollectionIfMissing([], operation, operation2);
-        expect(expectedResult).toHaveLength(2);
-        expect(expectedResult).toContain(operation);
-        expect(expectedResult).toContain(operation2);
+        expect(expectedResult).toEqual([operation, operation2]);
       });
 
       it('should accept null and undefined values', () => {
         const operation: IOperation = sampleWithRequiredData;
         expectedResult = service.addOperationToCollectionIfMissing([], null, operation, undefined);
-        expect(expectedResult).toHaveLength(1);
-        expect(expectedResult).toContain(operation);
+        expect(expectedResult).toEqual([operation]);
       });
 
       it('should return initial array if no Operation is added', () => {

@@ -1,12 +1,12 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
 
 import dayjs from 'dayjs/esm';
+import { Observable, map } from 'rxjs';
 
-import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { isPresent } from 'app/core/util/operators';
 import { IOperation, NewOperation } from '../operation.model';
 
 export type PartialUpdateOperation = Partial<IOperation> & Pick<IOperation, 'id'>;
@@ -41,20 +41,24 @@ export class OperationService {
   update(operation: IOperation): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(operation);
     return this.http
-      .put<RestOperation>(`${this.resourceUrl}/${this.getOperationIdentifier(operation)}`, copy, { observe: 'response' })
+      .put<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(this.getOperationIdentifier(operation))}`, copy, {
+        observe: 'response',
+      })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   partialUpdate(operation: PartialUpdateOperation): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(operation);
     return this.http
-      .patch<RestOperation>(`${this.resourceUrl}/${this.getOperationIdentifier(operation)}`, copy, { observe: 'response' })
+      .patch<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(this.getOperationIdentifier(operation))}`, copy, {
+        observe: 'response',
+      })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<RestOperation>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .get<RestOperation>(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
@@ -66,7 +70,7 @@ export class OperationService {
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http.delete(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
   }
 
   getOperationIdentifier(operation: Pick<IOperation, 'id'>): number {

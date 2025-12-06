@@ -5,6 +5,7 @@ import io.github.jhipster.sample.repository.PersistentTokenRepository;
 import io.github.jhipster.sample.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -77,7 +78,8 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
 
     @Override
     protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
-        synchronized (this) { // prevent 2 authentication requests from the same user in parallel
+        synchronized (this) {
+            // prevent 2 authentication requests from the same user in parallel
             String login = null;
             UpgradedRememberMeToken upgradedToken = upgradedTokenCache.get(cookieTokens[0]);
             if (upgradedToken != null) {
@@ -198,6 +200,7 @@ public class PersistentTokenRememberMeServices extends AbstractRememberMeService
 
     private static class UpgradedRememberMeToken implements Serializable {
 
+        @Serial
         private static final long serialVersionUID = 1L;
 
         private final String[] upgradedToken;

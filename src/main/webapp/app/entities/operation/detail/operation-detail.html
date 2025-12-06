@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (operation(); as operationRef) {
+      <div>
+        <h2 data-cy="operationDetailsHeading">
+          <span jhiTranslate="jhipsterGradleSampleApplicationApp.operation.detail.title">Operation</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ operationRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterGradleSampleApplicationApp.operation.date">Date</span></dt>
+          <dd>
+            <span>{{ operationRef.date | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterGradleSampleApplicationApp.operation.description">Description</span></dt>
+          <dd>
+            <span>{{ operationRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterGradleSampleApplicationApp.operation.amount">Amount</span></dt>
+          <dd>
+            <span>{{ operationRef.amount }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterGradleSampleApplicationApp.operation.bankAccount">Bank Account</span></dt>
+          <dd>
+            @if (operation()!.bankAccount) {
+              <div>
+                <a [routerLink]="['/bank-account', operation()!.bankAccount?.id, 'view']">{{ operationRef.bankAccount?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="jhipsterGradleSampleApplicationApp.operation.label">Label</span></dt>
+          <dd>
+            @for (label of operationRef.labels; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/label', label.id, 'view']">{{ label?.label }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left" />&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/operation', operationRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt" />&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

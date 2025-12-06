@@ -5,8 +5,6 @@ dependencies {
 }
 
 ext {
-    springProfiles = "prod" + springProfiles
-
     if (project.hasProperty("api-docs")) {
         springProfiles += ",api-docs"
     }
@@ -21,7 +19,7 @@ bootRun {
 }
 
 task webapp(type: NpmTask) {
-    dependsOn npmInstall
+    dependsOn(npmInstall)
     args = ["run", "webapp:prod"]
     environment = [APP_VERSION: project.version]
 }
@@ -46,18 +44,16 @@ task integrationTest(type: Test) {
     group = "verification"
     include "**/*IT*", "**/*IntTest*"
     testLogging {
-        events 'FAILED', 'SKIPPED'
-        exceptionFormat "full"
+        events = ['FAILED', 'SKIPPED']
+        exceptionFormat = "full"
     }
-    systemProperty('spring.profiles.active', 'test,testprod')
-    systemProperty('java.security.egd', 'file:/dev/./urandom')
+    systemProperty('spring.profiles.active', springTestProfiles)
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
     reports.html.required = false
 }
-integrationTest.dependsOn test
+integrationTest.dependsOn(test)
 
-
-processResources.dependsOn webapp
-bootJar.dependsOn processResources
+processResources.dependsOn(webapp)
+bootJar.dependsOn(processResources)

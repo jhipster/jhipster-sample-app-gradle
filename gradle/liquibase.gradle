@@ -43,8 +43,8 @@ liquibase {
   runList = project.ext.runList
 }
 
-liquibaseDiff.dependsOn compileJava
-liquibaseDiffChangelog.dependsOn compileJava
+liquibaseDiff.dependsOn(compileJava)
+liquibaseDiffChangelog.dependsOn(compileJava)
 
 ext {
   if (project.hasProperty("no-liquibase")) {

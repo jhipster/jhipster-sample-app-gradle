@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { ILabel } from '../label.model';
 import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../label.test-samples';
@@ -100,8 +100,7 @@ describe('Label Service', () => {
       it('should add a Label to an empty array', () => {
         const label: ILabel = sampleWithRequiredData;
         expectedResult = service.addLabelToCollectionIfMissing([], label);
-        expect(expectedResult).toHaveLength(1);
-        expect(expectedResult).toContain(label);
+        expect(expectedResult).toEqual([label]);
       });
 
       it('should not add a Label to an array that contains it', () => {
@@ -135,16 +134,13 @@ describe('Label Service', () => {
         const label: ILabel = sampleWithRequiredData;
         const label2: ILabel = sampleWithPartialData;
         expectedResult = service.addLabelToCollectionIfMissing([], label, label2);
-        expect(expectedResult).toHaveLength(2);
-        expect(expectedResult).toContain(label);
-        expect(expectedResult).toContain(label2);
+        expect(expectedResult).toEqual([label, label2]);
       });
 
       it('should accept null and undefined values', () => {
         const label: ILabel = sampleWithRequiredData;
         expectedResult = service.addLabelToCollectionIfMissing([], null, label, undefined);
-        expect(expectedResult).toHaveLength(1);
-        expect(expectedResult).toContain(label);
+        expect(expectedResult).toEqual([label]);
       });
 
       it('should return initial array if no Label is added', () => {

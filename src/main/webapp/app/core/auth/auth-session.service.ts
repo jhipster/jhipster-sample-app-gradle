@@ -1,5 +1,6 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -28,7 +29,11 @@ export class AuthServerProvider {
     return this.http.post(this.applicationConfigService.getEndpointFor('api/logout'), {}).pipe(
       map(() => {
         // to get a new csrf token call the api
-        this.http.get(this.applicationConfigService.getEndpointFor('api/account')).subscribe();
+        this.http.get(this.applicationConfigService.getEndpointFor('api/account')).subscribe({
+          error() {
+            // Handled by interceptor
+          },
+        });
       }),
     );
   }

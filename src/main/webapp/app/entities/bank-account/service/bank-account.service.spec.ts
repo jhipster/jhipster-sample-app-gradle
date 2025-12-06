@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { IBankAccount } from '../bank-account.model';
 import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../bank-account.test-samples';
@@ -100,8 +100,7 @@ describe('BankAccount Service', () => {
       it('should add a BankAccount to an empty array', () => {
         const bankAccount: IBankAccount = sampleWithRequiredData;
         expectedResult = service.addBankAccountToCollectionIfMissing([], bankAccount);
-        expect(expectedResult).toHaveLength(1);
-        expect(expectedResult).toContain(bankAccount);
+        expect(expectedResult).toEqual([bankAccount]);
       });
 
       it('should not add a BankAccount to an array that contains it', () => {
@@ -135,16 +134,13 @@ describe('BankAccount Service', () => {
         const bankAccount: IBankAccount = sampleWithRequiredData;
         const bankAccount2: IBankAccount = sampleWithPartialData;
         expectedResult = service.addBankAccountToCollectionIfMissing([], bankAccount, bankAccount2);
-        expect(expectedResult).toHaveLength(2);
-        expect(expectedResult).toContain(bankAccount);
-        expect(expectedResult).toContain(bankAccount2);
+        expect(expectedResult).toEqual([bankAccount, bankAccount2]);
       });
 
       it('should accept null and undefined values', () => {
         const bankAccount: IBankAccount = sampleWithRequiredData;
         expectedResult = service.addBankAccountToCollectionIfMissing([], null, bankAccount, undefined);
-        expect(expectedResult).toHaveLength(1);
-        expect(expectedResult).toContain(bankAccount);
+        expect(expectedResult).toEqual([bankAccount]);
       });
 
       it('should return initial array if no BankAccount is added', () => {

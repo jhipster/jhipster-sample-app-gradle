@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import dayjs from 'dayjs/esm';
+
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IOperation, NewOperation } from '../operation.model';
 
@@ -42,10 +43,10 @@ export type OperationFormGroup = FormGroup<OperationFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class OperationFormService {
-  createOperationFormGroup(operation: OperationFormGroupInput = { id: null }): OperationFormGroup {
+  createOperationFormGroup(operation?: OperationFormGroupInput): OperationFormGroup {
     const operationRawValue = this.convertOperationToOperationRawValue({
       ...this.getFormDefaults(),
-      ...operation,
+      ...(operation ?? { id: null }),
     });
     return new FormGroup<OperationFormGroupContent>({
       id: new FormControl(
@@ -73,12 +74,10 @@ export class OperationFormService {
 
   resetForm(form: OperationFormGroup, operation: OperationFormGroupInput): void {
     const operationRawValue = this.convertOperationToOperationRawValue({ ...this.getFormDefaults(), ...operation });
-    form.reset(
-      {
-        ...operationRawValue,
-        id: { value: operationRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
-    );
+    form.reset({
+      ...operationRawValue,
+      id: { value: operationRawValue.id, disabled: true },
+    });
   }
 
   private getFormDefaults(): OperationFormDefaults {

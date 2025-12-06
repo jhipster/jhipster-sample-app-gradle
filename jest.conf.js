@@ -1,10 +1,8 @@
-const { pathsToModuleNameMapper } = require('ts-jest');
+import config from './tsconfig.json' with { type: 'json' };
 
-const {
-  compilerOptions: { paths = {}, baseUrl = './' },
-} = require('./tsconfig.json');
+const { baseUrl = './' } = config.compilerOptions;
 
-module.exports = {
+export default {
   transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$|dayjs/esm)'],
   resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
   globals: {
@@ -12,10 +10,8 @@ module.exports = {
   },
   roots: ['<rootDir>', `<rootDir>/${baseUrl}`],
   modulePaths: [`<rootDir>/${baseUrl}`],
-  setupFiles: ['jest-date-mock'],
   cacheDirectory: '<rootDir>/build/jest-cache',
   coverageDirectory: '<rootDir>/build/test-results/',
-  moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: `<rootDir>/${baseUrl}/` }),
   reporters: [
     'default',
     ['jest-junit', { outputDirectory: '<rootDir>/build/test-results/', outputName: 'TESTS-results-jest.xml' }],

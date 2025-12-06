@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ASC } from 'app/config/navigation.constants';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+
 import LabelResolve from './route/label-routing-resolve.service';
 
 const labelRoute: Routes = [
   {
     path: '',
-    loadComponent: () => import('./list/label.component').then(m => m.LabelComponent),
+    loadComponent: () => import('./list/label').then(m => m.Label),
     data: {
       defaultSort: `id,${ASC}`,
     },
@@ -15,7 +16,7 @@ const labelRoute: Routes = [
   },
   {
     path: ':id/view',
-    loadComponent: () => import('./detail/label-detail.component').then(m => m.LabelDetailComponent),
+    loadComponent: () => import('./detail/label-detail').then(m => m.LabelDetail),
     resolve: {
       label: LabelResolve,
     },
@@ -23,7 +24,7 @@ const labelRoute: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./update/label-update.component').then(m => m.LabelUpdateComponent),
+    loadComponent: () => import('./update/label-update').then(m => m.LabelUpdate),
     resolve: {
       label: LabelResolve,
     },
@@ -31,7 +32,7 @@ const labelRoute: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./update/label-update.component').then(m => m.LabelUpdateComponent),
+    loadComponent: () => import('./update/label-update').then(m => m.LabelUpdate),
     resolve: {
       label: LabelResolve,
     },

@@ -4,27 +4,27 @@ plugins {
 
 if (project.hasProperty("nodeInstall")) {
     node {
-        version = "22.15.0"
-        npmVersion = "11.3.0"
+        version = "24.11.1"
+        npmVersion = "11.6.4"
         download = true
     }
 
     // Copy local node and npm to a fixed location for npmw
     def deleteOldNpm = tasks.register("deleteOldNpm", Delete) {
-        delete 'build/node/lib/node_modules/npm'
+        delete('build/node/lib/node_modules/npm')
     }
     def fixedNode = tasks.register("fixedNode", Copy) {
-        from nodeSetup
-        into 'build/node'
-        finalizedBy deleteOldNpm
+        from(nodeSetup)
+        into('build/node')
+        finalizedBy(deleteOldNpm)
     }
-    tasks.named("nodeSetup").configure { finalizedBy fixedNode }
+    tasks.named("nodeSetup").configure { finalizedBy(fixedNode) }
 
     def fixedNpm = tasks.register("fixedNpm", Copy) {
-        from npmSetup
-        into 'build/node'
+        from(npmSetup)
+        into('build/node')
     }
-    tasks.named("npmSetup").configure { finalizedBy fixedNpm }
+    tasks.named("npmSetup").configure { finalizedBy(fixedNpm) }
 }
 
 task webapp_test(type: NpmTask) {
@@ -49,9 +49,9 @@ task webapp_test(type: NpmTask) {
         outputs.file("build/test-results/clover.xml")
         .withPropertyName("clover-result")
 
-    dependsOn npmInstall,compileTestJava
+    dependsOn(npmInstall, compileTestJava)
     args = ["run", "webapp:test"]
 }
 
-test.dependsOn webapp_test
+test.dependsOn(webapp_test)
 

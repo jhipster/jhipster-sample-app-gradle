@@ -26,10 +26,10 @@ export type LabelFormGroup = FormGroup<LabelFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class LabelFormService {
-  createLabelFormGroup(label: LabelFormGroupInput = { id: null }): LabelFormGroup {
+  createLabelFormGroup(label?: LabelFormGroupInput): LabelFormGroup {
     const labelRawValue = {
       ...this.getFormDefaults(),
-      ...label,
+      ...(label ?? { id: null }),
     };
     return new FormGroup<LabelFormGroupContent>({
       id: new FormControl(
@@ -52,12 +52,10 @@ export class LabelFormService {
 
   resetForm(form: LabelFormGroup, label: LabelFormGroupInput): void {
     const labelRawValue = { ...this.getFormDefaults(), ...label };
-    form.reset(
-      {
-        ...labelRawValue,
-        id: { value: labelRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
-    );
+    form.reset({
+      ...labelRawValue,
+      id: { value: labelRawValue.id, disabled: true },
+    });
   }
 
   private getFormDefaults(): LabelFormDefaults {

@@ -27,10 +27,10 @@ export type BankAccountFormGroup = FormGroup<BankAccountFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class BankAccountFormService {
-  createBankAccountFormGroup(bankAccount: BankAccountFormGroupInput = { id: null }): BankAccountFormGroup {
+  createBankAccountFormGroup(bankAccount?: BankAccountFormGroupInput): BankAccountFormGroup {
     const bankAccountRawValue = {
       ...this.getFormDefaults(),
-      ...bankAccount,
+      ...(bankAccount ?? { id: null }),
     };
     return new FormGroup<BankAccountFormGroupContent>({
       id: new FormControl(
@@ -56,12 +56,10 @@ export class BankAccountFormService {
 
   resetForm(form: BankAccountFormGroup, bankAccount: BankAccountFormGroupInput): void {
     const bankAccountRawValue = { ...this.getFormDefaults(), ...bankAccount };
-    form.reset(
-      {
-        ...bankAccountRawValue,
-        id: { value: bankAccountRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
-    );
+    form.reset({
+      ...bankAccountRawValue,
+      id: { value: bankAccountRawValue.id, disabled: true },
+    });
   }
 
   private getFormDefaults(): BankAccountFormDefaults {
