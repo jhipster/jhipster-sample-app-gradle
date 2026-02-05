@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +16,7 @@ describe('User Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), NgbActiveModal],
+      providers: [NgbActiveModal],
     });
   });
 
@@ -30,8 +30,8 @@ describe('User Management Delete Component', () => {
   describe('confirmDelete', () => {
     it('should call delete service on confirmDelete', () => {
       // GIVEN
-      jest.spyOn(service, 'delete').mockReturnValue(of({}));
-      jest.spyOn(mockActiveModal, 'close');
+      vitest.spyOn(service, 'delete').mockReturnValue(of({}));
+      vitest.spyOn(mockActiveModal, 'close');
 
       // WHEN
       comp.confirmDelete('user');

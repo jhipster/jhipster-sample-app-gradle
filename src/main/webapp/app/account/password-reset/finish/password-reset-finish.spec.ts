@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ElementRef, signal } from '@angular/core';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,6 @@ describe('PasswordResetFinish', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [
-        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: { queryParams: of({ key: 'XYZPDQ' }) },
@@ -39,7 +38,7 @@ describe('PasswordResetFinish', () => {
 
   it('sets focus after the view has been initialized', () => {
     const node = {
-      focus: jest.fn(),
+      focus: vitest.fn(),
     };
     comp.newPassword = signal<ElementRef>(new ElementRef(node));
 
@@ -62,7 +61,7 @@ describe('PasswordResetFinish', () => {
   it('should update success to true after resetting password', inject(
     [PasswordResetFinishService],
     (service: PasswordResetFinishService) => {
-      jest.spyOn(service, 'save').mockReturnValue(of({}));
+      vitest.spyOn(service, 'save').mockReturnValue(of({}));
       comp.passwordForm.patchValue({
         newPassword: 'password',
         confirmPassword: 'password',
@@ -76,7 +75,7 @@ describe('PasswordResetFinish', () => {
   ));
 
   it('should notify of generic error', inject([PasswordResetFinishService], (service: PasswordResetFinishService) => {
-    jest.spyOn(service, 'save').mockReturnValue(throwError(Error));
+    vitest.spyOn(service, 'save').mockReturnValue(throwError(Error));
     comp.passwordForm.patchValue({
       newPassword: 'password',
       confirmPassword: 'password',

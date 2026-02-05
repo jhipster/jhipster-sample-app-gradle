@@ -2,11 +2,15 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, ParamMap, Router, RouterLink } from '@angular/router';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription, combineLatest, filter, tap } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { Observable, Subscription, combineLatest, filter, finalize, tap } from 'rxjs';
 
 import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
-import SharedModule from 'app/shared/shared.module';
+import { Alert } from 'app/shared/alert/alert';
+import { AlertError } from 'app/shared/alert/alert-error';
+import { TranslateDirective } from 'app/shared/language';
 import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountDeleteDialog } from '../delete/bank-account-delete-dialog';
@@ -15,12 +19,23 @@ import { BankAccountService, EntityArrayResponseType } from '../service/bank-acc
 @Component({
   selector: 'jhi-bank-account',
   templateUrl: './bank-account.html',
-  imports: [RouterLink, FormsModule, SharedModule, SortDirective, SortByDirective],
+  imports: [
+    RouterLink,
+    FormsModule,
+    FontAwesomeModule,
+    NgbModule,
+    AlertError,
+    Alert,
+    SortDirective,
+    SortByDirective,
+    TranslateDirective,
+    TranslateModule,
+  ],
 })
 export class BankAccount implements OnInit {
   subscription: Subscription | null = null;
   bankAccounts = signal<IBankAccount[]>([]);
-  isLoading = false;
+  isLoading = signal(false);
 
   sortState = sortStateSignal({});
 
@@ -86,12 +101,12 @@ export class BankAccount implements OnInit {
   }
 
   protected queryBackend(): Observable<EntityArrayResponseType> {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const queryObject: any = {
       eagerload: true,
       sort: this.sortService.buildSortParam(this.sortState()),
     };
-    return this.bankAccountService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    return this.bankAccountService.query(queryObject).pipe(finalize(() => this.isLoading.set(false)));
   }
 
   protected handleNavigation(sortState: SortState): void {

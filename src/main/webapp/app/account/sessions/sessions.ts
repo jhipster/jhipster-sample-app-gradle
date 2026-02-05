@@ -1,15 +1,18 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
-import SharedModule from 'app/shared/shared.module';
+import { TranslateDirective } from 'app/shared/language';
 
 import { Session } from './session.model';
 import { SessionsService } from './sessions.service';
 
 @Component({
   selector: 'jhi-sessions',
-  imports: [SharedModule],
+  imports: [DatePipe, TranslateDirective, TranslateModule],
   templateUrl: './sessions.html',
 })
 export default class Sessions implements OnInit {

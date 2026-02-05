@@ -17,7 +17,7 @@ export default defineConfig(
     },
   },
   { ignores: ['src/main/docker/'] },
-  { ignores: ['build/resources/main/static/', 'build/'] },
+  { ignores: ['build/resources/main/static/', 'build/', 'dist/'] },
   eslint.configs.recommended,
   {
     files: ['**/*.{js,cjs,mjs}'],

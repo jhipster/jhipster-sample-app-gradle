@@ -1,16 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
-import SharedModule from 'app/shared/shared.module';
+import { AlertError } from 'app/shared/alert/alert-error';
+import { TranslateDirective } from 'app/shared/language';
 import { IBankAccount } from '../bank-account.model';
 import { BankAccountService } from '../service/bank-account.service';
 
 @Component({
   templateUrl: './bank-account-delete-dialog.html',
-  imports: [SharedModule, FormsModule],
+  imports: [TranslateDirective, TranslateModule, FormsModule, FontAwesomeModule, AlertError],
 })
 export class BankAccountDeleteDialog {
   bankAccount?: IBankAccount;

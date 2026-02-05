@@ -1,10 +1,12 @@
 import { Component, ElementRef, Renderer2, effect, inject, input } from '@angular/core';
 
-import SharedModule from 'app/shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { TranslateDirective } from 'app/shared/language';
 
 @Component({
   selector: 'jhi-password-strength-bar',
-  imports: [SharedModule],
+  imports: [TranslateDirective, TranslateModule],
   templateUrl: './password-strength-bar.html',
   styleUrl: './password-strength-bar.scss',
 })

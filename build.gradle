@@ -19,10 +19,10 @@ version = "0.0.1-SNAPSHOT"
 description = ""
 
 java {
-    sourceCompatibility=17
-    targetCompatibility=17
+    sourceCompatibility=21
+    targetCompatibility=21
 }
-assert System.properties["java.specification.version"] == "17" || "21" || "25"
+assert System.properties["java.specification.version"] == "21" || "25"
 
 repositories {
     mavenCentral()
@@ -52,15 +52,19 @@ eclipse {
 }
 
 dependencies {
+    implementation platform(libs.spring.cloud.dependencies)
     implementation libs.jhipster.framework
     implementation libs.mapstruct
     implementation libs.springdoc.openapi.starter.webmvc.api
-    implementation "org.springframework.boot:spring-boot-loader-tools"
+    implementation "org.springframework.boot:spring-boot-h2console"
+    implementation "org.springframework.boot:spring-boot-jackson2"
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-aop"
+    implementation "org.springframework.boot:spring-boot-starter-aspectj"
     implementation "org.springframework.boot:spring-boot-starter-cache"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-jackson"
+    implementation "org.springframework.boot:spring-boot-starter-liquibase"
     implementation "org.springframework.boot:spring-boot-starter-mail"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
@@ -68,10 +72,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.security:spring-security-data"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate6"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-    implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
     implementation "com.zaxxer:HikariCP"
     implementation "io.micrometer:micrometer-registry-prometheus-simpleclient"
     implementation "javax.cache:cache-api"
@@ -80,22 +82,27 @@ dependencies {
     implementation "org.hibernate.orm:hibernate-core"
     implementation "org.hibernate.orm:hibernate-jcache"
     implementation "org.hibernate.validator:hibernate-validator"
+    implementation "tools.jackson.datatype:jackson-datatype-hibernate7"
+    implementation "tools.jackson.module:jackson-module-jaxb-annotations"
     testImplementation(libs.archunit.junit5.api) {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
+    testImplementation "org.springframework.boot:spring-boot-starter-jackson-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-security-test"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-webmvc-test"
     testImplementation "org.springframework.boot:spring-boot-test"
     testImplementation "org.springframework.security:spring-security-test"
-    testImplementation "org.testcontainers:jdbc"
-    testImplementation "org.testcontainers:junit-jupiter"
     testImplementation "org.testcontainers:testcontainers"
+    testImplementation "org.testcontainers:testcontainers-jdbc"
+    testImplementation "org.testcontainers:testcontainers-junit-jupiter"
     testRuntimeOnly(libs.archunit.junit5.engine) {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
     annotationProcessor libs.mapstruct.processor
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     annotationProcessor "org.glassfish.jaxb:jaxb-runtime"
-    annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
+    annotationProcessor "org.hibernate.orm:hibernate-processor"
     developmentOnly "org.springframework.boot:spring-boot-docker-compose"
     // jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }

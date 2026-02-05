@@ -1,6 +1,6 @@
 dependencies {
     implementation "com.mysql:mysql-connector-j"
-    testImplementation "org.testcontainers:mysql"
+    testImplementation "org.testcontainers:testcontainers-mysql"
     // jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

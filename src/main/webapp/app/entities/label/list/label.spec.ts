@@ -1,4 +1,5 @@
-import { HttpHeaders, HttpResponse, provideHttpClient } from '@angular/common/http';
+import { MockInstance, beforeEach, describe, expect, it, vitest } from 'vitest';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -18,13 +19,12 @@ describe('Label Management Component', () => {
   let comp: Label;
   let fixture: ComponentFixture<Label>;
   let service: LabelService;
-  let routerNavigateSpy: jest.SpyInstance<Promise<boolean>>;
+  let routerNavigateSpy: MockInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [
-        provideHttpClient(),
         provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
@@ -55,9 +55,9 @@ describe('Label Management Component', () => {
     fixture = TestBed.createComponent(Label);
     comp = fixture.componentInstance;
     service = TestBed.inject(LabelService);
-    routerNavigateSpy = jest.spyOn(comp.router, 'navigate');
+    routerNavigateSpy = vitest.spyOn(comp.router, 'navigate');
 
-    jest
+    vitest
       .spyOn(service, 'query')
       .mockReturnValueOnce(
         of(
@@ -96,7 +96,7 @@ describe('Label Management Component', () => {
   describe('trackId', () => {
     it('should forward to labelService', () => {
       const entity = { id: 4199 };
-      jest.spyOn(service, 'getLabelIdentifier');
+      vitest.spyOn(service, 'getLabelIdentifier');
       const id = comp.trackId(entity);
       expect(service.getLabelIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);
@@ -135,12 +135,12 @@ describe('Label Management Component', () => {
       // NgbModal is not a singleton using TestBed.inject.
       // ngbModal = TestBed.inject(NgbModal);
       ngbModal = (comp as any).modalService;
-      jest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
+      vitest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
     });
 
     it('on confirm should call load', inject([], () => {
       // GIVEN
-      jest.spyOn(comp, 'load');
+      vitest.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);
@@ -153,7 +153,7 @@ describe('Label Management Component', () => {
 
     it('on dismiss should call load', inject([], () => {
       // GIVEN
-      jest.spyOn(comp, 'load');
+      vitest.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);

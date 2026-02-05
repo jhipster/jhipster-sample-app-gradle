@@ -3,15 +3,19 @@ import { Component, OnInit, WritableSignal, computed, inject, signal } from '@an
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, ParamMap, Router, RouterLink } from '@angular/router';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { Observable, Subscription, combineLatest, filter, tap } from 'rxjs';
+import { Observable, Subscription, combineLatest, filter, finalize, tap } from 'rxjs';
 
 import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ParseLinks } from 'app/core/util/parse-links.service';
+import { Alert } from 'app/shared/alert/alert';
+import { AlertError } from 'app/shared/alert/alert-error';
 import { FormatMediumDatetimePipe } from 'app/shared/date';
-import SharedModule from 'app/shared/shared.module';
+import { TranslateDirective } from 'app/shared/language';
 import { SortByDirective, SortDirective, SortService, type SortState, sortStateSignal } from 'app/shared/sort';
 import { OperationDeleteDialog } from '../delete/operation-delete-dialog';
 import { IOperation } from '../operation.model';
@@ -20,16 +24,29 @@ import { EntityArrayResponseType, OperationService } from '../service/operation.
 @Component({
   selector: 'jhi-operation',
   templateUrl: './operation.html',
-  imports: [RouterLink, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatetimePipe, InfiniteScrollDirective],
+  imports: [
+    RouterLink,
+    FormsModule,
+    FontAwesomeModule,
+    NgbModule,
+    AlertError,
+    Alert,
+    SortDirective,
+    SortByDirective,
+    TranslateDirective,
+    TranslateModule,
+    FormatMediumDatetimePipe,
+    InfiniteScrollDirective,
+  ],
 })
 export class Operation implements OnInit {
   subscription: Subscription | null = null;
   operations = signal<IOperation[]>([]);
-  isLoading = false;
+  isLoading = signal(false);
 
   sortState = sortStateSignal({});
 
-  itemsPerPage = ITEMS_PER_PAGE;
+  itemsPerPage = signal(ITEMS_PER_PAGE);
   links: WritableSignal<Record<string, undefined | Record<string, string | undefined>>> = signal({});
   hasMorePage = computed(() => !!this.links().next);
   isFirstFetch = computed(() => Object.keys(this.links()).length === 0);
@@ -117,9 +134,9 @@ export class Operation implements OnInit {
   }
 
   protected queryBackend(): Observable<EntityArrayResponseType> {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const queryObject: any = {
-      size: this.itemsPerPage,
+      size: this.itemsPerPage(),
       eagerload: true,
     };
     if (this.hasMorePage()) {
@@ -128,7 +145,7 @@ export class Operation implements OnInit {
       Object.assign(queryObject, { sort: this.sortService.buildSortParam(this.sortState()) });
     }
 
-    return this.operationService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    return this.operationService.query(queryObject).pipe(finalize(() => this.isLoading.set(false)));
   }
 
   protected handleNavigation(sortState: SortState): void {

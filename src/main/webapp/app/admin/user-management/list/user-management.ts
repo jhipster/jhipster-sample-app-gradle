@@ -1,15 +1,20 @@
+import { DatePipe } from '@angular/common';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
 
 import { SORT } from 'app/config/navigation.constants';
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
 import { AccountService } from 'app/core/auth/account.service';
+import { Alert } from 'app/shared/alert/alert';
+import { AlertError } from 'app/shared/alert/alert-error';
+import { TranslateDirective } from 'app/shared/language';
 import { ItemCount } from 'app/shared/pagination';
-import SharedModule from 'app/shared/shared.module';
 import { SortByDirective, SortDirective, SortService, SortState, sortStateSignal } from 'app/shared/sort';
 import UserManagementDeleteDialog from '../delete/user-management-delete-dialog';
 import { UserManagementService } from '../service/user-management.service';
@@ -18,15 +23,27 @@ import { User } from '../user-management.model';
 @Component({
   selector: 'jhi-user-mgmt',
   templateUrl: './user-management.html',
-  imports: [RouterLink, SharedModule, SortDirective, SortByDirective, ItemCount],
+  imports: [
+    RouterLink,
+    FontAwesomeModule,
+    AlertError,
+    Alert,
+    NgbModule,
+    TranslateDirective,
+    TranslateModule,
+    SortDirective,
+    SortByDirective,
+    ItemCount,
+    DatePipe,
+  ],
 })
 export default class UserManagement implements OnInit {
   currentAccount = inject(AccountService).trackCurrentAccount();
   users = signal<User[] | null>(null);
   isLoading = signal(false);
   totalItems = signal(0);
-  itemsPerPage = ITEMS_PER_PAGE;
-  page!: number;
+  itemsPerPage = signal(ITEMS_PER_PAGE);
+  page = signal(0);
   sortState = sortStateSignal({});
 
   private readonly userService = inject(UserManagementService);
@@ -62,8 +79,8 @@ export default class UserManagement implements OnInit {
     this.isLoading.set(true);
     this.userService
       .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
+        page: this.page() - 1,
+        size: this.itemsPerPage(),
         sort: this.sortService.buildSortParam(this.sortState(), 'id'),
       })
       .subscribe({
@@ -79,7 +96,7 @@ export default class UserManagement implements OnInit {
     this.router.navigate(['./'], {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
-        page: this.page,
+        page: this.page(),
         sort: this.sortService.buildSortParam(sortState ?? this.sortState()),
       },
     });
@@ -87,15 +104,15 @@ export default class UserManagement implements OnInit {
 
   private handleNavigation(): void {
     combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
-      const page = params.get('page');
-      this.page = +(page ?? 1);
+      const page = params.get(PAGE_HEADER);
+      this.page.set(+(page ?? 1));
       this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data.defaultSort));
       this.loadAll();
     });
   }
 
   private onSuccess(users: User[] | null, headers: HttpHeaders): void {
-    this.totalItems.set(Number(headers.get('X-Total-Count')));
+    this.totalItems.set(Number(headers.get(TOTAL_COUNT_RESPONSE_HEADER)));
     this.users.set(users);
   }
 }

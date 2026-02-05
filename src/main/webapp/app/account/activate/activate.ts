@@ -1,15 +1,16 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
 
-import SharedModule from 'app/shared/shared.module';
+import { TranslateDirective } from 'app/shared/language';
 
 import { ActivateService } from './activate.service';
 
 @Component({
   selector: 'jhi-activate',
-  imports: [SharedModule, RouterLink],
+  imports: [RouterLink, TranslateDirective, TranslateModule],
   templateUrl: './activate.html',
 })
 export default class Activate implements OnInit {

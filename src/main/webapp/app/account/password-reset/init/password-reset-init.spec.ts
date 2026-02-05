@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ElementRef, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -16,7 +16,6 @@ describe('PasswordResetInit', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
-      providers: [provideHttpClient()],
     });
     fixture = TestBed.createComponent(PasswordResetInit);
     comp = fixture.componentInstance;
@@ -25,7 +24,7 @@ describe('PasswordResetInit', () => {
 
   it('sets focus after the view has been initialized', () => {
     const node = {
-      focus: jest.fn(),
+      focus: vitest.fn(),
     };
     comp.email = signal<ElementRef>(new ElementRef(node));
 
@@ -35,7 +34,7 @@ describe('PasswordResetInit', () => {
   });
 
   it('notifies of success upon successful requestReset', () => {
-    jest.spyOn(service, 'save').mockReturnValue(of({}));
+    vitest.spyOn(service, 'save').mockReturnValue(of({}));
     comp.resetRequestForm.patchValue({
       email: 'user@domain.com',
     });
@@ -48,7 +47,7 @@ describe('PasswordResetInit', () => {
 
   it('no notification of success upon error response', () => {
     const err = { status: 503, data: 'something else' };
-    jest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
+    vitest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
     comp.resetRequestForm.patchValue({
       email: 'user@domain.com',
     });

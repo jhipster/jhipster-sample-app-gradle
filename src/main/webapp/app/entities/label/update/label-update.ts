@@ -3,12 +3,16 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { IOperation } from 'app/entities/operation/operation.model';
 import { OperationService } from 'app/entities/operation/service/operation.service';
-import SharedModule from 'app/shared/shared.module';
+import { AlertError } from 'app/shared/alert/alert-error';
+import { TranslateDirective } from 'app/shared/language';
 import { ILabel } from '../label.model';
 import { LabelService } from '../service/label.service';
 
@@ -17,10 +21,10 @@ import { LabelFormGroup, LabelFormService } from './label-form.service';
 @Component({
   selector: 'jhi-label-update',
   templateUrl: './label-update.html',
-  imports: [SharedModule, ReactiveFormsModule],
+  imports: [TranslateDirective, TranslateModule, NgbModule, FontAwesomeModule, AlertError, ReactiveFormsModule],
 })
 export class LabelUpdate implements OnInit {
-  isSaving = false;
+  isSaving = signal(false);
   label: ILabel | null = null;
 
   operationsSharedCollection = signal<IOperation[]>([]);
@@ -51,7 +55,7 @@ export class LabelUpdate implements OnInit {
   }
 
   save(): void {
-    this.isSaving = true;
+    this.isSaving.set(true);
     const label = this.labelFormService.getLabel(this.editForm);
     if (label.id === null) {
       this.subscribeToSaveResponse(this.labelService.create(label));
@@ -76,7 +80,7 @@ export class LabelUpdate implements OnInit {
   }
 
   protected onSaveFinalize(): void {
-    this.isSaving = false;
+    this.isSaving.set(false);
   }
 
   protected updateForm(label: ILabel): void {

@@ -1,13 +1,19 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import SharedModule from 'app/shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { Alert } from 'app/shared/alert/alert';
+import { AlertError } from 'app/shared/alert/alert-error';
+import { TranslateDirective } from 'app/shared/language';
 import { IBankAccount } from '../bank-account.model';
 
 @Component({
   selector: 'jhi-bank-account-detail',
   templateUrl: './bank-account-detail.html',
-  imports: [SharedModule, RouterLink],
+  imports: [FontAwesomeModule, NgbModule, Alert, AlertError, TranslateDirective, TranslateModule, RouterLink],
 })
 export class BankAccountDetail {
   bankAccount = input<IBankAccount | null>(null);

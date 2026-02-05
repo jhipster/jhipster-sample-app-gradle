@@ -1,7 +1,7 @@
 sourceSets {
     test {
         java {
-            exclude 'io/github/jhipster/sample//config/MysqlTestContainer.java'
+            exclude 'io/github/jhipster/sample//config/DatabaseTestcontainer.java'
         }
     }
 }

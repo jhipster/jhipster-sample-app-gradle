@@ -1,4 +1,5 @@
-import { HttpHeaders, HttpResponse, provideHttpClient } from '@angular/common/http';
+import { MockInstance, beforeEach, describe, expect, it, vitest } from 'vitest';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -18,13 +19,12 @@ describe('Operation Management Component', () => {
   let comp: Operation;
   let fixture: ComponentFixture<Operation>;
   let service: OperationService;
-  let routerNavigateSpy: jest.SpyInstance<Promise<boolean>>;
+  let routerNavigateSpy: MockInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [
-        provideHttpClient(),
         provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
@@ -55,9 +55,9 @@ describe('Operation Management Component', () => {
     fixture = TestBed.createComponent(Operation);
     comp = fixture.componentInstance;
     service = TestBed.inject(OperationService);
-    routerNavigateSpy = jest.spyOn(comp.router, 'navigate');
+    routerNavigateSpy = vitest.spyOn(comp.router, 'navigate');
 
-    jest
+    vitest
       .spyOn(service, 'query')
       .mockReturnValueOnce(
         of(
@@ -96,7 +96,7 @@ describe('Operation Management Component', () => {
   describe('trackId', () => {
     it('should forward to operationService', () => {
       const entity = { id: 13822 };
-      jest.spyOn(service, 'getOperationIdentifier');
+      vitest.spyOn(service, 'getOperationIdentifier');
       const id = comp.trackId(entity);
       expect(service.getOperationIdentifier).toHaveBeenCalledWith(entity);
       expect(id).toBe(entity.id);
@@ -147,12 +147,12 @@ describe('Operation Management Component', () => {
       // NgbModal is not a singleton using TestBed.inject.
       // ngbModal = TestBed.inject(NgbModal);
       ngbModal = (comp as any).modalService;
-      jest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
+      vitest.spyOn(ngbModal, 'open').mockReturnValue(deleteModalMock);
     });
 
     it('on confirm should call load', inject([], () => {
       // GIVEN
-      jest.spyOn(comp, 'load');
+      vitest.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);
@@ -165,7 +165,7 @@ describe('Operation Management Component', () => {
 
     it('on dismiss should call load', inject([], () => {
       // GIVEN
-      jest.spyOn(comp, 'load');
+      vitest.spyOn(comp, 'load');
 
       // WHEN
       comp.delete(sampleWithRequiredData);

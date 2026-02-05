@@ -1,11 +1,11 @@
-import { provideHttpClient } from '@angular/common/http';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 
-import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
+import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared/jhipster/error.constants';
 
 import Register from './register';
 import { RegisterService } from './register.service';
@@ -18,7 +18,6 @@ describe('Register', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [
-        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: {},
@@ -46,8 +45,8 @@ describe('Register', () => {
   it('should update success to true after creating an account', inject(
     [RegisterService, TranslateService],
     (service: RegisterService, mockTranslateService: TranslateService) => {
-      jest.spyOn(service, 'save').mockReturnValue(of({}));
-      jest.spyOn(mockTranslateService, 'getCurrentLang').mockReturnValue('en');
+      vitest.spyOn(service, 'save').mockReturnValue(of({}));
+      vitest.spyOn(mockTranslateService, 'getCurrentLang').mockReturnValue('en');
       comp.registerForm.patchValue({
         password: 'password',
         confirmPassword: 'password',
@@ -70,7 +69,7 @@ describe('Register', () => {
 
   it('should notify of user existence upon 400/login already in use', inject([RegisterService], (service: RegisterService) => {
     const err = { status: 400, error: { type: LOGIN_ALREADY_USED_TYPE } };
-    jest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
+    vitest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
     comp.registerForm.patchValue({
       password: 'password',
       confirmPassword: 'password',
@@ -85,7 +84,7 @@ describe('Register', () => {
 
   it('should notify of email existence upon 400/email address already in use', inject([RegisterService], (service: RegisterService) => {
     const err = { status: 400, error: { type: EMAIL_ALREADY_USED_TYPE } };
-    jest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
+    vitest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
     comp.registerForm.patchValue({
       password: 'password',
       confirmPassword: 'password',
@@ -100,7 +99,7 @@ describe('Register', () => {
 
   it('should notify of generic error', inject([RegisterService], (service: RegisterService) => {
     const err = { status: 503 };
-    jest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
+    vitest.spyOn(service, 'save').mockReturnValue(throwError(() => err));
     comp.registerForm.patchValue({
       password: 'password',
       confirmPassword: 'password',

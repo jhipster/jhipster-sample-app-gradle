@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -121,9 +122,7 @@ public class LabelResource {
         Optional<Label> result = labelRepository
             .findById(label.getId())
             .map(existingLabel -> {
-                if (label.getLabel() != null) {
-                    existingLabel.setLabel(label.getLabel());
-                }
+                updateIfPresent(existingLabel::setLabel, label.getLabel());
 
                 return existingLabel;
             })
@@ -172,5 +171,11 @@ public class LabelResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    private <T> void updateIfPresent(Consumer<T> setter, T value) {
+        if (value != null) {
+            setter.accept(value);
+        }
     }
 }

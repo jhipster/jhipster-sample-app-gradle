@@ -1,7 +1,7 @@
 @if (user) {
   <form name="deleteForm" (ngSubmit)="confirmDelete(user.login!)">
     <div class="modal-header">
-      <h4 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
+      <h4 class="modal-title" data-cy="userManagementDeleteDialogHeading" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
     </div>
 
     <div class="modal-body">
@@ -17,7 +17,7 @@
         <fa-icon icon="ban" />&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
       </button>
 
-      <button type="submit" class="btn btn-danger">
+      <button type="submit" class="btn btn-danger" data-cy="entityConfirmDeleteButton">
         <fa-icon icon="times" />&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
       </button>
     </div>

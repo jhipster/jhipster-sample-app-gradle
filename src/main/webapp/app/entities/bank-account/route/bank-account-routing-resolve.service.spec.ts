@@ -1,4 +1,5 @@
-import { HttpResponse, provideHttpClient } from '@angular/common/http';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { HttpResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router, convertToParamMap } from '@angular/router';
 
@@ -17,7 +18,6 @@ describe('BankAccount routing resolve service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -29,7 +29,7 @@ describe('BankAccount routing resolve service', () => {
       ],
     });
     mockRouter = TestBed.inject(Router);
-    jest.spyOn(mockRouter, 'navigate');
+    vitest.spyOn(mockRouter, 'navigate');
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
     service = TestBed.inject(BankAccountService);
   });
@@ -37,7 +37,7 @@ describe('BankAccount routing resolve service', () => {
   describe('resolve', () => {
     it('should return IBankAccount returned by find', async () => {
       // GIVEN
-      service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
+      service.find = vitest.fn(id => of(new HttpResponse({ body: { id } })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
@@ -57,7 +57,7 @@ describe('BankAccount routing resolve service', () => {
 
     it('should return null if id is not provided', async () => {
       // GIVEN
-      service.find = jest.fn();
+      service.find = vitest.fn();
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
@@ -77,7 +77,7 @@ describe('BankAccount routing resolve service', () => {
 
     it('should route to 404 page if data not found in server', async () => {
       // GIVEN
-      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<IBankAccount>({ body: null })));
+      vitest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<IBankAccount>({ body: null })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN

@@ -1,11 +1,11 @@
-import { provideHttpClient } from '@angular/common/http';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
-import { Authority } from 'app/config/authority.constants';
+import { Authority } from 'app/shared/jhipster/constants';
 import { UserManagementService } from '../service/user-management.service';
 import { User } from '../user-management.model';
 
@@ -20,7 +20,6 @@ describe('User Management Update Component', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [
-        provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -40,7 +39,7 @@ describe('User Management Update Component', () => {
   describe('OnInit', () => {
     it('should load authorities and language on init', inject([], () => {
       // GIVEN
-      jest.spyOn(service, 'authorities').mockReturnValue(of(['USER']));
+      vitest.spyOn(service, 'authorities').mockReturnValue(of(['USER']));
 
       // WHEN
       comp.ngOnInit();
@@ -55,7 +54,7 @@ describe('User Management Update Component', () => {
     it('should call update service on save for existing user', inject([], () => {
       // GIVEN
       const entity = { id: 123 };
-      jest.spyOn(service, 'update').mockReturnValue(of(entity));
+      vitest.spyOn(service, 'update').mockReturnValue(of(entity));
       comp.editForm.patchValue(entity);
       // WHEN
       comp.save();
@@ -68,7 +67,7 @@ describe('User Management Update Component', () => {
     it('should call create service on save for new user', inject([], () => {
       // GIVEN
       const entity = { login: 'foo' } as User;
-      jest.spyOn(service, 'create').mockReturnValue(of(entity));
+      vitest.spyOn(service, 'create').mockReturnValue(of(entity));
       comp.editForm.patchValue(entity);
       // WHEN
       comp.save();

@@ -2,16 +2,18 @@ import { Component, Injector, OnInit, Signal, inject, signal } from '@angular/co
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
-import SharedModule from 'app/shared/shared.module';
+import { TranslateDirective } from 'app/shared/language';
 
 import PasswordStrengthBar from './password-strength-bar/password-strength-bar';
 import { PasswordService } from './password.service';
 
 @Component({
   selector: 'jhi-password',
-  imports: [SharedModule, ReactiveFormsModule, PasswordStrengthBar],
+  imports: [TranslateDirective, TranslateModule, ReactiveFormsModule, PasswordStrengthBar],
   templateUrl: './password.html',
 })
 export default class Password implements OnInit {

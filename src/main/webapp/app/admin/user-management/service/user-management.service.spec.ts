@@ -1,8 +1,9 @@
-import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { Authority } from 'app/config/authority.constants';
+import { Authority } from 'app/shared/jhipster/constants';
 import { User } from '../user-management.model';
 
 import { UserManagementService } from './user-management.service';
@@ -13,7 +14,7 @@ describe('User Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClientTesting()],
     });
 
     service = TestBed.inject(UserManagementService);
