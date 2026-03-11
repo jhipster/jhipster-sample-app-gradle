@@ -38,8 +38,6 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:h2:mem:jhipsterGradleSampleApplication;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
-    username: jhipsterGradleSampleApplication
-    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -53,8 +51,6 @@ spring:
   mail:
     host: localhost
     port: 25
-    username:
-    password:
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
@@ -87,10 +83,6 @@ jhipster:
     exposed-headers: 'Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
     allow-credentials: true
     max-age: 1800
-  security:
-    remember-me:
-      # security key (this key should be unique for your application, and kept secret)
-      key: e48612ba1fd46fa7089fe9f5085d8d164b53ffb2
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://127.0.0.1:8080
   logging:
