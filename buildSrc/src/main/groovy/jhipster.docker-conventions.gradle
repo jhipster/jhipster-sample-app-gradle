@@ -5,7 +5,7 @@ plugins {
 jib {
     configurationName = "productionRuntimeClasspath"
     from {
-        image = "eclipse-temurin:21-jre-noble"
+        image = "eclipse-temurin:25-jre-noble"
         platforms {
             platform {
                 architecture = "${findProperty('jibArchitecture') ?: 'amd64'}"

@@ -1,6 +1,6 @@
 package io.github.jhipster.sample.security;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.springframework.security.core.Authentication;
@@ -55,9 +55,7 @@ public final class SecurityUtils {
      */
     public static boolean hasCurrentUserAnyOfAuthorities(String... authorities) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (
-            authentication != null && getAuthorities(authentication).anyMatch(authority -> Arrays.asList(authorities).contains(authority))
-        );
+        return (authentication != null && getAuthorities(authentication).anyMatch(authority -> List.of(authorities).contains(authority)));
     }
 
     /**

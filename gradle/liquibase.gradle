@@ -36,15 +36,15 @@ liquibase {
       changelogFile project.ext.diffChangelogFile
       referenceUrl "hibernate:spring:io.github.jhipster.sample.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.hibernate.SpringImplicitNamingStrategy"
       logLevel "debug"
-      classpath "$buildDir/classes/java/main"
+      classpath layout.buildDirectory.dir("classes/java/main").get().asFile.absolutePath
     }
   }
 
   runList = project.ext.runList
 }
 
-liquibaseDiff.dependsOn(compileJava)
-liquibaseDiffChangelog.dependsOn(compileJava)
+tasks.named('liquibaseDiff').configure { dependsOn(tasks.named('compileJava')) }
+tasks.named('liquibaseDiffChangelog').configure { dependsOn(tasks.named('compileJava')) }
 
 ext {
   if (project.hasProperty("no-liquibase")) {

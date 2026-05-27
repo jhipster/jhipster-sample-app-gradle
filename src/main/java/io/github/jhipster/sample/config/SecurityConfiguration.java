@@ -54,8 +54,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-        http
-            .cors(withDefaults())
+        http.cors(withDefaults())
             .csrf(csrf ->
                 csrf
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
@@ -122,9 +121,9 @@ public class SecurityConfiguration {
                 logout.logoutUrl("/api/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()).permitAll()
             );
         if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT))) {
-            http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .authorizeHttpRequests(authz -> authz.requestMatchers("/h2-console/**").permitAll());
+            http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**")).authorizeHttpRequests(authz ->
+                authz.requestMatchers("/h2-console/**").permitAll()
+            );
         }
         return http.build();
     }

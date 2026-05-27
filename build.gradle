@@ -75,7 +75,7 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     implementation "com.zaxxer:HikariCP"
-    implementation "io.micrometer:micrometer-registry-prometheus-simpleclient"
+    implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "javax.cache:cache-api"
     implementation "org.apache.commons:commons-lang3"
     implementation "org.ehcache:ehcache::jakarta"

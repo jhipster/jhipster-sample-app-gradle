@@ -15,7 +15,7 @@ describe('UserManagement e2e test', () => {
   const userManagementPageUrlPattern = new RegExp('/user-management(\\?.*)?$');
   let username: string;
   let password: string;
-  const userManagementSample = { login: 'Joanne71', email: 'Cecil.Schowalter@gmail.com' };
+  const userManagementSample = { login: 'Joanne71', email: 'Carroll.Schowalter@gmail.com' };
 
   let userManagement;
 
@@ -61,6 +61,11 @@ describe('UserManagement e2e test', () => {
   });
 
   describe('UserManagement page', () => {
+    it('should have translated page title', () => {
+      cy.visit(userManagementPageUrl);
+      cy.getEntityHeading('UserManagement').should('not.contain', 'userManagement.home.title');
+    });
+
     describe('create button click', () => {
       beforeEach(() => {
         cy.visit(userManagementPageUrl);
@@ -166,17 +171,17 @@ describe('UserManagement e2e test', () => {
     });
 
     it('should create an instance of UserManagement', () => {
-      cy.get(`[data-cy="login"]`).type('Ginger_Braun');
-      cy.get(`[data-cy="login"]`).should('have.value', 'Ginger_Braun');
+      cy.get(`[data-cy="login"]`).type('Georgia_Braun');
+      cy.get(`[data-cy="login"]`).should('have.value', 'Georgia_Braun');
 
-      cy.get(`[data-cy="firstName"]`).type('Ricky');
-      cy.get(`[data-cy="firstName"]`).should('have.value', 'Ricky');
+      cy.get(`[data-cy="firstName"]`).type('Robert');
+      cy.get(`[data-cy="firstName"]`).should('have.value', 'Robert');
 
       cy.get(`[data-cy="lastName"]`).type('Greenholt');
       cy.get(`[data-cy="lastName"]`).should('have.value', 'Greenholt');
 
-      cy.get(`[data-cy="email"]`).type('Annabelle_Mills-Lakin6@gmail.com');
-      cy.get(`[data-cy="email"]`).should('have.value', 'Annabelle_Mills-Lakin6@gmail.com');
+      cy.get(`[data-cy="email"]`).type('Anibal_Mills-Lakin6@gmail.com');
+      cy.get(`[data-cy="email"]`).should('have.value', 'Anibal_Mills-Lakin6@gmail.com');
 
       cy.get(`[data-cy="langKey"]`).select('en');
 

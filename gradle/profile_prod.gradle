@@ -18,7 +18,7 @@ bootRun {
     args = ["--spring.profiles.active=${springProfiles}"]
 }
 
-task webapp(type: NpmTask) {
+def webapp = tasks.register('webapp', NpmTask) {
     dependsOn(npmInstall)
     args = ["run", "webapp:prod"]
     environment = [APP_VERSION: project.version]
@@ -37,7 +37,7 @@ processResources {
     }
 }
 
-task integrationTest(type: Test) {
+def integrationTest = tasks.register('integrationTest', Test) {
     maxHeapSize = "1G"
     useJUnitPlatform()
     description = "Execute integration tests."
@@ -52,8 +52,8 @@ task integrationTest(type: Test) {
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
     reports.html.required = false
+    dependsOn(tasks.named('test'))
 }
-integrationTest.dependsOn(test)
 
-processResources.dependsOn(webapp)
-bootJar.dependsOn(processResources)
+tasks.named('processResources').configure { dependsOn(webapp) }
+tasks.named('bootJar').configure { dependsOn(tasks.named('processResources')) }

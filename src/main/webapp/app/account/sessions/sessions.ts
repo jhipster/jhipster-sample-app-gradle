@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -12,6 +12,7 @@ import { SessionsService } from './sessions.service';
 
 @Component({
   selector: 'jhi-sessions',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe, TranslateDirective, TranslateModule],
   templateUrl: './sessions.html',
 })
