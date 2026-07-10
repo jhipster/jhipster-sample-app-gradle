@@ -13,6 +13,8 @@ import io.github.jhipster.sample.web.rest.errors.*;
 import io.github.jhipster.sample.web.rest.vm.KeyAndPasswordVM;
 import io.github.jhipster.sample.web.rest.vm.ManagedUserVM;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
@@ -22,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,8 +33,10 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api")
+@Validated
 public class AccountResource {
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Account resource request invalid")
     private static class AccountResourceException extends RuntimeException {
 
         private AccountResourceException(String message) {
@@ -46,17 +52,21 @@ public class AccountResource {
 
     private final MailService mailService;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final PersistentTokenRepository persistentTokenRepository;
 
     public AccountResource(
         UserRepository userRepository,
         UserService userService,
         MailService mailService,
+        PasswordEncoder passwordEncoder,
         PersistentTokenRepository persistentTokenRepository
     ) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
         this.persistentTokenRepository = persistentTokenRepository;
     }
 
@@ -71,6 +81,7 @@ public class AccountResource {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+        LOG.debug("REST request to register account");
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
@@ -86,6 +97,7 @@ public class AccountResource {
      */
     @GetMapping("/activate")
     public void activateAccount(@RequestParam(value = "key") String key) {
+        LOG.debug("REST request to activate account");
         Optional<User> user = userService.activateRegistration(key);
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
@@ -112,6 +124,7 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
+        LOG.debug("REST request to get account");
         return userService
             .getUserWithAuthorities()
             .map(AdminUserDTO::new)
@@ -127,11 +140,12 @@ public class AccountResource {
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody AdminUserDTO userDTO) {
+        LOG.debug("REST request to save account");
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() ->
             new AccountResourceException("Current user login not found")
         );
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.orElseThrow().getLogin().equalsIgnoreCase(userLogin))) {
+        if (existingUser.isPresent() && !existingUser.orElseThrow().getLogin().equalsIgnoreCase(userLogin)) {
             throw new EmailAlreadyUsedException();
         }
         Optional<User> user = userRepository.findOneByLogin(userLogin);
@@ -155,6 +169,7 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/change-password")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
+        LOG.debug("REST request to change password");
         if (isPasswordLengthInvalid(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
         }
@@ -169,6 +184,7 @@ public class AccountResource {
      */
     @GetMapping("/account/sessions")
     public List<PersistentToken> getCurrentSessions() {
+        LOG.debug("REST request to get current sessions");
         return persistentTokenRepository.findByUser(
             userRepository
                 .findOneByLogin(
@@ -215,7 +231,8 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
+    public void requestPasswordReset(@RequestBody @Email @Size(min = 5, max = 254) String mail) {
+        LOG.debug("REST request to request password reset");
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
             mailService.sendPasswordResetMail(user.orElseThrow());
@@ -241,6 +258,9 @@ public class AccountResource {
         Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
         if (!user.isPresent()) {
+            // Dummy hash to prevent reset-key enumeration via response-time timing attack:
+            // mirrors the bcrypt cost of a successful path so both branches take equal time.
+            passwordEncoder.encode(keyAndPassword.getNewPassword());
             throw new AccountResourceException("No user was found for this reset key");
         }
     }

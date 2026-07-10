@@ -1,9 +1,9 @@
 [versions]
 mapstruct = "1.6.3"
 archunit-junit5 = "1.4.2"
-checkstyle = "13.4.2"
-jacoco = "0.8.14"
-gatling-plugin = "3.15.1"
+checkstyle = "13.7.0"
+jacoco = "0.8.15"
+gatling-plugin = "3.15.1.1"
 gatling-highcharts = "3.15.1"
 # jhipster-needle-gradle-dependency-catalog-version - JHipster will add additional versions for convention plugins here
 
@@ -14,10 +14,10 @@ archunit-junit5-api = { module = "com.tngtech.archunit:archunit-junit5-api", ver
 archunit-junit5-engine = { module = "com.tngtech.archunit:archunit-junit5-engine", version.ref = "archunit-junit5" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
-spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version = "2025.1.1" }
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version = "2025.1.2" }
 # jhipster-needle-gradle-dependency-catalog-libraries - JHipster will add additional libraries versions
 
 [plugins]
-gradle-git-properties = { id = "com.gorylenko.gradle-git-properties", version = "3.0.3" }
-spring-boot = { id = "org.springframework.boot", version = "4.0.6" }
+gradle-git-properties = { id = "com.gorylenko.gradle-git-properties", version = "4.0.1" }
+spring-boot = { id = "org.springframework.boot", version = "4.0.7" }
 # jhipster-needle-gradle-dependency-catalog-plugins - JHipster will add additional plugins versions

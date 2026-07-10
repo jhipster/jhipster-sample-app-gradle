@@ -339,7 +339,7 @@ class AccountResourceIT {
         assertThat(testUser4.orElseThrow().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
 
         testUser4.orElseThrow().setActivated(true);
-        userService.updateUser((new AdminUserDTO(testUser4.orElseThrow())));
+        userService.updateUser(new AdminUserDTO(testUser4.orElseThrow()));
 
         // Register 4th (already activated) user
         restAccountMockMvc
@@ -400,7 +400,7 @@ class AccountResourceIT {
     @Test
     @Transactional
     void testActivateAccountWithWrongKey() throws Exception {
-        restAccountMockMvc.perform(get("/api/activate?key=wrongActivationKey")).andExpect(status().isInternalServerError());
+        restAccountMockMvc.perform(get("/api/activate?key=wrongActivationKey")).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -783,6 +783,24 @@ class AccountResourceIT {
     }
 
     @Test
+    void testRequestPasswordResetInvalidEmail() throws Exception {
+        restAccountMockMvc
+            .perform(post("/api/account/reset-password/init").content("invalid-email").with(csrf()))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testRequestPasswordResetTooLongEmail() throws Exception {
+        restAccountMockMvc
+            .perform(
+                post("/api/account/reset-password/init")
+                    .content("a".repeat(250) + "@x.co")
+                    .with(csrf())
+            )
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @Transactional
     void testFinishPasswordReset() throws Exception {
         User user = new User();
@@ -856,6 +874,6 @@ class AccountResourceIT {
                     .content(om.writeValueAsBytes(keyAndPassword))
                     .with(csrf())
             )
-            .andExpect(status().isInternalServerError());
+            .andExpect(status().isBadRequest());
     }
 }

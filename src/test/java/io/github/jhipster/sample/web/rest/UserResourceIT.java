@@ -83,11 +83,6 @@ class UserResourceIT {
 
     private Long numberOfUsers;
 
-    @BeforeEach
-    void countUsers() {
-        numberOfUsers = userRepository.count();
-    }
-
     /**
      * Create a User.
      *
@@ -119,6 +114,7 @@ class UserResourceIT {
 
     @BeforeEach
     void initTest() {
+        numberOfUsers = userRepository.count();
         user = initTestUser();
     }
 

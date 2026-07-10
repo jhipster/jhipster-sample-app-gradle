@@ -4,8 +4,8 @@ plugins {
 
 if (project.hasProperty("nodeInstall")) {
     node {
-        version = "24.16.0"
-        npmVersion = "11.15.0"
+        version = "24.18.0"
+        npmVersion = "11.18.0"
         download = true
     }
 
