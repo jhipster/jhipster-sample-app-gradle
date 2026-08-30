@@ -1,17 +1,12 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 
 import { Observable, mergeMap } from 'rxjs';
 
-import { Account } from 'app/core/auth/account.model';
-import { AccountService } from 'app/core/auth/account.service';
-import { AuthServerProvider } from 'app/core/auth/auth-session.service';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { serverApiUrl } from 'app/config';
+import { Account, AccountService, AuthServerProvider, Login } from 'app/core/auth';
 
-import { Login } from './login.model';
-
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LoginService {
-  private readonly applicationConfigService = inject(ApplicationConfigService);
   private readonly accountService = inject(AccountService);
   private readonly authServerProvider = inject(AuthServerProvider);
 
@@ -20,7 +15,7 @@ export class LoginService {
   }
 
   logoutUrl(): string {
-    return this.applicationConfigService.getEndpointFor('api/logout');
+    return `${serverApiUrl}api/logout`;
   }
 
   logoutInClient(): void {

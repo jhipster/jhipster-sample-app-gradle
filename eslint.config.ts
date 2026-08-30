@@ -17,7 +17,7 @@ export default defineConfig(
     },
   },
   { ignores: ['src/main/docker/'] },
-  { ignores: ['build/resources/main/static/', 'build/', 'src/main/webapp/swagger-ui/', 'dist/'] },
+  { ignores: ['build/generated/webapp/', 'build/', 'src/main/webapp/swagger-ui/', 'dist/'] },
   eslint.configs.recommended,
   {
     files: ['**/*.{js,cjs,mjs}'],

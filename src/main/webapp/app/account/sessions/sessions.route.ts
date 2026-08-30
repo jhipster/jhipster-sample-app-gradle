@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { userRouteAccessService } from 'app/core/auth';
 
 import Sessions from './sessions';
 
@@ -8,7 +8,7 @@ const sessionsRoute: Route = {
   path: 'sessions',
   component: Sessions,
   title: 'global.menu.account.sessions',
-  canActivate: [UserRouteAccessService],
+  canActivate: [userRouteAccessService],
 };
 
 export default sessionsRoute;

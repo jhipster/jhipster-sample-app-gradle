@@ -1,14 +1,20 @@
 apply plugin: "war"
 
 bootWar {
-    webAppDirectory = file("build/resources/main/static/")
+    webAppDirectory = layout.buildDirectory.dir("generated/webapp/")
     mainClass = "io.github.jhipster.sample.JhipsterGradleSampleApplicationApp"
     includes = ["WEB-INF/**", "META-INF/**"]
 }
 
 war {
-    webAppDirectory = file("build/resources/main/static/")
+    webAppDirectory = layout.buildDirectory.dir("generated/webapp/")
     enabled = true
     archiveExtension = "war.original"
     includes = ["WEB-INF/**", "META-INF/**"]
+}
+
+if (project.hasProperty("e2e")) {
+    tasks.named('bootWar') {
+        archiveFileName = 'e2e.war'
+    }
 }

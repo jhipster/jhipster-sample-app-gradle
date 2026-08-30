@@ -1,10 +1,9 @@
-import { beforeEach, describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { of, throwError } from 'rxjs';
 
-import { Account } from 'app/core/auth/account.model';
-import { AccountService } from 'app/core/auth/account.service';
+import { Account, AccountService } from 'app/core/auth';
 
 import { Session } from './session.model';
 import Sessions from './sessions';
@@ -43,8 +42,8 @@ describe('Sessions', () => {
   it('should define its initial state', inject(
     [AccountService, SessionsService],
     (mockAccountService: AccountService, service: SessionsService) => {
-      mockAccountService.identity = vitest.fn(() => of(account));
-      vitest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+      mockAccountService.identity = vi.fn(() => of(account));
+      vi.spyOn(service, 'findAll').mockReturnValue(of(sessions));
 
       comp.ngOnInit();
 
@@ -60,9 +59,9 @@ describe('Sessions', () => {
   it('should call delete on Sessions to invalidate a session', inject(
     [AccountService, SessionsService],
     (mockAccountService: AccountService, service: SessionsService) => {
-      mockAccountService.identity = vitest.fn(() => of(account));
-      vitest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
-      vitest.spyOn(service, 'delete').mockReturnValue(of({}));
+      mockAccountService.identity = vi.fn(() => of(account));
+      vi.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+      vi.spyOn(service, 'delete').mockReturnValue(of({}));
 
       comp.ngOnInit();
       comp.invalidate('xyz');
@@ -74,9 +73,9 @@ describe('Sessions', () => {
   it('should call delete on Sessions and notify of error', inject(
     [AccountService, SessionsService],
     (mockAccountService: AccountService, service: SessionsService) => {
-      mockAccountService.identity = vitest.fn(() => of(account));
-      vitest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
-      vitest.spyOn(service, 'delete').mockReturnValue(throwError(Error));
+      mockAccountService.identity = vi.fn(() => of(account));
+      vi.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+      vi.spyOn(service, 'delete').mockReturnValue(throwError(Error));
 
       comp.ngOnInit();
       comp.invalidate('xyz');
@@ -89,9 +88,9 @@ describe('Sessions', () => {
   it('should call notify of success upon session invalidation', inject(
     [AccountService, SessionsService],
     (mockAccountService: AccountService, service: SessionsService) => {
-      mockAccountService.identity = vitest.fn(() => of(account));
-      vitest.spyOn(service, 'findAll').mockReturnValue(of(sessions));
-      vitest.spyOn(service, 'delete').mockReturnValue(of({}));
+      mockAccountService.identity = vi.fn(() => of(account));
+      vi.spyOn(service, 'findAll').mockReturnValue(of(sessions));
+      vi.spyOn(service, 'delete').mockReturnValue(of({}));
 
       comp.ngOnInit();
       comp.invalidate('xyz');
