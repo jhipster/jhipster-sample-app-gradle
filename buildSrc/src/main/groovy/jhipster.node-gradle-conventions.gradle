@@ -7,7 +7,7 @@ plugins {
 
 if (project.hasProperty("nodeInstall")) {
     node {
-        version = "24.20.0"
+        version = "24.21.0"
         npmVersion = "12.0.2"
         download = true
     }
@@ -69,11 +69,11 @@ def webapp_test = tasks.register('webapp_test', NpmTask) {
     inputs.files('angular.json', 'package-lock.json', 'package.json', 'tsconfig.app.json', 'tsconfig.json')
         .withPropertyName('angular-build')
         .withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir("build-plugins/")
+        .withPropertyName("build-plugins/")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.dir("src/main/webapp/")
         .withPropertyName("src/main/webapp/")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.dir("webpack/")
-        .withPropertyName("webpack/")
         .withPathSensitivity(PathSensitivity.RELATIVE)
 
     outputs.dir("build/test-results/jest/")

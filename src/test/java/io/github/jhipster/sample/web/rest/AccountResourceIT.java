@@ -77,7 +77,7 @@ class AccountResourceIT {
     }
 
     @AfterEach
-    void cleanupAndCheck() {
+    void checkUsers() {
         assertThat(userRepository.count()).isEqualTo(numberOfUsers);
         numberOfUsers = null;
     }
